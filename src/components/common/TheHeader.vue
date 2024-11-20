@@ -25,7 +25,7 @@ const handleOpenPopUp = () => {
 <template>
   <header v-if="userStore.userInfo">
     <img
-      src="@/assets/imgs/logo_temp.png"
+      src="@/assets/imgs/damda_logo.png"
       alt="logo"
       class="logo"
       @click="handleClickHome"
@@ -62,10 +62,15 @@ header {
   width: 100%;
   height: 60px;
   box-sizing: border-box;
-  padding: 15px 60px;
+  padding: 0px 40px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   z-index: 10;
+}
+
+img {
+  height: 80%;
 }
 
 .non-header {
