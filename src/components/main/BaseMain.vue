@@ -20,7 +20,7 @@ const toMakeSelfPage = () => {
       지역 및 관광지 검색하러 가기
     </button>
   </section>
-  <TheCalendar />
+  <TheCalendar usage="main-calendar" />
   <button @click="toMakeSelfPage">직접 지도 만들기</button>
 </template>
 
