@@ -50,7 +50,6 @@ const handleOpenPopUp = () => {
       </div>
     </div>
   </header>
-  <header v-else class="non-header"></header>
 </template>
 
 <style scoped>
@@ -71,17 +70,6 @@ header {
 
 img {
   height: 80%;
-}
-
-.non-header {
-  border: 0px;
-}
-
-@media (min-width: 1280px) {
-  .non-header {
-    padding: 0;
-    height: 0px;
-  }
 }
 
 .text-btn-section {
