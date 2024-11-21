@@ -41,6 +41,8 @@ const validateField = (field, value) => {
           errMsg:
             "비밀번호는 8자 이상이어야 하며 대문자, 숫자, 특수문자를 포함해야 합니다.",
         };
+      } else if (value === inputFormData.value.userPwdCheck.text) {
+        inputFormData.value.userPwdCheck.errMsg = "";
       }
       break;
     case "userPwdCheck":
@@ -191,10 +193,8 @@ watch(
         (response) => {
           console.log(response);
           if (response.data.cnt == 1) {
-            console.log("중복!");
             inputFormData.value.userId.errMsg = `${response.data.checkid} 는 이미 존재하는 아이디입니다. `;
           } else {
-            console.log("중복아님!!");
             inputFormData.value.userId.errMsg = "";
           }
         },
