@@ -14,7 +14,7 @@ const userJoin = async (param, suc, err) => {
 
 const userIdCheck = async (param, suc, err) => {
   return await memberAxios()
-    .get("/idcheck", { param: { param: param } })
+    .get("/idcheck", { params: { checkid: param } })
     .then(suc)
     .catch(err);
 };
