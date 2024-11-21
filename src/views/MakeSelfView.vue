@@ -5,6 +5,7 @@ import { loadKakaoMap } from "@/utils/loadKakaoMap";
 import { fetchPage } from "@/utils/kakao-init";
 
 import BaseLeftAside from "@/components/makeself/aside/leftaside/BaseLeftAside.vue";
+import BaseRightAside from "@/components/makeself/aside/rightaside/BaseRightAside.vue";
 import KakaoMap from "@/components/common/TheKakaoMap.vue";
 
 const tripStore = useTripStore();
@@ -22,6 +23,7 @@ onMounted(async () => {
 <template>
   <section id="make-self-section">
     <BaseLeftAside />
+    <BaseRightAside />
     <KakaoMap :positions="tripStore.getPositions" />
   </section>
 </template>

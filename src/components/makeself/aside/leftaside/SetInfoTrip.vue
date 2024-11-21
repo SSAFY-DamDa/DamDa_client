@@ -6,6 +6,8 @@ import IconPeople from "@/components/icons/IconPeople.vue";
 const isFocusedStart = ref(false);
 const isFocusedEnd = ref(false);
 const isFocusedPeople = ref(false);
+const startDate = ref("");
+const endDate = ref("");
 
 const handleFocusStart = () => {
   isFocusedStart.value = true;
@@ -40,33 +42,40 @@ const handleBlurPeople = () => {
       placeholder="여행의 제목을 정해주세요"
     />
     <div class="date-input-container">
-      <div class="date-input-item">
-        <IconCalendar
-          size="20"
-          class="calendar-icon"
-          :color="isFocusedStart ? '#7bbcb0' : '#c9c9c9'"
-        />
-        <input
-          type="text"
-          placeholder="시작일"
-          class="date-input"
-          @focus="handleFocusStart"
-          @blur="handleBlurStart"
-        />
+      <div class="date-input-box">
+        시작일
+        <div class="date-input-item">
+          <input
+            type="date"
+            class="date-input"
+            @focus="handleFocusStart"
+            @blur="handleBlurStart"
+            v-model="startDate"
+          />
+          <IconCalendar
+            size="20"
+            class="calendar-icon"
+            :color="isFocusedStart ? '#7bbcb0' : '#c9c9c9'"
+          />
+        </div>
       </div>
-      <div class="date-input-item">
-        <IconCalendar
-          size="20"
-          class="calendar-icon"
-          :color="isFocusedEnd ? '#7bbcb0' : '#c9c9c9'"
-        />
-        <input
-          type="text"
-          placeholder="종료일"
-          class="date-input"
-          @focus="handleFocusEnd"
-          @blur="handleBlurEnd"
-        />
+
+      <div class="date-input-box">
+        종료일
+        <div class="date-input-item">
+          <input
+            type="date"
+            class="date-input"
+            @focus="handleFocusEnd"
+            @blur="handleBlurEnd"
+            v-model="endDate"
+          />
+          <IconCalendar
+            size="20"
+            class="calendar-icon"
+            :color="isFocusedEnd ? '#7bbcb0' : '#c9c9c9'"
+          />
+        </div>
       </div>
     </div>
 
@@ -117,8 +126,12 @@ const handleBlurPeople = () => {
   justify-content: space-between;
 }
 
+.date-input-box {
+  width: 100%;
+}
+
 .date-input-item {
-  width: 45%;
+  width: 90%;
   height: 40px;
   display: flex;
   align-items: center;
@@ -137,6 +150,12 @@ const handleBlurPeople = () => {
 
 .date-input::placeholder {
   color: #787878;
+}
+
+.date-input::-webkit-calendar-picker-indicator,
+.date-input::-webkit-inner-spin-button {
+  opacity: 0;
+  appearance: none;
 }
 
 .date-input-item:focus-within {
