@@ -1,45 +1,30 @@
 <script setup>
-import SignUpForm from '@/components/welcome/signup/SignUpForm.vue';
+import SignUpForm from "@/components/welcome/signup/SignUpForm.vue";
+import damda_character_signup from "@/assets/imgs/damda_character_signup.png";
 </script>
 
 <template>
   <div class="signup-view">
-    <div class="signup-section">
-      <SignUpForm />
-    </div>
-    <div class="picture-section">
-      <img src="/src/assets/imgs/background.png" />
-    </div>
+    <img :src="damda_character_signup" id="damda_big" />
+    <SignUpForm />
   </div>
 </template>
 
 <style scoped>
-@media (min-width: 1024px) {
+.signup-view {
+  min-height: 1000px;
+  position: relative;
+  background-color: #c2e0db;
+}
+
+@media (min-width: 1280px) {
   .signup-view {
     height: 100%;
     display: flex;
-  }
-
-  .signup-section {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-  }
-
-  .picture-section {
-    width: 50%;
-    height: 100%;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    align-items: center;
   }
 }
-
 
 @media (max-width: 1280px) {
   .signup-view {
@@ -49,24 +34,14 @@ import SignUpForm from '@/components/welcome/signup/SignUpForm.vue';
     justify-content: center;
     align-items: center;
   }
-
-  .signup-section {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .picture-section {
-    width: 100%;
-    height: 50%;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
+}
+#damda_big {
+  position: absolute;
+  max-width: 500px;
+  width: 30%;
+  object-fit: cover;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
 }
 </style>
