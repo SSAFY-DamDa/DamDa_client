@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import { useJourneyStore } from "@/stores/journey.js";
 import SelectedTripItem from "./SelectedTripItem.vue";
 const journeyStore = useJourneyStore();
@@ -11,6 +12,33 @@ defineProps({
     type: Number,
   },
 });
+
+const draggedItem = ref(null);
+
+const handleDragStart = (event, item) => {
+  draggedItem.value = item;
+  event.dataTransfer.effectAllowed = "move";
+};
+
+const handleDragOver = (event) => {
+  event.preventDefault();
+  event.dataTransfer.dropEffect = "move";
+};
+
+const handleDrop = (event, targetItem, dayIndex) => {
+  event.preventDefault();
+
+  const currentDay = journeyStore.journeyDay[dayIndex];
+
+  const draggedIndex = currentDay.places.indexOf(draggedItem.value);
+  const targetIndex = currentDay.places.indexOf(targetItem);
+
+  currentDay.places.splice(draggedIndex, 1);
+
+  currentDay.places.splice(targetIndex, 0, draggedItem.value);
+
+  draggedItem.value = null;
+};
 </script>
 
 <template>
@@ -20,11 +48,17 @@ defineProps({
     </div>
     <div v-if="journeyItem.isOpen" class="item-content">
       <ul class="selected-list-ul">
-        <SelectedTripItem
+        <li
           v-for="place in journeyItem.places"
           :key="place.id"
-          :place="place"
-        />
+          class="selected-trip-item"
+          draggable="true"
+          @dragstart="handleDragStart($event, place)"
+          @dragover="handleDragOver"
+          @drop="handleDrop($event, place, currentIdx)"
+        >
+          <SelectedTripItem :place="place" />
+        </li>
       </ul>
     </div>
   </li>
@@ -65,5 +99,9 @@ defineProps({
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.selected-trip-item {
+  list-style: none;
 }
 </style>

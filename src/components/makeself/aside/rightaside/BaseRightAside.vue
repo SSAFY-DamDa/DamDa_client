@@ -1,10 +1,24 @@
 <script setup>
 import MakeTripList from "./MakeTripList.vue";
 import { useJourneyStore } from "@/stores/journey";
+import { JourneyAxios } from "@/utils/http-journey";
 
 const journeyStore = useJourneyStore();
 
-const handleCreate = () => {};
+const handleCreate = async () => {
+  try {
+    const axiosInstance = JourneyAxios();
+
+    await axiosInstance.post("/journey", journeyStore.journeyDetail);
+
+    await axiosInstance.post("/journey", journeyStore.journeyDay);
+
+    alert("여행 계획이 성공적으로 생성되었습니다.");
+  } catch (error) {
+    console.error("여행 계획 생성 중 오류가 발생했습니다.", error);
+    alert("여행 계획 생성 중 오류가 발생했습니다.");
+  }
+};
 </script>
 
 <template>

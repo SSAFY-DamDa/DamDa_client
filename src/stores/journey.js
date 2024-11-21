@@ -1,10 +1,16 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import { useUserStore } from "./user";
 
 export const useJourneyStore = defineStore("journey", () => {
+  const userStore = useUserStore();
+  const userId = userStore.userInfo.userId;
+
+  console.log(userId, userStore.userInfo);
+
   const journeyDetail = ref({
     title: "",
-    user_id: 0,
+    user_id: userId,
     sido_code: 0,
     gugun_code: 0,
     content_type_id: 0,
