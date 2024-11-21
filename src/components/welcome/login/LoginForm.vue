@@ -101,6 +101,7 @@ input {
   max-width: 470px;
   width: 70%;
   height: 60px;
+  outline: none;
   border: 1px solid #7bbcb0;
   border-radius: 5px;
   padding: 0 10px;
@@ -108,7 +109,8 @@ input {
 }
 
 .user-input:focus {
-  outline: 1px solid #5e9288;
+  height: 58px;
+  border: 2px solid #5e9288;
 }
 
 #login-btn {
