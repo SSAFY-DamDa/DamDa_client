@@ -1,4 +1,36 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import IconCalendar from "@/components/icons/IconCalendar.vue";
+import IconPeople from "@/components/icons/IconPeople.vue";
+
+const isFocusedStart = ref(false);
+const isFocusedEnd = ref(false);
+const isFocusedPeople = ref(false);
+
+const handleFocusStart = () => {
+  isFocusedStart.value = true;
+};
+
+const handleBlurStart = () => {
+  isFocusedStart.value = false;
+};
+
+const handleFocusEnd = () => {
+  isFocusedEnd.value = true;
+};
+
+const handleBlurEnd = () => {
+  isFocusedEnd.value = false;
+};
+
+const handleFocusPeople = () => {
+  isFocusedPeople.value = true;
+};
+
+const handleBlurPeople = () => {
+  isFocusedPeople.value = false;
+};
+</script>
 
 <template>
   <div class="set-container">
@@ -9,18 +41,44 @@
     />
     <div class="date-input-container">
       <div class="date-input-item">
-        <img src="@/assets/icons/calendar.svg" class="calendar-icon" />
-        <input type="text" placeholder="시작일" class="date-input" />
+        <IconCalendar
+          size="20"
+          class="calendar-icon"
+          :color="isFocusedStart ? '#7bbcb0' : '#c9c9c9'"
+        />
+        <input
+          type="text"
+          placeholder="시작일"
+          class="date-input"
+          @focus="handleFocusStart"
+          @blur="handleBlurStart"
+        />
       </div>
       <div class="date-input-item">
-        <img src="@/assets/icons/calendar.svg" class="calendar-icon" />
-        <input type="text" placeholder="종료일" class="date-input" />
+        <IconCalendar
+          size="20"
+          class="calendar-icon"
+          :color="isFocusedEnd ? '#7bbcb0' : '#c9c9c9'"
+        />
+        <input
+          type="text"
+          placeholder="종료일"
+          class="date-input"
+          @focus="handleFocusEnd"
+          @blur="handleBlurEnd"
+        />
       </div>
     </div>
 
     <div class="people-input-container">
-      <img src="@/assets/icons/people.svg" class="people-icon" />
-      <input class="set-people" type="number" placeholder="인원수" />
+      <IconPeople size="30" :color="isFocusedPeople ? '#7bbcb0' : '#c9c9c9'" />
+      <input
+        class="set-people"
+        type="number"
+        placeholder="인원수"
+        @focus="handleFocusPeople"
+        @blur="handleBlurPeople"
+      />
     </div>
 
     <div class="color-input-container">
@@ -69,12 +127,6 @@
   padding: 5px;
 }
 
-.calendar-icon {
-  font-size: 12px;
-  color: #c9c9c9;
-  margin-right: 5px;
-}
-
 .date-input {
   width: 90%;
   border: none;
@@ -95,6 +147,7 @@
   width: 95%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border: 1px solid #c9c9c9; /* 테두리 색상 */
   border-radius: 5px; /* 모서리를 둥글게 */
   outline: none;

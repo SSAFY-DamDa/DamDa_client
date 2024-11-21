@@ -1,14 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useTripStore } from "@/stores/trip";
+import { loadKakaoMap } from "@/utils/loadKakaoMap";
+import { fetchPage } from "@/utils/kakao-init";
+
 import BaseLeftAside from "@/components/makeself/aside/leftaside/BaseLeftAside.vue";
 import KakaoMap from "@/components/common/TheKakaoMap.vue";
-import { loadKakaoMap } from "@/utils/loadKakaoMap";
-import {
-  fetchPage,
-  fetchTagSearchPage,
-  fetchTitleSearchPage,
-} from "@/utils/kakao-init";
 
 const tripStore = useTripStore();
 const currentPage = ref(1);
@@ -24,8 +21,7 @@ onMounted(async () => {
 
 <template>
   <section id="make-self-section">
-    <BaseLeftAside v-if="tripStore.getIsLoaded" />
-    <div v-else>로딩중</div>
+    <BaseLeftAside />
     <KakaoMap :positions="tripStore.getPositions" />
   </section>
 </template>
