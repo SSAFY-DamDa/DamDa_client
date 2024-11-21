@@ -11,6 +11,7 @@ import FAQView from "@/views/FAQView.vue";
 import FAQRegister from "@/components/faq/register/FAQRegister.vue";
 import FAQManage from "@/components/faq/manage/FAQManage.vue";
 import FAQItemDetail from "@/components/faq/manage/detail/FAQItemDetail.vue";
+import MakeSelfView from "@/views/MakeSelfView.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -104,6 +105,12 @@ const router = createRouter({
           component: FAQItemDetail,
         },
       ],
+    },
+    {
+      path: "/makeself",
+      name: "makeself",
+      beforeEnter: onlyAuthUser,
+      component: MakeSelfView,
     },
   ],
 });
