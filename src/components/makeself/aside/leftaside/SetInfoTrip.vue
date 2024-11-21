@@ -1,13 +1,16 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import IconCalendar from "@/components/icons/IconCalendar.vue";
 import IconPeople from "@/components/icons/IconPeople.vue";
+import { storeToRefs } from "pinia";
+import { useJourneyStore } from "@/stores/journey";
 
 const isFocusedStart = ref(false);
 const isFocusedEnd = ref(false);
 const isFocusedPeople = ref(false);
-const startDate = ref("");
-const endDate = ref("");
+
+const journeyStore = useJourneyStore();
+const { journeyDetail, journeyPeriod } = storeToRefs(journeyStore);
 
 const handleFocusStart = () => {
   isFocusedStart.value = true;
@@ -32,6 +35,43 @@ const handleFocusPeople = () => {
 const handleBlurPeople = () => {
   isFocusedPeople.value = false;
 };
+
+watch(
+  () => journeyDetail.value.end_date,
+  (newEndDate) => {
+    const startDate = journeyDetail.value.start_date;
+
+    if (newEndDate && startDate) {
+      const start = new Date(startDate);
+      const end = new Date(newEndDate);
+      const timeDifference = end - start;
+
+      const period = timeDifference / (1000 * 60 * 60 * 24) + 1;
+
+      journeyStore.setJourneyPeriod(period);
+      console.log("run", journeyPeriod.value);
+    }
+  }
+);
+
+const handleStartDateChange = () => {
+  if (journeyDetail.value.end_date < journeyDetail.value.start_date) {
+    journeyDetail.value.end_date = journeyDetail.value.start_date;
+  }
+};
+
+const validateEndDate = () => {
+  const startDate = journeyDetail.value.start_date;
+  const endDate = journeyDetail.value.end_date;
+
+  if (endDate && startDate && endDate < startDate) {
+    journeyDetail.value.end_date = startDate;
+  }
+};
+
+const handleCreate = () => {
+  console.log(journeyDetail.value);
+};
 </script>
 
 <template>
@@ -40,6 +80,7 @@ const handleBlurPeople = () => {
       class="set-title"
       type="text"
       placeholder="여행의 제목을 정해주세요"
+      v-model="journeyDetail.title"
     />
     <div class="date-input-container">
       <div class="date-input-box">
@@ -50,7 +91,8 @@ const handleBlurPeople = () => {
             class="date-input"
             @focus="handleFocusStart"
             @blur="handleBlurStart"
-            v-model="startDate"
+            v-model="journeyDetail.start_date"
+            @input="handleStartDateChange"
           />
           <IconCalendar
             size="20"
@@ -68,7 +110,9 @@ const handleBlurPeople = () => {
             class="date-input"
             @focus="handleFocusEnd"
             @blur="handleBlurEnd"
-            v-model="endDate"
+            v-model="journeyDetail.end_date"
+            :min="journeyDetail.start_date"
+            @input="validateEndDate"
           />
           <IconCalendar
             size="20"
@@ -87,13 +131,21 @@ const handleBlurPeople = () => {
         placeholder="인원수"
         @focus="handleFocusPeople"
         @blur="handleBlurPeople"
+        v-model="journeyDetail.personnel"
       />
     </div>
 
     <div class="color-input-container">
       <span class="color-title">컬러 선택</span>
-      <input class="set-color" type="color" placeholder="컬러" />
+      <input
+        class="set-color"
+        type="color"
+        placeholder="컬러"
+        v-model="journeyDetail.color"
+      />
     </div>
+
+    <button @click="handleCreate">생성</button>
   </div>
 </template>
 
