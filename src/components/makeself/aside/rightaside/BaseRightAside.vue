@@ -1,10 +1,17 @@
 <script setup>
 import MakeTripList from "./MakeTripList.vue";
+import { useJourneyStore } from "@/stores/journey";
+
+const journeyStore = useJourneyStore();
+
+const handleCreate = () => {};
 </script>
 
 <template>
   <section id="right-aside-container">
     <MakeTripList />
+
+    <button class="trip-plan-create-btn" @click="handleCreate">생성</button>
   </section>
 </template>
 
@@ -19,5 +26,18 @@ import MakeTripList from "./MakeTripList.vue";
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   background-color: white;
   z-index: 100;
+}
+
+.trip-plan-create-btn {
+  position: relative;
+  top: -20px;
+  left: 150px;
+  width: 100px;
+  border: 0;
+  border-radius: 20px;
+  background-color: #c2e0db;
+  padding: 20px;
+  color: white;
+  font-weight: 700;
 }
 </style>

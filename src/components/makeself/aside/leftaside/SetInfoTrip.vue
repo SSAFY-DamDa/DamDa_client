@@ -10,7 +10,7 @@ const isFocusedEnd = ref(false);
 const isFocusedPeople = ref(false);
 
 const journeyStore = useJourneyStore();
-const { journeyDetail, journeyPeriod } = storeToRefs(journeyStore);
+const { journeyDetail } = storeToRefs(journeyStore);
 
 const handleFocusStart = () => {
   isFocusedStart.value = true;
@@ -49,7 +49,11 @@ watch(
       const period = timeDifference / (1000 * 60 * 60 * 24) + 1;
 
       journeyStore.setJourneyPeriod(period);
-      console.log("run", journeyPeriod.value);
+
+      journeyStore.journeyDay = [];
+      for (let d = 1; d <= period; d++) {
+        journeyStore.journeyDay.push({ day: d, isOpen: false, places: [] });
+      }
     }
   }
 );
@@ -67,10 +71,6 @@ const validateEndDate = () => {
   if (endDate && startDate && endDate < startDate) {
     journeyDetail.value.end_date = startDate;
   }
-};
-
-const handleCreate = () => {
-  console.log(journeyDetail.value);
 };
 </script>
 
@@ -144,8 +144,6 @@ const handleCreate = () => {
         v-model="journeyDetail.color"
       />
     </div>
-
-    <button @click="handleCreate">생성</button>
   </div>
 </template>
 
