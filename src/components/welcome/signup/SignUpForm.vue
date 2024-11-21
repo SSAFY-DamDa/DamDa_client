@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { validate } from "@/utils/email-validate";
 import { userIdCheck, userJoin } from "@/api/user";
-
+import InputContainer from "./inputcontainer/InputContainer.vue";
 import damda_character from "@/assets/imgs/damda_character.png";
 
 const router = useRouter();
@@ -15,8 +15,8 @@ const inputFormData = ref({
   userName: { text: "", errMsg: "" },
   emailId: "",
   emailDomain: "",
-  birth: { text: "", errMsg: "" },
-  phone: { text: "", errMsg: "" },
+  birthDate: { text: "", errMsg: "" },
+  phoneNum: { text: "", errMsg: "" },
   address: "",
 });
 
@@ -34,6 +34,13 @@ const validateField = (field, value) => {
     case "userPwd":
       if (!value) {
         return { errMsg: "비밀번호를 입력해주세요." };
+      } else if (
+        !/(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(value)
+      ) {
+        return {
+          errMsg:
+            "비밀번호는 8자 이상이어야 하며 대문자, 숫자, 특수문자를 포함해야 합니다.",
+        };
       }
       break;
     case "userPwdCheck":
@@ -48,18 +55,30 @@ const validateField = (field, value) => {
         return { errMsg: "이름을 입력해주세요." };
       }
       break;
-    case "birth":
+    case "birthDate":
       if (!value) {
         return { errMsg: "생년월일을 입력해주세요." };
       }
       break;
-    case "phone":
+    case "phoneNum":
       if (!value) {
         return { errMsg: "핸드폰 번호를 입력해주세요." };
       }
       break;
   }
   return { errMsg: "" };
+};
+
+const formatPhoneNumber = () => {
+  let phoneNum = inputFormData.value.phoneNum.text.replace(/[^\d]/g, ""); // 숫자만 남기기
+  if (phoneNum.length > 3 && phoneNum.length <= 6) {
+    phoneNum = phoneNum.replace(/(\d{3})(\d{1,4})/, "$1-$2");
+  } else if (6 < phoneNum.length && phoneNum.length <= 10) {
+    phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+  } else if (phoneNum.length > 10) {
+    phoneNum = phoneNum.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+  }
+  inputFormData.value.phoneNum.text = phoneNum;
 };
 
 const handleCreate = async () => {
@@ -80,8 +99,23 @@ const handleCreate = async () => {
   inputFormData.value.emailId = emailId;
   inputFormData.value.emailDomain = emailDomain;
 
+  console.log("iform:", inputFormData.value);
+  let formData = {};
+  Object.keys(inputFormData.value).forEach((key) => {
+    console.log("key:", key);
+    if (key !== "userPwdCheck") {
+      if (typeof inputFormData.value[key] === "object") {
+        console.log("Object");
+        formData[key] = inputFormData.value[key].text;
+      } else {
+        console.log("non Object");
+        formData[key] = inputFormData.value[key];
+      }
+    }
+  });
+  console.log(formData);
   await userJoin(
-    inputFormData.value,
+    formData,
     () => {
       alert("회원가입에 성공했어요!");
       router.push({ name: "login" });
@@ -178,144 +212,72 @@ watch(
     <img :src="damda_character" id="damda_mini" />
     <div id="title">회원가입</div>
     <div class="input-section">
-      <div class="label-input_interval">
-        <label>아이디</label>
-        <div class="input-container">
-          <input
-            type="text"
-            name="input-id"
-            v-model="inputFormData.userId.text"
-            :class="{ 'err-input': inputFormData.userId.errMsg }"
-            @blur="validateOnBlur('userId')"
-            required
-          />
-        </div>
-        <div
-          v-if="inputFormData.userId.errMsg"
-          :class="{ 'err-msg': inputFormData.userId.errMsg }"
-        >
-          {{ inputFormData.userId.errMsg }}
-        </div>
-      </div>
-      <div class="label-input_interval">
-        <label>비밀번호</label>
-        <div class="input-container">
-          <input
-            type="password"
-            name="input-pw"
-            v-model="inputFormData.userPwd.text"
-            :class="{ 'err-input': inputFormData.userPwd.errMsg }"
-            @blur="validateOnBlur('userPwd')"
-            required
-          />
-        </div>
-        <div
-          v-if="inputFormData.userPwd.errMsg"
-          :class="{ 'err-msg': inputFormData.userPwd.errMsg }"
-        >
-          {{ inputFormData.userPwd.errMsg }}
-        </div>
-      </div>
-      <div class="label-input_interval">
-        <label>비밀번호 확인</label>
-        <div class="input-container">
-          <input
-            type="password"
-            name="input-pw-check"
-            v-model="inputFormData.userPwdCheck.text"
-            :class="{ 'err-input': inputFormData.userPwdCheck.errMsg }"
-            @blur="validateOnBlur('userPwdCheck')"
-            required
-          />
-        </div>
-        <div
-          v-if="inputFormData.userPwdCheck.errMsg"
-          :class="{ 'err-msg': inputFormData.userPwdCheck.errMsg }"
-        >
-          {{ inputFormData.userPwdCheck.errMsg }}
-        </div>
-      </div>
-      <div class="label-input_interval">
-        <label>이름</label>
-        <div class="input-container">
-          <input
-            type="text"
-            name="input-name"
-            v-model.lazy="inputFormData.userName.text"
-            :class="{ 'err-input': inputFormData.userName.errMsg }"
-            @blur="validateOnBlur('userName')"
-            required
-          />
-        </div>
-        <div
-          v-if="inputFormData.userName.errMsg"
-          :class="{ 'err-msg': inputFormData.userName.errMsg }"
-        >
-          {{ inputFormData.userName.errMsg }}
-        </div>
-      </div>
-      <div class="label-input_interval">
-        <label>이메일</label>
-        <div class="input-container">
-          <input
-            type="email"
-            name="input-email-id"
-            v-model.lazy="inputEmail"
-            :class="{ 'err-input': emailErrMsg }"
-            @blur="handleEmailBlur"
-            required
-          />
-        </div>
-        <div class="err-msg">{{ emailErrMsg }}</div>
-      </div>
-      <div class="label-input_interval">
-        <label>생년월일</label>
-        <div class="input-container">
-          <input
-            type="text"
-            name="input-name"
-            v-model.lazy="inputFormData.birth.text"
-            :class="{ 'err-input': inputFormData.birth.errMsg }"
-            @blur="validateOnBlur('birth')"
-            required
-          />
-        </div>
-        <div
-          v-if="inputFormData.birth.errMsg"
-          :class="{ 'err-msg': inputFormData.birth.errMsg }"
-        >
-          {{ inputFormData.birth.errMsg }}
-        </div>
-      </div>
-      <div class="label-input_interval">
-        <label>핸드폰</label>
-        <div class="input-container">
-          <input
-            type="text"
-            name="input-name"
-            v-model.lazy="inputFormData.phone.text"
-            :class="{ 'err-input': inputFormData.phone.errMsg }"
-            @blur="validateOnBlur('phone')"
-            required
-          />
-        </div>
-        <div
-          v-if="inputFormData.phone.errMsg"
-          :class="{ 'err-msg': inputFormData.phone.errMsg }"
-        >
-          {{ inputFormData.phone.errMsg }}
-        </div>
-      </div>
-      <div class="label-input_interval">
-        <label>주소(선택)</label>
-        <div class="input-container">
-          <input
-            type="text"
-            name="input-name"
-            v-model.lazy="inputFormData.address"
-          />
-        </div>
-      </div>
+      <InputContainer
+        title="아이디"
+        name="input-id"
+        v-model="inputFormData.userId.text"
+        :error="inputFormData.userId.errMsg"
+        required
+        @blur="() => validateOnBlur('userId')"
+      />
+      <InputContainer
+        title="비밀번호"
+        type="password"
+        name="input-pwd"
+        v-model="inputFormData.userPwd.text"
+        :error="inputFormData.userPwd.errMsg"
+        required
+        @blur="() => validateOnBlur('userPwd')"
+      />
+      <InputContainer
+        title="비밀번호 확인"
+        type="password"
+        name="input-pwd-check"
+        v-model="inputFormData.userPwdCheck.text"
+        :error="inputFormData.userPwdCheck.errMsg"
+        required
+        @blur="() => validateOnBlur('userPwdCheck')"
+      />
+      <InputContainer
+        title="이름"
+        name="input-name"
+        v-model="inputFormData.userName.text"
+        :error="inputFormData.userName.errMsg"
+        required
+        @blur="() => validateOnBlur('userName')"
+      />
+      <InputContainer
+        title="생년월일"
+        name="input-birthDate"
+        type="date"
+        v-model="inputFormData.birthDate.text"
+        :error="inputFormData.birthDate.errMsg"
+        required
+        @blur="() => validateOnBlur('birthDate')"
+      />
+      <InputContainer
+        title="이메일"
+        name="input-email"
+        v-model.lazy="inputEmail"
+        :error="emailErrMsg"
+        required
+        @blur="() => handleEmailBlur('email')"
+      />
+      <InputContainer
+        title="핸드폰"
+        name="input-phoneNum"
+        v-model="inputFormData.phoneNum.text"
+        :error="inputFormData.phoneNum.errMsg"
+        required
+        @input="formatPhoneNumber"
+        @blur="() => validateOnBlur('phoneNum')"
+      />
+      <InputContainer
+        title="주소(선택)"
+        name="input-address"
+        v-model="inputFormData.address.text"
+        @blur="() => validateOnBlur('address')"
+      />
     </div>
     <div class="btn-section">
       <input
@@ -373,59 +335,6 @@ a {
   align-items: center;
 }
 
-.input-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 490px;
-  width: 70%;
-  height: 60px;
-  border: 1px solid #7bbcb0;
-  border-radius: 5px;
-}
-
-.label-input_interval {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-
-  label {
-    max-width: 470px;
-    width: 70%;
-    margin: 0 5px 0 0;
-    color: #a9a9a9;
-    font-size: 1.6rem;
-  }
-
-  input {
-    width: 90%;
-    height: 60px;
-    outline: none;
-    border: 0px;
-    border-radius: 5px;
-    font-size: 1.6rem;
-  }
-
-  input:focus {
-    .input-container {
-      height: 58px;
-      border: 2px solid #5e9288;
-    }
-  }
-
-  .err-input {
-    .input-container {
-      border: 1px solid #ff4545;
-    }
-  }
-  .err-input:focus {
-    border-color: #f53b3b;
-  }
-}
-
 .btn-section {
   max-width: 492px;
   width: 70%;
@@ -464,11 +373,5 @@ a {
   width: 100%;
   display: flex;
   justify-content: center;
-}
-
-.err-msg {
-  max-width: 470px;
-  width: 70%;
-  color: #ff4545;
 }
 </style>
