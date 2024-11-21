@@ -299,7 +299,7 @@ const handleEmailBlur = () => {
 #title {
   font-size: 4rem;
   font-weight: bold;
-  margin-bottom: 0 20px;
+  margin-bottom: 20px;
   color: #7bbcb0;
 }
 

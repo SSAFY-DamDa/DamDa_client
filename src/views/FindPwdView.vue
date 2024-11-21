@@ -1,45 +1,41 @@
 <script setup>
-import FindPwdForm from '@/components/welcome/findpwd/FindPwdForm.vue';
+import { ref } from "vue";
+
+import FindPwdForm from "@/components/welcome/findpwd/FindPwdForm.vue";
+import damda_character_find from "@/assets/imgs/damda_character_find.png";
+
+const level = ref(false);
+const handleChangeLevel = () => {
+  console.log("change");
+  level.value = true;
+};
 </script>
 
 <template>
   <div class="find-pwd-view">
-    <div class="find-pwd-section">
-      <FindPwdForm />
-    </div>
-    <div class="picture-section">
-      <img src="/src/assets/imgs/background.png" />
-    </div>
+    <FindPwdForm @change-level="handleChangeLevel" />
+    <img
+      :src="damda_character_find"
+      id="damda_big"
+      :class="{ 'change-level': level, 'confirm-level': !level }"
+    />
   </div>
 </template>
 
 <style scoped>
+.find-pwd-view {
+  position: relative;
+  background-color: #c2e0db;
+}
+
 @media (min-width: 1024px) {
   .find-pwd-view {
     height: 100%;
     display: flex;
-  }
-
-  .find-pwd-section {
-    width: 50%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-  }
-
-  .picture-section {
-    width: 50%;
-    height: 100%;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    align-items: center;
   }
 }
-
 
 @media (max-width: 1280px) {
   .find-pwd-view {
@@ -49,24 +45,22 @@ import FindPwdForm from '@/components/welcome/findpwd/FindPwdForm.vue';
     justify-content: center;
     align-items: center;
   }
+}
 
-  .find-pwd-section {
-    width: 100%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+#damda_big {
+  position: absolute;
+  max-width: 500px;
+  width: 30%;
+  object-fit: cover;
+  z-index: 0;
+  bottom: 0;
+}
 
-  .picture-section {
-    width: 100%;
-    height: 50%;
+.confirm-level {
+  left: 300px;
+}
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
+.change-level {
+  right: 300px;
 }
 </style>
