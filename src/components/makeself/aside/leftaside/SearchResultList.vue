@@ -1,13 +1,13 @@
 <script setup>
-import TripListItem from "@/components/map/aside/TripListItem.vue";
+import SearchResultListItem from "./SearchResultListItem.vue";
 import { useTripStore } from "@/stores/trip";
 
 const tripStore = useTripStore();
 </script>
 
 <template>
-  <ul id="trip-list-ul" v-if="tripStore.getIsLoaded">
-    <TripListItem
+  <ul id="trip-list-ul">
+    <SearchResultListItem
       v-for="trip in tripStore.getTripList"
       :key="trip.content_id"
       :trip-item="trip"
@@ -18,10 +18,10 @@ const tripStore = useTripStore();
 <style scoped>
 #trip-list-ul {
   width: 90%;
-  max-height: 80%;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  list-style: none;
 }
 
 #trip-list-ul::-webkit-scrollbar {

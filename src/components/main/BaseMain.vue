@@ -7,6 +7,10 @@ const router = useRouter();
 const toMapPage = () => {
   router.push({ name: "map" });
 };
+
+const toMakeSelfPage = () => {
+  router.push({ name: "makeself" });
+};
 </script>
 
 <template>
@@ -17,6 +21,7 @@ const toMapPage = () => {
     </button>
   </section>
   <TheCalendar />
+  <button @click="toMakeSelfPage">직접 지도 만들기</button>
 </template>
 
 <style scoped>
