@@ -2,12 +2,14 @@
 import { useKakaoStore } from "@/stores/kakao";
 
 const kakaoStore = useKakaoStore();
+
 const props = defineProps({
   tripItem: {
     type: Object,
     required: true,
   },
 });
+
 const contentLabel = {
   12: ["관광지", "#3498db"],
   14: ["문화시설", "#9b59b6"],
@@ -48,10 +50,11 @@ const handleClickMove = () => {
 
 <style scoped>
 .trip-list-item-container {
+  width: 100%;
   min-height: 120px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 .trip-item-img {
@@ -91,5 +94,6 @@ const handleClickMove = () => {
   font-weight: 300;
   font-size: 1.4rem;
   color: #797979;
+  word-break: keep-all;
 }
 </style>

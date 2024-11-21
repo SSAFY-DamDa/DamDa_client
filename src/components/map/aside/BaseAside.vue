@@ -6,9 +6,9 @@ import { useTripStore } from "@/stores/trip";
 defineProps({
   currentPage: {
     type: Number,
-  }
-})
-const emit = defineEmits(["pageChange"])
+  },
+});
+const emit = defineEmits(["pageChange"]);
 const tripStore = useTripStore();
 
 const searchTitle = ref("");
@@ -21,34 +21,45 @@ const contents = [
   { id: 28, contentType: "레포츠", color: "#f39c12" },
   { id: 32, contentType: "숙박", color: "#34495e" },
   { id: 38, contentType: "쇼핑", color: "#2ecc71" },
-  { id: 39, contentType: "음식점", color: "#e67e22" }
+  { id: 39, contentType: "음식점", color: "#e67e22" },
 ];
 
 const handleSearchTitle = () => {
   emit("searchTitle", searchTitle.value);
-}
+};
 
 const handlePageChange = (pg) => {
   emit("pageChange", pg);
-}
+};
 
 const handleSearchTag = (tagId) => {
   emit("searchTag", tagId);
-}
-
+};
 </script>
 
 <template>
   <section id="base-aside-section">
     <div id="search-container">
       <form class="search-bar-container" @submit.prevent="handleSearchTitle">
-        <input type="search" class="search-bar" placeholder="찾고 싶은 곳을 입력해주세요" v-model="searchTitle" />
+        <input
+          type="search"
+          class="search-bar"
+          placeholder="찾고 싶은 곳을 입력해주세요"
+          v-model="searchTitle"
+        />
         <img src="@/assets/icons/search.svg" class="search-btn" />
       </form>
       <form class="tag-list">
-        <button v-for="content in contents " :key="content.id" class="tag-item"
-          :style="{ 'backgroundColor': (content.id == tripStore.getSelectTag) ? content.color : '#b5b5b5' }"
-          @click="handleSearchTag(content.id)">
+        <button
+          v-for="content in contents"
+          :key="content.id"
+          class="tag-item"
+          :style="{
+            backgroundColor:
+              content.id == tripStore.getSelectTag ? content.color : '#b5b5b5',
+          }"
+          @click="handleSearchTag(content.id)"
+        >
           {{ content.contentType }}
         </button>
       </form>
@@ -57,7 +68,10 @@ const handleSearchTag = (tagId) => {
     <div id="list-container">
       <TripList v-if="tripStore.getIsLoaded" />
       <div v-else>로딩중...</div>
-      <ThePageNavigation @page-change="handlePageChange" :currentPage="currentPage" />
+      <ThePageNavigation
+        @page-change="handlePageChange"
+        :currentPage="currentPage"
+      />
     </div>
   </section>
 </template>
