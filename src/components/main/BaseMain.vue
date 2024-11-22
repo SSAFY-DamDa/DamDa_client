@@ -11,6 +11,10 @@ const toMapPage = () => {
 const toMakeSelfPage = () => {
   router.push({ name: "makeself" });
 };
+
+const toAIRecomPage = () => {
+  router.push({ name: "makeai" });
+};
 </script>
 
 <template>
@@ -22,6 +26,7 @@ const toMakeSelfPage = () => {
   </section>
   <TheCalendar />
   <button @click="toMakeSelfPage">직접 지도 만들기</button>
+  <button @click="toAIRecomPage">AI 추천 받기</button>
 </template>
 
 <style scoped>
