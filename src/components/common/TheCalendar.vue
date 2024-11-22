@@ -46,6 +46,7 @@ const makeCalendar = (date) => {
 
 // 일정 추가
 const addEventDates = (date) => {
+  if (props.usage !== "main-calendar") return false;
   date.forEach((d) => {
     const temp = { dates: [], color: d.color };
     const current = toKST(new Date(d.startDate));
