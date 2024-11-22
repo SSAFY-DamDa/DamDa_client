@@ -12,8 +12,10 @@ import FAQRegister from "@/components/faq/register/FAQRegister.vue";
 import FAQManage from "@/components/faq/manage/FAQManage.vue";
 import FAQItemDetail from "@/components/faq/manage/detail/FAQItemDetail.vue";
 import MakeSelfView from "@/views/MakeSelfView.vue";
+import CreateRoute from "@/components/makeai/CreateRoute.vue";
 import MyJourneyView from "@/views/MyJourneyView.vue";
 import MakeAIView from "@/views/MakeAIView.vue";
+import ResultRecommend from "@/components/makeai/ResultRecommend.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -111,10 +113,30 @@ const router = createRouter({
       component: MakeSelfView,
     },
     {
-      path: "/makeai",
-      name: "makeai",
+      path: "/make",
+      name: "make",
       beforeEnter: onlyAuthUser,
-      component: MakeAIView,
+      redirect: { name: "question" },
+      children: [
+        {
+          path: "question",
+          name: "question",
+          beforeEnter: onlyAuthUser,
+          component: MakeAIView,
+        },
+        {
+          path: "create",
+          name: "create",
+          beforeEnter: onlyAuthUser,
+          component: CreateRoute,
+        },
+        {
+          path: "result",
+          name: "result",
+          beforeEnter: onlyAuthUser,
+          component: ResultRecommend,
+        },
+      ],
     },
     {
       path: "/myjourney/:id",

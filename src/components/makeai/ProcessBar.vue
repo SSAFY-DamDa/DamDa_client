@@ -10,7 +10,7 @@ defineProps({
   <div class="progress-container">
     <div
       class="progress-bar"
-      :style="{ width: `${((level + 1) / 6) * 100}%` }"
+      :style="{ width: `${((level + 1) / 8) * 100}%` }"
     ></div>
   </div>
 </template>

@@ -9,6 +9,7 @@ const tripStore = useTripStore();
 const aiJourneyStore = useAiJourneyStore();
 
 const activeGugunCode = ref(null);
+const emit = defineEmits(["optionClicked"]);
 
 onMounted(() => {
   getAllGuGun();
@@ -30,9 +31,10 @@ const getAllGuGun = async () => {
   }
 };
 
-const handleSiButtonClick = (gugunCode) => {
+const handleSiButtonClick = (gugunCode, index) => {
   aiJourneyStore.answerDetail.gugun_code = gugunCode;
   activeGugunCode.value = gugunCode;
+  emit("optionClicked", index);
 };
 </script>
 
@@ -41,11 +43,11 @@ const handleSiButtonClick = (gugunCode) => {
     <input
       class="gugun-btn"
       type="button"
-      v-for="gugun in tripStore.getGuGunList"
+      v-for="(gugun, index) in tripStore.getGuGunList"
       :key="gugun.gugun_code"
       :value="`${gugun.gugun_name.substring(0, 6)}`"
       :class="{ active: activeGugunCode === gugun.gugun_code }"
-      @click="handleSiButtonClick(gugun.gugun_code)"
+      @click="handleSiButtonClick(gugun.gugun_code, index)"
     />
   </div>
 </template>

@@ -2,9 +2,11 @@
 import { ref } from "vue";
 
 const activeOption = ref(null);
+const emit = defineEmits(["optionClicked"]);
 
-const handleOptionClick = (option) => {
+const handleOptionClick = (option, index) => {
   activeOption.value = option;
+  emit("optionClicked", index); // 클릭한 옵션의 인덱스를 부모 컴포넌트로 보냄
 };
 
 const options = [
@@ -25,7 +27,7 @@ const options = [
       :key="index"
       :value="option"
       :class="{ active: activeOption === option }"
-      @click="handleOptionClick(option)"
+      @click="handleOptionClick(option, index)"
     />
   </div>
 </template>
