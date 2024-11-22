@@ -1,6 +1,8 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { useJourneyStore } from "@/stores/journey";
+import { ref, onMounted, watch } from "vue";
 
+const journeyStore = useJourneyStore();
 const props = defineProps({
   usage: {
     type: String,
@@ -12,13 +14,6 @@ const days = ["일", "월", "화", "수", "목", "금", "토"];
 const today = ref(new Date());
 const weeks = ref([]);
 const eventSchedule = ref([]);
-
-const schedule = ref({
-  title: "경주 여행",
-  startDate: new Date("2024-12-13"),
-  endDate: new Date("2025-01-03"),
-  color: "#82B4FF",
-});
 
 // 달력 생성
 const makeCalendar = (date) => {
@@ -50,26 +45,37 @@ const makeCalendar = (date) => {
 };
 
 // 일정 추가
-const addEventDates = () => {
-  const temp = [];
-  let current = new Date(schedule.value.startDate);
+const addEventDates = (date) => {
+  date.forEach((d) => {
+    const temp = { dates: [], color: d.color };
+    const current = toKST(new Date(d.startDate));
+    const end = toKST(new Date(d.endDate));
 
-  while (current <= schedule.value.endDate) {
-    temp.push(new Date(current));
-    current.setDate(current.getDate() + 1);
-  }
-  eventSchedule.value = temp;
+    while (current <= end) {
+      temp.dates.push(toKST(new Date(current)));
+      current.setDate(current.getDate() + 1);
+    }
+    eventSchedule.value.push(temp);
+  });
+  console.log(eventSchedule.value);
 };
 
 const isEventDate = (date) => {
   if (props.usage !== "main-calendar") return false;
-
-  return eventSchedule.value.some(
-    (eventDate) =>
-      eventDate.getFullYear() === date.getFullYear() &&
-      eventDate.getMonth() === date.getMonth() &&
-      eventDate.getDate() === date.getDate()
-  );
+  date = toKST(date);
+  for (const event of eventSchedule.value) {
+    for (let eventDate of event.dates) {
+      eventDate = toKST(eventDate);
+      if (
+        eventDate.getFullYear() === date.getFullYear() &&
+        eventDate.getMonth() === date.getMonth() &&
+        eventDate.getDate() === date.getDate()
+      ) {
+        return event.color; // 해당 날짜의 색상 반환
+      }
+    }
+  }
+  return null;
 };
 
 // 날짜 선택
@@ -99,14 +105,13 @@ const isInSelectedRange = (date) => {
 
 // 달 변경
 const handleChangeMonth = (offset) => {
-  today.value.setMonth(today.value.getMonth() + offset);
+  if (offset == 0) {
+    today.value = new Date();
+  } else {
+    today.value.setMonth(today.value.getMonth() + offset);
+  }
   makeCalendar(today.value);
 };
-
-onMounted(() => {
-  makeCalendar(today.value);
-  if (props.usage === "main-calendar") addEventDates();
-});
 
 // 유틸 함수: 배열을 일정 크기로 나눔
 const chunkArray = (array, size) => {
@@ -116,6 +121,23 @@ const chunkArray = (array, size) => {
   }
   return chunks;
 };
+
+// KST로 변환
+const toKST = (date) => {
+  const kstOffset = 9 * 60 * 60 * 1000; // KST는 UTC+9
+  return new Date(date.getTime() - kstOffset);
+};
+
+onMounted(() => {
+  makeCalendar(today.value);
+});
+
+watch(
+  () => journeyStore.userJourneyList,
+  (date) => {
+    addEventDates(date);
+  }
+);
 </script>
 
 <template>
@@ -149,7 +171,10 @@ const chunkArray = (array, size) => {
           <div class="date-number">
             {{ date.getDate() }}
           </div>
-          <div v-if="isEventDate(date)" class="isEvent"></div>
+          <div
+            class="isEvent"
+            :style="{ backgroundColor: isEventDate(date) }"
+          ></div>
         </div>
       </div>
     </div>
@@ -168,13 +193,6 @@ const chunkArray = (array, size) => {
   .main-calendar {
     width: 70%;
     height: 70%;
-  }
-}
-
-@media (max-width: 1280px) {
-  .main-calendar {
-    width: 100%;
-    height: 100%;
   }
 }
 
@@ -207,6 +225,7 @@ const chunkArray = (array, size) => {
 .date {
   width: 100%;
   height: 100%;
+  min-height: 50px;
   max-height: 100px;
   border-collapse: collapse;
 }
@@ -224,6 +243,8 @@ const chunkArray = (array, size) => {
 
 .week {
   height: 100%;
+  min-height: 50px;
+  max-height: 100px;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #c9c9c9;
@@ -237,7 +258,6 @@ const chunkArray = (array, size) => {
 .isEvent {
   width: 100%;
   height: 10px;
-  background-color: #82b4ff;
 }
 
 .selectedRange {

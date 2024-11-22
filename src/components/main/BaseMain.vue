@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import TheCalendar from "@/components/common/TheCalendar.vue";
+import JourneyList from "./journey/JourneyList.vue";
 
 const router = useRouter();
 
@@ -20,8 +21,11 @@ const toMakeSelfPage = () => {
       지역 및 관광지 검색하러 가기
     </button>
   </section>
-  <TheCalendar usage="main-calendar" />
-  <button @click="toMakeSelfPage">직접 지도 만들기</button>
+  <section id="main-journey-section">
+    <TheCalendar usage="main-calendar" />
+    <JourneyList />
+  </section>
+  <button @click="toMakeSelfPage" id="make-self">직접 지도 만들기</button>
 </template>
 
 <style scoped>
@@ -40,5 +44,12 @@ const toMakeSelfPage = () => {
   position: absolute;
   top: 50%;
   left: 45%;
+}
+
+#main-journey-section {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  gap: 40px;
 }
 </style>
