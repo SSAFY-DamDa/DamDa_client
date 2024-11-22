@@ -14,7 +14,7 @@ const toMakeSelfPage = () => {
 };
 
 const toAIRecomPage = () => {
-  router.push({ name: "makeai" });
+  router.push({ name: "make" });
 };
 </script>
 

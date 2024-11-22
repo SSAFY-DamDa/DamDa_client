@@ -9,6 +9,7 @@ const aiJourneyStore = useAiJourneyStore();
 const axios = tripAxios();
 
 const activeSidoCode = ref(null);
+const emit = defineEmits(["optionClicked"]);
 
 onMounted(() => {
   getAllSi();
@@ -27,9 +28,10 @@ const getAllSi = async () => {
 };
 
 // 버튼 클릭 시 해당 sido_code를 aiJourneyStore에 저장하고 활성화 상태로 설정
-const handleSiButtonClick = (sidoCode) => {
+const handleSiButtonClick = (sidoCode, index) => {
   aiJourneyStore.answerDetail.sido_code = sidoCode;
   activeSidoCode.value = sidoCode;
+  emit("optionClicked", index);
 };
 </script>
 
@@ -38,11 +40,11 @@ const handleSiButtonClick = (sidoCode) => {
     <input
       class="si-btn"
       type="button"
-      v-for="si in tripStore.getSiList"
+      v-for="(si, index) in tripStore.getSiList"
       :key="si.sido_code"
       :value="`${si.sido_name.substring(0, 2)}`"
       :class="{ active: activeSidoCode === si.sido_code }"
-      @click="handleSiButtonClick(si.sido_code)"
+      @click="handleSiButtonClick(si.sido_code, index)"
     />
   </div>
 </template>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 import ProcessBar from "./ProcessBar.vue";
 import SelectSi from "@/components/makeai/answersection/SelectSi.vue";
 import SelectGuGun from "@/components/makeai/answersection/SelectGuGun.vue";
@@ -44,18 +45,44 @@ const componentsMap = [
 ];
 
 const level = ref(0);
+const router = useRouter();
 
-const currentComponent = computed(() => componentsMap[level.value]);
+const currentComponent = computed(() => {
+  if (level.value < componentsMap.length) {
+    return componentsMap[level.value];
+  }
+  return null;
+});
 
 const nextLevel = () => {
   if (level.value < componentsMap.length - 1) {
     level.value++;
+  } else {
+    router.push({ name: "create" });
   }
 };
 
 const previousLevel = () => {
   if (level.value > 0) {
     level.value--;
+  }
+};
+
+const handleOptionClicked = (index) => {
+  //특별시 및 광역시
+  if (level.value == 0 && index >= 0 && index <= 7) {
+    level.value += 2;
+  }
+  //혼자 여행
+  else if (level.value === 3 && index === 0) {
+    level.value += 2;
+  }
+
+  //노약자 및 영유아
+  else if (level.value == 6 && (index == 1 || index == 2)) {
+    router.push({ name: "create" });
+  } else {
+    nextLevel();
   }
 };
 </script>
@@ -66,11 +93,13 @@ const previousLevel = () => {
     <ProcessBar :level="level" />
     <span class="make-ai-msg">{{ msg[level] }}</span>
 
-    <component :is="currentComponent"></component>
+    <component
+      :is="currentComponent"
+      @optionClicked="handleOptionClicked"
+    ></component>
 
     <div class="button-container">
       <button class="btn-before" @click="previousLevel">이전</button>
-      <button class="btn-after" @click="nextLevel">다음</button>
     </div>
   </div>
 </template>

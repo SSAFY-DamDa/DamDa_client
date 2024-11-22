@@ -5,6 +5,12 @@ import { ref, watch } from "vue";
 
 const aiJourneyStore = useAiJourneyStore();
 
+const emit = defineEmits(["optionClicked"]);
+
+const handleClickNext = () => {
+  emit("optionClicked", 0); // 클릭한 옵션의 인덱스를 부모 컴포넌트로 보냄
+};
+
 // 시작일과 종료일 메시지
 const startmsg = ref("선택되지 않음");
 const endmsg = ref("선택되지 않음");
@@ -59,6 +65,7 @@ watch(
     <div class="calendar-container">
       <TheCalendar usage="select-calendar" />
     </div>
+    <button @click="handleClickNext">다음</button>
   </div>
 </template>
 

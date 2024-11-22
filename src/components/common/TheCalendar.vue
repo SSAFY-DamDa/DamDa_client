@@ -101,7 +101,7 @@ const handleClickDate = (date) => {
     const period = Math.ceil(
       (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
     );
-    aiJourneyStore.answerDetail.period = period;
+    aiJourneyStore.answerDetail.period = period + 1;
   }
 };
 
