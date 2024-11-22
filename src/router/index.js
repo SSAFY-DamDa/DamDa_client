@@ -12,6 +12,7 @@ import FAQRegister from "@/components/faq/register/FAQRegister.vue";
 import FAQManage from "@/components/faq/manage/FAQManage.vue";
 import FAQItemDetail from "@/components/faq/manage/detail/FAQItemDetail.vue";
 import MakeSelfView from "@/views/MakeSelfView.vue";
+import MyJourneyView from "@/views/MyJourneyView.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -19,17 +20,13 @@ const onlyAuthUser = async (to, from, next) => {
   const { getUserInfo } = userStore;
 
   let token = sessionStorage.getItem("accessToken");
-  console.log("token check! before", token);
   if (token) {
-    console.log("token check! after", token);
     await getUserInfo(token);
   }
 
   if (!isValidToken.value || userInfo.value === null) {
-    console.log("onlyAuthUser:", isValidToken.value, userInfo.value);
     next({ name: "login" });
   } else {
-    console.log("next!");
     next();
   }
 };
@@ -111,6 +108,12 @@ const router = createRouter({
       name: "makeself",
       beforeEnter: onlyAuthUser,
       component: MakeSelfView,
+    },
+    {
+      path: "/myjourney/:id",
+      name: "myjourney",
+      beforeEnter: onlyAuthUser,
+      component: MyJourneyView,
     },
   ],
 });
