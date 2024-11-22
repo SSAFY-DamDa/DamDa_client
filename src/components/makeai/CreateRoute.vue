@@ -14,7 +14,6 @@ onMounted(async () => {
   aiJourneyStore.resultOfNormalAnswer = [];
   aiJourneyStore.resultOfPublicData = [];
 
-  // searchByDefault()가 완료된 후 publicData()를 호출합니다.
   await searchByDefault();
   // await publicData();
 
@@ -63,8 +62,12 @@ const publicData = async () => {
 
 const fetchRecommendedRoute = async () => {
   try {
-    const result = await useGPTApi(aiJourneyStore.resultOfNormalAnswer);
-    aiJourneyStore.recommendedRoute.value = JSON.parse(result);
+    const result = await useGPTApi(
+      aiJourneyStore.resultOfNormalAnswer,
+      aiJourneyStore.answerDetail
+    );
+    aiJourneyStore.recommendedRoute = result;
+    console.log("here", aiJourneyStore.recommendedRoute);
   } catch (err) {
     console.log("error fetch recommend ", err);
   }
