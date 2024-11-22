@@ -1,7 +1,12 @@
 <script setup>
+import { ref } from "vue";
 import IconDrag from "@/components/icons/IconDrag.vue";
+import IconDeleteItem from "@/components/icons/IconDeleteItem.vue";
+import { useJourneyStore } from "@/stores/journey";
 
-defineProps({
+const journeyStore = useJourneyStore();
+
+const props = defineProps({
   place: {
     type: Object,
   },
@@ -16,6 +21,10 @@ const contentLabel = {
   32: ["숙박", "#34495e"],
   38: ["쇼핑", "#2ecc71"],
   39: ["음식점", "#e67e22"],
+};
+
+const handleDeletePlace = () => {
+  journeyStore.removePlaceFromDay(props.place.id);
 };
 </script>
 
@@ -36,6 +45,11 @@ const contentLabel = {
       </div>
       <span class="trip-item-address">{{ place.addr1 }}{{ place.addr2 }}</span>
     </div>
+    <IconDeleteItem
+      size="25"
+      class="icon-delete-item"
+      @click.stop="handleDeletePlace"
+    />
   </li>
 </template>
 
