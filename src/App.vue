@@ -8,7 +8,7 @@ const userStore = useUserStore();
 
 <template>
   <TheHeader />
-  <main :class="{ 'height-full': userStore.isLogin }">
+  <main :class="{ 'height-full': userStore.userInfo }">
     <RouterView />
   </main>
 </template>
