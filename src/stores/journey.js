@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import { useUserStore } from "./user";
 
@@ -9,9 +9,6 @@ export const useJourneyStore = defineStore("journey", () => {
   const journeyDetail = ref({
     title: "",
     user_id: userId,
-    sido_code: 0,
-    gugun_code: 0,
-    content_type_id: 0,
     start_date: "",
     end_date: "",
     personnel: 0,
@@ -55,6 +52,18 @@ export const useJourneyStore = defineStore("journey", () => {
     });
   };
 
+  const resetJourneyStore = () => {
+    journeyDetail.value = {
+      title: "",
+      start_date: "",
+      end_date: "",
+      personnel: 0,
+      color: "",
+    };
+    journeyDay.value = [];
+    journeyPeriod.value = 0;
+  };
+
   return {
     journeyDetail,
     journeyPeriod,
@@ -63,5 +72,6 @@ export const useJourneyStore = defineStore("journey", () => {
     addPlaceToDay,
     removePlaceFromDay,
     toggleDay,
+    resetJourneyStore,
   };
 });

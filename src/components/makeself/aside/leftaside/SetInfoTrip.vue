@@ -141,6 +141,7 @@ const validateEndDate = () => {
         class="set-color"
         type="color"
         placeholder="컬러"
+        value="#7bbcb0"
         v-model="journeyDetail.color"
       />
     </div>
