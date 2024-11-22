@@ -13,6 +13,7 @@ import FAQManage from "@/components/faq/manage/FAQManage.vue";
 import FAQItemDetail from "@/components/faq/manage/detail/FAQItemDetail.vue";
 import MakeSelfView from "@/views/MakeSelfView.vue";
 import MyJourneyView from "@/views/MyJourneyView.vue";
+import MakeAIView from "@/views/MakeAIView.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -108,6 +109,12 @@ const router = createRouter({
       name: "makeself",
       beforeEnter: onlyAuthUser,
       component: MakeSelfView,
+    },
+    {
+      path: "/makeai",
+      name: "makeai",
+      beforeEnter: onlyAuthUser,
+      component: MakeAIView,
     },
     {
       path: "/myjourney/:id",

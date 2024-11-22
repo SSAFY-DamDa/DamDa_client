@@ -6,6 +6,7 @@ export const useTripStore = defineStore("trip", () => {
   const isLoaded = ref(false);
   const tripList = ref([]);
   const siList = ref([]);
+  const gugunList = ref([]);
   const positions = ref([]);
   const totalPage = ref(1);
   const selectTag = ref("");
@@ -14,6 +15,7 @@ export const useTripStore = defineStore("trip", () => {
   const getIsLoaded = computed(() => isLoaded.value);
   const getTripList = computed(() => tripList.value);
   const getSiList = computed(() => siList.value);
+  const getGuGunList = computed(() => gugunList.value);
   const getPositions = computed(() => positions.value);
   const getTotalPage = computed(() => totalPage.value);
   const getSelectTag = computed(() => selectTag.value);
@@ -29,6 +31,10 @@ export const useTripStore = defineStore("trip", () => {
 
   const setSiList = (_siList) => {
     siList.value = _siList;
+  };
+
+  const setGuGunList = (_guList) => {
+    gugunList.value = _guList;
   };
 
   const setPositions = (_positions) => {
@@ -47,12 +53,14 @@ export const useTripStore = defineStore("trip", () => {
     getIsLoaded,
     getTripList,
     getSiList,
+    getGuGunList,
     getPositions,
     getTotalPage,
     getSelectTag,
     setIsLoaded,
     setTripList,
     setSiList,
+    setGuGunList,
     setPositions,
     setTotalPage,
     setSelectTag,
