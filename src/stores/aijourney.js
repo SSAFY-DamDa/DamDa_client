@@ -15,11 +15,13 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
   const selectDates = ref([]);
   const resultOfNormalAnswer = ref([]);
   const resultOfPublicData = ref([]);
+  const recommendedRoute = ref(null);
 
   return {
     answerDetail,
     selectDates,
     resultOfNormalAnswer,
     resultOfPublicData,
+    recommendedRoute,
   };
 });

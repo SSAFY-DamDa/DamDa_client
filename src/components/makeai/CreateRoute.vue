@@ -4,6 +4,7 @@ import { useAiJourneyStore } from "@/stores/aijourney";
 import { tripAxios } from "@/utils/http-trip";
 import { publicDataAxios } from "@/utils/http-publicdata";
 const { VITE_PUBLIC_DATA_KEY } = import.meta.env;
+import { useGPTApi } from "@/utils/gpt-init";
 
 const aiJourneyStore = useAiJourneyStore();
 const tripaxios = tripAxios();
@@ -15,10 +16,12 @@ onMounted(async () => {
 
   // searchByDefault()가 완료된 후 publicData()를 호출합니다.
   await searchByDefault();
-  await publicData();
+  // await publicData();
+
+  await fetchRecommendedRoute();
 
   console.log("after normal response", aiJourneyStore.resultOfNormalAnswer);
-  console.log("after public response", aiJourneyStore.resultOfPublicData);
+  // console.log("after public response", aiJourneyStore.resultOfPublicData);
 });
 
 const searchByDefault = async () => {
@@ -58,7 +61,14 @@ const publicData = async () => {
   }
 };
 
-console.log(aiJourneyStore.answerDetail);
+const fetchRecommendedRoute = async () => {
+  try {
+    const result = await useGPTApi(aiJourneyStore.resultOfNormalAnswer);
+    aiJourneyStore.recommendedRoute.value = JSON.parse(result);
+  } catch (err) {
+    console.log("error fetch recommend ", err);
+  }
+};
 </script>
 
 <template>
