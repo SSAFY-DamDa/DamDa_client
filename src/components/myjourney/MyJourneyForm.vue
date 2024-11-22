@@ -2,9 +2,9 @@
 import { getDetailJourney } from "@/api/journey";
 import { useJourneyStore } from "@/stores/journey";
 import { onMounted, ref } from "vue";
-import MyJourneyItem from "./item/MyJourneyItem.vue";
 import IconCalendar from "../icons/IconCalendar.vue";
 import IconPeople from "../icons/IconPeople.vue";
+import MyJourneyDay from "./days/MyJourneyDay.vue";
 
 const props = defineProps({
   journeyId: {
@@ -56,7 +56,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="journey-bottom">
-      <MyJourneyItem :journeyInfo="journeyInfo" />
+      <MyJourneyDay :journeyInfo="journeyInfo" />
     </div>
   </div>
 </template>
@@ -127,5 +127,22 @@ onMounted(async () => {
   width: 20px;
   height: 20px;
   border-radius: 10px;
+}
+
+.journey-bottom {
+  overflow: auto;
+}
+
+.journey-bottom::-webkit-scrollbar {
+  width: 4px;
+}
+
+.journey-bottom::-webkit-scrollbar-thumb {
+  background-color: rgb(170, 170, 170);
+  border-radius: 20px;
+}
+
+.journey-bottom::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
 }
 </style>

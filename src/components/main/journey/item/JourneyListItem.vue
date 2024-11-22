@@ -14,7 +14,7 @@ const startDate = props.journey.startDate.slice(0, 10);
 const endDate = props.journey.endDate.slice(0, 10);
 
 const handleClickJourney = (id) => {
-  router.push(`/myjourney/${id}`);
+  router.push(`/myjourney/${id + 1}`);
 };
 </script>
 
