@@ -32,21 +32,11 @@ const handleClickMove = () => {
   kakaoStore.setCoordinate([latlng.La, latlng.Ma]);
 };
 
-const isAdded = ref(false);
-
 const handleAddPlace = () => {
-  const openDay = journeyStore.journeyDay.find((day) => day.isOpen);
-  if (openDay && !isAdded.value) {
-    journeyStore.addPlaceToDay(props.tripItem);
-    isAdded.value = true;
-  }
-};
+  console.log(props.tripItem);
+  journeyStore.addPlaceToDay(props.tripItem);
 
-const handleDeletePlace = () => {
-  journeyStore.journeyDay.forEach((day) => {
-    day.places = day.places.filter((place) => place.id !== props.tripItem.id);
-  });
-  isAdded.value = false;
+  console.log(journeyStore.journeyDay);
 };
 </script>
 
@@ -69,16 +59,9 @@ const handleDeletePlace = () => {
       >
     </div>
     <IconAddToList
-      v-if="!isAdded"
       size="25"
       class="icon-add-to-list"
       @click.stop="handleAddPlace"
-    />
-    <IconDeleteItem
-      v-else
-      size="25"
-      class="icon-delete-item"
-      @click.stop="handleDeletePlace"
     />
   </li>
 </template>
