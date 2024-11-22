@@ -1,8 +1,10 @@
 <script setup>
+import { useAiJourneyStore } from "@/stores/aijourney";
 import { useJourneyStore } from "@/stores/journey";
 import { ref, onMounted, watch } from "vue";
 
 const journeyStore = useJourneyStore();
+const aiJourneyStore = useAiJourneyStore();
 const props = defineProps({
   usage: {
     type: String,
@@ -90,6 +92,17 @@ const handleClickDate = (date) => {
   }
   selectDates.value.push(date);
   selectDates.value.sort((a, b) => new Date(a) - new Date(b));
+
+  aiJourneyStore.selectDates.value = selectDates;
+
+  // 두 날짜가 모두 선택되었을 때 기간 계산하여 저장
+  if (selectDates.value.length === 2) {
+    const [startDate, endDate] = selectDates.value;
+    const period = Math.ceil(
+      (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
+    );
+    aiJourneyStore.answerDetail.period = period;
+  }
 };
 
 // 선택된 범위 확인
@@ -198,7 +211,7 @@ watch(
 }
 
 .select-calendar {
-  width: 20%;
+  width: 90%;
   border: 1px solid #c9c9c9;
 
   .date {
