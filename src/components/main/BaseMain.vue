@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
 import TheCalendar from "@/components/common/TheCalendar.vue";
+import JourneyList from "./journey/JourneyList.vue";
 
 const router = useRouter();
 
@@ -24,7 +25,10 @@ const toAIRecomPage = () => {
       지역 및 관광지 검색하러 가기
     </button>
   </section>
-  <TheCalendar />
+  <section id="main-journey-section">
+    <TheCalendar usage="main-calendar" />
+    <JourneyList />
+  </section>
   <button @click="toMakeSelfPage">직접 지도 만들기</button>
   <button @click="toAIRecomPage">AI 추천 받기</button>
 </template>
@@ -45,5 +49,12 @@ const toAIRecomPage = () => {
   position: absolute;
   top: 50%;
   left: 45%;
+}
+
+#main-journey-section {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  gap: 40px;
 }
 </style>

@@ -5,7 +5,7 @@ import { useUserStore } from "./user";
 export const useJourneyStore = defineStore("journey", () => {
   const userStore = useUserStore();
   const userId = userStore.userInfo.userId;
-
+  const userJourneyList = ref([]);
   const journeyDetail = ref({
     title: "",
     user_id: userId,
@@ -51,6 +51,9 @@ export const useJourneyStore = defineStore("journey", () => {
       day.isOpen = idx === index;
     });
   };
+  const setUserJourneyList = (journeyList) => {
+    userJourneyList.value = journeyList;
+  };
 
   const resetJourneyStore = () => {
     journeyDetail.value = {
@@ -68,10 +71,12 @@ export const useJourneyStore = defineStore("journey", () => {
     journeyDetail,
     journeyPeriod,
     journeyDay,
+    userJourneyList,
     setJourneyPeriod,
     addPlaceToDay,
     removePlaceFromDay,
     toggleDay,
+    setUserJourneyList,
     resetJourneyStore,
   };
 });

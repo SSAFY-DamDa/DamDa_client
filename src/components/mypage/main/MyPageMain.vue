@@ -10,6 +10,7 @@ const isChange = ref(false);
 
 onMounted(async () => {
   await userFindUser(userStore.userInfo.userId);
+  userInfo.value.birthDate = userInfo.value.birthDate.slice(0, 10);
 });
 
 let save = {};
@@ -35,23 +36,53 @@ const handleChangeSubmit = async () => {
     <h3>회원정보</h3>
     <div class="item-list">
       <div class="mypage-item">
-        <label for="userId">아이디</label>
-        <input id="userId" v-model="userInfo.userId" readonly />
+        <label for="userId">이름</label>
+        <input
+          type="text"
+          id="userId"
+          v-model="userInfo.userName"
+          :readonly="!isChange"
+        />
       </div>
       <div class="mypage-item">
-        <label for="userId">이름</label>
-        <input id="userId" v-model="userInfo.userName" :readonly="!isChange" />
+        <label for="userId">생년월일</label>
+        <input
+          type="date"
+          id="userId"
+          v-model="userInfo.birthDate"
+          :readonly="!isChange"
+        />
+      </div>
+      <div class="mypage-item">
+        <label for="userId">핸드폰 번호</label>
+        <input
+          type="text"
+          id="userId"
+          v-model="userInfo.phoneNum"
+          :readonly="!isChange"
+        />
+      </div>
+      <div class="mypage-item">
+        <label for="userId">주소</label>
+        <input
+          type="text"
+          id="userId"
+          v-model="userInfo.address"
+          :readonly="!isChange"
+        />
       </div>
       <div class="mypage-item">
         <label for="">이메일</label>
         <div class="email-item">
           <input
+            type="text"
             class="email-input"
             v-model="userInfo.emailId"
             :readonly="!isChange"
           />
           <div id="email-center">@</div>
           <input
+            type="text"
             class="email-input"
             v-model="userInfo.emailDomain"
             :readonly="!isChange"
@@ -150,6 +181,10 @@ input {
   color: #ffffff;
 }
 
+.mypage-btn:hover {
+  background-color: #5e9288;
+}
+
 .mypage-change-btn {
   display: flex;
   gap: 10px;
@@ -163,6 +198,9 @@ input {
 }
 
 #mypage-cancel-btn {
-  background-color: #4f5a66;
+  background-color: #c9c9c9;
+}
+#mypage-cancel-btn:hover {
+  background-color: #a9a9a9;
 }
 </style>

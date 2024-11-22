@@ -43,7 +43,7 @@ const handleSiButtonClick = (gugunCode) => {
       type="button"
       v-for="gugun in tripStore.getGuGunList"
       :key="gugun.gugun_code"
-      :value="`${gugun.gugun_name.substring(0, 2)}`"
+      :value="`${gugun.gugun_name.substring(0, 6)}`"
       :class="{ active: activeGugunCode === gugun.gugun_code }"
       @click="handleSiButtonClick(gugun.gugun_code)"
     />
