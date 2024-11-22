@@ -6,16 +6,13 @@ const getJourneyList = async (suc, err) => {
 
 const getJourney = async (param, suc, err) => {
   return await JourneyAxios()
-    .get("", { params: { id: param } })
+    .get("", { params: { userId: param } })
     .then(suc)
     .catch(err);
 };
 
-const getDetailJourney = async (id, body, suc, err) => {
-  return await JourneyAxios()
-    .get("/update/" + id, body)
-    .then(suc)
-    .catch(err);
+const getDetailJourney = async (param, suc, err) => {
+  return await JourneyAxios().get(`/detail/${param}`).then(suc).catch(err);
 };
 
 export { getJourneyList, getJourney, getDetailJourney };

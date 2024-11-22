@@ -1,15 +1,25 @@
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const props = defineProps({
   journey: {
     type: Object,
   },
+  index: {
+    type: Number,
+  },
 });
 const startDate = props.journey.startDate.slice(0, 10);
 const endDate = props.journey.endDate.slice(0, 10);
+
+const handleClickJourney = (id) => {
+  router.push(`/myjourney/${id}`);
+};
 </script>
 
 <template>
-  <div class="journey-item-section">
+  <div class="journey-item-section" @click="handleClickJourney(index)">
     <div class="journey-item item-top">
       <div id="journey-color" :style="{ backgroundColor: journey.color }"></div>
       <div id="journey-title">{{ journey.title }}</div>
