@@ -35,6 +35,7 @@ export const fetchTagSearchPage = async (page, kakao, tagId, tripStore) => {
       pgno: page,
     },
     (response) => {
+      isTag.value = tagId;
       makeTripList(response.data.tripList, kakao, tripStore);
       tripStore.setTotalPage(response.data.totalPage);
     },

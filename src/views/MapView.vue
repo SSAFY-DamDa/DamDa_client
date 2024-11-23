@@ -38,11 +38,11 @@ const handleSearchTag = async (tagId) => {
     // 똑같은 태그 또 눌렀을 경우 태그 없애기
     isTag.value = 0;
     tripStore.setSelectTag("");
-    await fetchPage(1, kakao, tripStore);
+    await fetchTagSearchPage(1, kakao, isTag.value, tripStore);
   } else {
-    await fetchTagSearchPage(1, kakao, tagId, tripStore); // 최초 검색
-    tripStore.setSelectTag(tagId);
     isTag.value = tagId;
+    await fetchTagSearchPage(1, kakao, isTag.value, tripStore); // 최초 검색
+    tripStore.setSelectTag(tagId);
   }
   tripStore.setIsLoaded(true);
 };
@@ -65,7 +65,6 @@ const handleSearchTitle = async (title) => {
       @search-tag="handleSearchTag"
       @search-title="handleSearchTitle"
     />
-    <div v-else>로딩중</div>
     <KakaoMap :positions="tripStore.getPositions" />
   </section>
 </template>
@@ -74,5 +73,10 @@ const handleSearchTitle = async (title) => {
 #map-view-section {
   height: 100%;
   display: flex;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
 }
 </style>

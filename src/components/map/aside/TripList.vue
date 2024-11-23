@@ -6,7 +6,7 @@ const tripStore = useTripStore();
 </script>
 
 <template>
-  <ul id="trip-list-ul" v-if="tripStore.getIsLoaded">
+  <ul id="trip-list-ul">
     <TripListItem
       v-for="trip in tripStore.getTripList"
       :key="trip.content_id"
