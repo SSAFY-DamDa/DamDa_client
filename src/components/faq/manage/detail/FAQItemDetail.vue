@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import { useFAQStore } from "@/stores/faq";
-import { FAQAxios } from "@/utils/http-faq";
 import { useRouter } from "vue-router";
+import { deleteFAQ, putFAQ } from "@/api/faq";
 
-const axios = FAQAxios();
 const faqStore = useFAQStore();
 const router = useRouter();
 
@@ -27,36 +26,37 @@ const handleCancel = () => {
 };
 
 const handleComplete = async () => {
-  try {
-    console.log(article.value);
-    await axios.put(`/modify/${article.value.articleNo}`, article.value, {
-      params: {
-        articleNo: parseInt(article.value.articleNo),
-      },
-    });
-    isModify.value = false;
-  } catch (error) {
-    console.log(error);
-  }
+  await putFAQ(
+    article.value.articleNo,
+    article.value,
+    () => {
+      isModify.value = false;
+    },
+    (error) => {
+      console.log("FAQ 수정 중 오류!" + error);
+    }
+  );
 };
 
 const handleDelete = async () => {
   const isCheck = confirm("정말 삭제하시겠습니까?");
 
   if (isCheck) {
-    try {
-      await axios.delete(`/${article.value.articleNo}`);
-      faqStore.setFAQList(
-        // store 삭제 반영
-        faqStore.getFAQList.filter(
-          (f) => f.articleNo !== article.value.articleNo
-        )
-      );
-      alert("삭제가 완료되었습니다!");
-      router.push({ name: "manage" });
-    } catch (error) {
-      console.log(error);
-    }
+    await deleteFAQ(
+      article.value.articleNo,
+      () => {
+        faqStore.setFAQList(
+          faqStore.getFAQList.filter(
+            (f) => f.articleNo !== article.value.articleNo
+          )
+        );
+        alert("삭제가 완료되었습니다!");
+        router.push({ name: "manage" });
+      },
+      (error) => {
+        console.log("FAQ 삭제 중 오류!" + error);
+      }
+    );
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <script setup>
+import { getDetailFAQ } from "@/api/faq";
 import { useFAQStore } from "@/stores/faq";
-import { FAQAxios } from "@/utils/http-faq";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -11,15 +11,18 @@ const props = defineProps({
 
 const router = useRouter();
 const faqStore = useFAQStore();
-const axios = FAQAxios();
+
 const handleClickDetail = async () => {
-  try {
-    const response = await axios.get(`/${props.faq.articleNo}`);
-    faqStore.setFAQDetail(response.data.article);
-    router.push({ name: "detail" });
-  } catch (error) {
-    console.log(error);
-  }
+  await getDetailFAQ(
+    props.faq.articleNo,
+    (response) => {
+      faqStore.setFAQDetail(response.data.article);
+      router.push({ name: "detail" });
+    },
+    (error) => {
+      console.log("FAQ 상세 보기 도중 오류!", error);
+    }
+  );
 };
 </script>
 

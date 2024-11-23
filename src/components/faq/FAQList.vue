@@ -1,25 +1,26 @@
 <script setup>
-import { FAQAxios } from "@/utils/http-faq";
 import { ref, onMounted } from "vue";
 import FAQItem from "./Item/FAQItem.vue";
 import { useFAQStore } from "@/stores/faq";
+import { getListFAQ } from "@/api/faq";
 
 defineEmits(["clickToggle"]);
 
-const http = FAQAxios();
 const faqStore = useFAQStore();
 const articleList = ref([]);
 const activeArticleNo = ref(null);
 
 onMounted(async () => {
   console.log("onMouned");
-  try {
-    const res = await http.get("/list");
-    articleList.value = res.data.articles;
-    faqStore.setFAQList(articleList.value);
-  } catch (error) {
-    console.log(error);
-  }
+  await getListFAQ(
+    (response) => {
+      articleList.value = response.data.articles;
+      faqStore.setFAQList(articleList.value);
+    },
+    (error) => {
+      console.log("FAQ 리스트 불러오는 도중 오류!", error);
+    }
+  );
 });
 
 const handleToggle = (articleNo) => {
