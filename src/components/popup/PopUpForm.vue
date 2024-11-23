@@ -25,27 +25,46 @@ const handleLogout = async () => {
 
 <template>
   <div v-show="isShow" class="pop-up">
-    <div @click="handleLogout">로그아웃</div>
-    <div @click="handleMyPage">마이페이지</div>
-    <div>설정</div>
+    <div @click="handleMyPage" class="pop-up-btn" id="pop-up-mypage">
+      마이페이지
+    </div>
+    <div @click="handleLogout" class="pop-up-btn" id="pop-up-logout">
+      로그아웃
+    </div>
   </div>
 </template>
 
 <style scoped>
 .pop-up {
   position: absolute;
+  top: 30px;
   min-width: 65px;
   width: 100%;
-  top: 30px;
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  background-color: antiquewhite;
+  border: 1px solid #c9c9c9;
+  border-radius: 3px;
+  background-color: #f0f0f0;
+  color: #787878;
   font-size: 1.3rem;
   text-align: center;
+  gap: 10px;
   padding: 10px;
+}
+
+.pop-up-btn {
+  width: 100%;
+  cursor: pointer;
+}
+
+#pop-up-logout:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+#pop-up-mypage:hover {
+  color: #000000;
+  text-decoration: underline;
 }
 </style>

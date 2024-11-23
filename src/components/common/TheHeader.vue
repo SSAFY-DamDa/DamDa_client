@@ -72,6 +72,10 @@ img {
   height: 80%;
 }
 
+.logo {
+  cursor: pointer;
+}
+
 .text-btn-section {
   display: flex;
   align-items: flex-end;
@@ -83,11 +87,13 @@ img {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-left: 10px;
 }
 
 .text-name {
   border: 0px;
   text-decoration: underline;
   background-color: #ffffff;
+  cursor: pointer;
 }
 </style>
