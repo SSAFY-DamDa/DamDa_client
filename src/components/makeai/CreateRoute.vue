@@ -5,9 +5,11 @@ import { publicDataAxios } from "@/utils/http-publicdata";
 const { VITE_PUBLIC_DATA_KEY } = import.meta.env;
 import { useGPTApi } from "@/utils/gpt-init";
 import { getSearchAITrip } from "@/api/trip";
+import { useRouter } from "vue-router";
 
 const aiJourneyStore = useAiJourneyStore();
 const publicaxios = publicDataAxios();
+const router = useRouter();
 
 onMounted(async () => {
   aiJourneyStore.resultOfNormalAnswer = [];
@@ -17,9 +19,10 @@ onMounted(async () => {
   // await publicData();
 
   await fetchRecommendedRoute();
-
   console.log("after normal response", aiJourneyStore.resultOfNormalAnswer);
   // console.log("after public response", aiJourneyStore.resultOfPublicData);
+
+  router.push({ name: "result" });
 });
 
 const searchByDefault = async () => {

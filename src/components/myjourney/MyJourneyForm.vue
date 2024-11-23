@@ -19,7 +19,7 @@ onMounted(async () => {
     props.journeyId,
     (response) => {
       journeyInfo.value = response.data;
-      console.log(response.data["day1"]);
+      console.log("day1", response.data);
     },
     (error) => {
       console.log("여행 디테일 정보 가져오는 도중 오류!", error);

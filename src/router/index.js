@@ -15,7 +15,7 @@ import MakeSelfView from "@/views/MakeSelfView.vue";
 import CreateRoute from "@/components/makeai/CreateRoute.vue";
 import MyJourneyView from "@/views/MyJourneyView.vue";
 import MakeAIView from "@/views/MakeAIView.vue";
-import ResultRecommend from "@/components/makeai/ResultRecommend.vue";
+import ResultRecommend from "@/components/makeai/result/ResultRecommend.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
