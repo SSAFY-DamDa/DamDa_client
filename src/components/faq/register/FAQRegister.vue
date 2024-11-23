@@ -1,13 +1,12 @@
 <script setup>
 import faqRegister from "@/assets/imgs/faqRegister.png";
 import { ref } from "vue";
-import { FAQAxios } from "@/utils/http-faq";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { postRegisterFAQ } from "@/api/faq";
 
-const axios = FAQAxios();
 const router = useRouter();
-const userInfoStore = useUserStore();
+const userStore = useUserStore();
 
 const content = ref("");
 const updateContent = () => {
@@ -18,20 +17,21 @@ const subject = ref("");
 
 const handleRegister = async () => {
   const article = {
-    userId: userInfoStore.userId,
+    userId: userStore.userInfo.userId,
     subject: subject.value,
     content: content.value,
   };
   console.log(article);
-  try {
-    const response = await axios.post("/register", article);
-    if (response.status == 201) {
+  await postRegisterFAQ(
+    article,
+    () => {
       alert("등록에 성공했어요!");
       router.push({ name: "list" });
+    },
+    (error) => {
+      console.log("FAQ 등록 중 오류!" + error);
     }
-  } catch (error) {
-    console.log(error);
-  }
+  );
 };
 
 const handleClickCancel = () => {
@@ -43,9 +43,18 @@ const handleClickCancel = () => {
   <div id="faq-register">
     <img id="top-background" :src="faqRegister" />
     <div class="editor-container">
-      <input class="subject-editor" placeholder="게시글의 제목을 입력하세요." v-model="subject" />
-      <div class="content-editor" contenteditable="true" ref="editor" placeholder="본문을 작성하세요..." @input="updateContent">
-      </div>
+      <input
+        class="subject-editor"
+        placeholder="게시글의 제목을 입력하세요."
+        v-model="subject"
+      />
+      <div
+        class="content-editor"
+        contenteditable="true"
+        ref="editor"
+        placeholder="본문을 작성하세요..."
+        @input="updateContent"
+      ></div>
       <div class="button-section">
         <button type="button" id="faq-register-button" @click="handleRegister">
           등록하기

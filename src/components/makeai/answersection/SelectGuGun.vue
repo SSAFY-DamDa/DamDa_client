@@ -2,9 +2,8 @@
 import { ref, onMounted } from "vue";
 import { useTripStore } from "@/stores/trip";
 import { useAiJourneyStore } from "@/stores/aijourney";
-import { tripAxios } from "@/utils/http-trip";
+import { getGugunList } from "@/api/trip";
 
-const axios = tripAxios();
 const tripStore = useTripStore();
 const aiJourneyStore = useAiJourneyStore();
 
@@ -16,19 +15,15 @@ onMounted(() => {
 });
 
 const getAllGuGun = async () => {
-  try {
-    const guResponse = await axios.get("/list-gugun", {
-      params: {
-        sidoCode: aiJourneyStore.answerDetail.sido_code,
-      },
-    });
-
-    tripStore.setGuGunList(guResponse.data);
-
-    console.log("gu list 얻기 성공 ", guResponse.data);
-  } catch (error) {
-    console.error("여행 계획 생성 중 오류가 발생했습니다.", error);
-  }
+  await getGugunList(
+    aiJourneyStore.answerDetail.sido_code,
+    (response) => {
+      tripStore.setGuGunList(response.data);
+    },
+    (error) => {
+      console.log("구군 리스트 불러오는 도중 오류!", error);
+    }
+  );
 };
 
 const handleSiButtonClick = (gugunCode, index) => {

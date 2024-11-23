@@ -1,13 +1,12 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useAiJourneyStore } from "@/stores/aijourney";
-import { tripAxios } from "@/utils/http-trip";
 import { publicDataAxios } from "@/utils/http-publicdata";
 const { VITE_PUBLIC_DATA_KEY } = import.meta.env;
 import { useGPTApi } from "@/utils/gpt-init";
+import { getSearchAITrip } from "@/api/trip";
 
 const aiJourneyStore = useAiJourneyStore();
-const tripaxios = tripAxios();
 const publicaxios = publicDataAxios();
 
 onMounted(async () => {
@@ -24,16 +23,18 @@ onMounted(async () => {
 });
 
 const searchByDefault = async () => {
-  const response = await tripaxios.get("/search-ai", {
-    params: {
+  await getSearchAITrip(
+    {
       areaCode: aiJourneyStore.answerDetail.sido_code,
       contentTypeId: aiJourneyStore.answerDetail.content_type_id,
     },
-  });
-
-  aiJourneyStore.resultOfNormalAnswer = response.data.tripList;
-
-  console.log("response ", response.data);
+    (response) => {
+      aiJourneyStore.resultOfNormalAnswer = response.data.tripList;
+    },
+    (error) => {
+      console.log("AI 검색 도중 오류!", error);
+    }
+  );
 };
 
 //https://apis.data.go.kr/B551011/KorWithService1/detailWithTour1?MobileOS=ETC&MobileApp=AppTest&contentId=3040712&_type=json&serviceKey=ccVp6skX2dU%2BY5rBo8m95EiEsR2PQ%2Fb9MNgoBBb4bBRVIH3gMw6ciSgpTe%2FJP6vIuyTuheuIWczAeN2%2Bgzw4Fg%3D%3D

@@ -1,49 +1,50 @@
-import { memberAxios } from "@/utils/http-member";
+import { Axios } from "@/utils/client";
 
+const MEMBER = "member";
 const userLogin = async (param, suc, err) => {
-  return await memberAxios().post("/login", param).then(suc).catch(err);
+  return await Axios(MEMBER).post("/login", param).then(suc).catch(err);
 };
 
 const userLogout = async (suc, err) => {
-  return await memberAxios().get("/logout").then(suc).catch(err);
+  return await Axios(MEMBER).get("/logout").then(suc).catch(err);
 };
 
 const userJoin = async (param, suc, err) => {
-  await memberAxios().post("/join", param).then(suc).catch(err);
+  await Axios(MEMBER).post("/join", param).then(suc).catch(err);
 };
 
 const userIdCheck = async (param, suc, err) => {
-  return await memberAxios()
+  return await Axios(MEMBER)
     .get("/idcheck", { params: { checkid: param } })
     .then(suc)
     .catch(err);
 };
 
 const userModifyUser = async (param, suc, err) => {
-  return await memberAxios(true).put("/modify", param).then(suc).catch(err);
+  return await Axios(MEMBER, true).put("/modify", param).then(suc).catch(err);
 };
 
 const userDeleteUser = async (param, suc, err) => {
-  return await memberAxios().delete("/delete", param).then(suc).catch(err);
+  return await Axios(MEMBER).delete("/delete", param).then(suc).catch(err);
 };
 
 const userFindPassword = async (param, suc, err) => {
-  return await memberAxios().post("/findpwd", param).then(suc).catch(err);
+  return await Axios(MEMBER).post("/findpwd", param).then(suc).catch(err);
 };
 
 const userResetPassword = async (param, suc, err) => {
-  return await memberAxios().post("/resetpwd", param).then(suc).catch(err);
+  return await Axios(MEMBER).post("/resetpwd", param).then(suc).catch(err);
 };
 
 const userFindUser = async (param, suc, err) => {
-  return await memberAxios(true)
+  return await Axios(MEMBER, true)
     .get("/findbyid/" + param)
     .then(suc)
     .catch(err);
 };
 
 const userRefreshToken = async (param, suc, err) => {
-  const axios = (memberAxios(true).defaults.headers["refreshToken"] =
+  const axios = (Axios(MEMBER, true).defaults.headers["refreshToken"] =
     localStorage.getItem("refreshToken"));
   return await axios.post("/refresh", param).then(suc).catch(err);
 };
