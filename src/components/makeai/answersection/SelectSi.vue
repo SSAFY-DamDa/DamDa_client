@@ -1,12 +1,11 @@
 <script setup>
+import { getSiList } from "@/api/trip";
 import { useAiJourneyStore } from "@/stores/aijourney";
 import { useTripStore } from "@/stores/trip";
-import { tripAxios } from "@/utils/http-trip";
 import { ref, onMounted } from "vue";
 
 const tripStore = useTripStore();
 const aiJourneyStore = useAiJourneyStore();
-const axios = tripAxios();
 
 const activeSidoCode = ref(null);
 const emit = defineEmits(["optionClicked"]);
@@ -16,15 +15,14 @@ onMounted(() => {
 });
 
 const getAllSi = async () => {
-  try {
-    const siResponse = await axios.get("/list-si");
-
-    tripStore.setSiList(siResponse.data);
-
-    console.log("si list 얻기 성공 ", tripStore.getSiList);
-  } catch (error) {
-    console.error("여행 계획 생성 중 오류가 발생했습니다.", error);
-  }
+  await getSiList(
+    (response) => {
+      tripStore.setSiList(response.data);
+    },
+    (error) => {
+      console.log("시 리스트 불러오는 도중 오류!", error);
+    }
+  );
 };
 
 // 버튼 클릭 시 해당 sido_code를 aiJourneyStore에 저장하고 활성화 상태로 설정

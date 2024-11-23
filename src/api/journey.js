@@ -16,4 +16,24 @@ const getDetailJourney = async (param, suc, err) => {
   return await Axios(JOURNEY).get(`/detail/${param}`).then(suc).catch(err);
 };
 
-export { getJourneyList, getJourney, getDetailJourney };
+const postRegisterJourney = async (body, param, suc, err) => {
+  return await Axios(JOURNEY)
+    .post("/register", body, { params: { userId: param } })
+    .then(suc)
+    .catch(err);
+};
+
+const postRegisterDetailJourney = async (body, param, suc, err) => {
+  return await Axios(JOURNEY)
+    .post("/registerDetail", body, { params: { journeyId: param } })
+    .then(suc)
+    .catch(err);
+};
+
+export {
+  getJourneyList,
+  getJourney,
+  getDetailJourney,
+  postRegisterJourney,
+  postRegisterDetailJourney,
+};

@@ -50,7 +50,7 @@ function Axios(url, auth) {
     case "journey":
       url = VITE_JOURNEY_URL;
       break;
-    case "public":
+    case "public_data":
       url = VITE_PUBLIC_DATA_URL;
       break;
   }
