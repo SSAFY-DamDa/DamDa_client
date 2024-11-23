@@ -3,6 +3,7 @@ import { ref, onMounted } from "vue";
 import { loadKakaoMap } from "@/utils/loadKakaoMap"; // loadKakaoMap 함수 import
 import { useKakaoStore } from "@/stores/kakao";
 import { watch } from "vue";
+import { contentLabels } from "@/assets/constants/contentLabels";
 
 const props = defineProps({
   positions: {
@@ -54,18 +55,53 @@ const addMarkers = (positions, kakao) => {
     const marker = new kakao.maps.Marker({
       map: map,
       position: new kakao.maps.LatLng(m.latlng.Ma, m.latlng.La),
-      title: m.title,
       image: markerImage,
     });
-    marker.setMap(map);
     markers.push(marker);
+
+    let content =
+      '<div class="kakao-overlay-wrap">' +
+      `    <img 
+              class="kakao-overlay overlay-img"
+              src=${m.area.img1 || m.area.img2}
+            />` +
+      '    <div class="info-wrap">' +
+      `      <div class="kakao-overlay overlay-title" style="white-space: break-spaces;">${m.area.title}</div>` +
+      `      <div class="kakao-overlay overlay-address id=address-main" style="white-space: break-spaces;">${m.area.addr1} ${m.area.addr2}</div>` +
+      `      <div class="kakao-overlay overlay-content-type">
+              <span style="background-color: ${
+                contentLabels[m.area.content_type_id][1]
+              }">
+                ${contentLabels[m.area.content_type_id][0]}
+              </span>
+             </div>` +
+      "    </div>" +
+      "     <div class=overlay-arrow></div>" +
+      "</div>";
+
+    const overlay = new kakao.maps.CustomOverlay({
+      content: content,
+      position: marker.getPosition(),
+    });
+
+    kakao.maps.event.addListener(marker, "click", () => {
+      map.setCenter(marker.getPosition());
+      map.setLevel(1);
+    });
+
+    kakao.maps.event.addListener(marker, "mouseover", () => {
+      overlay.setMap(map);
+    });
+
+    kakao.maps.event.addListener(marker, "mouseout", () => {
+      setTimeout(() => {
+        overlay.setMap();
+      });
+    });
   });
   map.setCenter(positions[0].latlng);
 };
 
-/**
- * @retrun 기존 마커지우기
- */
 const clearMarkers = () => {
   markers.forEach((marker) => marker.setMap(null));
   markers = [];
@@ -119,5 +155,85 @@ watch(
 
 #mapBox {
   height: 100%;
+}
+</style>
+<style>
+.kakao-overlay-wrap {
+  position: absolute;
+  top: -295px;
+  left: -100px;
+  width: 200px;
+  background: #ffffff;
+  border: 1px solid #c9c9c9;
+  border-radius: 10px;
+}
+
+.info-wrap {
+  height: 100%;
+  padding: 0 5px 10px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kakao-overlay {
+  width: 100%;
+}
+
+.overlay-img {
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.overlay-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.overlay-address {
+  font-size: 1.3rem;
+  padding: 5px;
+  color: #a9a9a9;
+}
+
+.overlay-content-type {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+
+  span {
+    font-size: 1.2rem;
+    color: #ffffff;
+    font-weight: 100;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 20px;
+  }
+}
+
+.overlay-arrow:after,
+.overlay-arrow:before {
+  top: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: "";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.overlay-arrow:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-top-color: #ffffff;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.overlay-arrow:before {
+  border-color: rgba(201, 201, 201, 0);
+  border-top-color: #c9c9c9;
+  border-width: 11px;
+  margin-left: -11px;
 }
 </style>

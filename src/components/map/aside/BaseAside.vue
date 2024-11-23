@@ -66,8 +66,7 @@ const handleSearchTag = (tagId) => {
     </div>
 
     <div id="list-container">
-      <TripList v-if="tripStore.getIsLoaded" />
-      <div v-else>로딩중...</div>
+      <TripList />
       <ThePageNavigation
         @page-change="handlePageChange"
         :currentPage="currentPage"

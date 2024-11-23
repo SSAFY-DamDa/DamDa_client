@@ -9,8 +9,8 @@ defineProps({
     default: "#000000",
   },
   angle: {
-    type: Number,
-    default: 0,
+    type: String,
+    default: "0",
   },
 });
 </script>
@@ -19,7 +19,7 @@ defineProps({
   <svg
     :width="size"
     :height="size"
-    :transform="'rotate(' + angle + ')'"
+    :transform="'rotate(' + Number(angle) + ')'"
     viewBox="0 0 15 15"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
