@@ -1,4 +1,6 @@
 <script setup>
+import IconIdCheck from "@/components/icons/IconIdCheck.vue";
+
 defineProps({
   title: {
     type: String,
@@ -28,14 +30,24 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  idCheck: {
+    type: Boolean,
+  },
 });
 </script>
 
 <template>
   <div class="label-input_interval">
     <label>{{ title }}</label>
-    <div :class="['input-container', { 'err-input': error }]">
+    <div
+      :class="[
+        'input-container',
+        { 'err-input': error },
+        { 'input-id-container': name === 'input-id' },
+      ]"
+    >
       <input
+        :class="[{ 'container-id-input': name === 'input-id' }]"
         :type="type"
         :name="name"
         :placeholder="placeholder"
@@ -44,6 +56,9 @@ defineProps({
         @blur="$emit('blur')"
         :required="required"
       />
+      <div v-show="name === 'input-id'" id="check">
+        <IconIdCheck v-if="idCheck && !error" />
+      </div>
     </div>
     <div v-if="error" class="err-msg">{{ error }}</div>
   </div>
@@ -59,6 +74,21 @@ defineProps({
   height: 60px;
   border: 1px solid #7bbcb0;
   border-radius: 5px;
+}
+
+.input-id-container {
+  flex-direction: row;
+  justify-content: center;
+
+  .container-id-input {
+    width: 86%;
+    height: 90%;
+  }
+
+  #check {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 .label-input_interval {
