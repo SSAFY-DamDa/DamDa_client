@@ -6,7 +6,6 @@ import { userIdCheck, userJoin } from "@/api/user";
 import InputContainer from "./inputcontainer/InputContainer.vue";
 import damda_character from "@/assets/imgs/damda_character.png";
 
-// 초기값 정의
 const router = useRouter();
 const inputFormData = ref({
   userId: { text: "", errMsg: "" },
@@ -23,7 +22,6 @@ const inputEmail = ref("");
 const emailErrMsg = ref("");
 const idCheck = ref(null);
 
-// 검증 함수
 const validateField = (field, value) => {
   const rules = {
     userId: () =>
@@ -66,7 +64,6 @@ const formatPhoneNumber = () => {
   inputFormData.value.phoneNum.text = phoneNum;
 };
 
-// 이메일 검증
 const handleEmailBlur = () => {
   emailErrMsg.value = !inputEmail.value
     ? "이메일을 입력해주세요."
@@ -75,14 +72,16 @@ const handleEmailBlur = () => {
     : "";
 };
 
-// 필드 유효성 검사
 const validateOnBlur = (field) => {
   const value = inputFormData.value[field]?.text || "";
   const { errMsg } = validateField(field, value);
   inputFormData.value[field].errMsg = errMsg;
 };
 
-// 회원가입 처리
+const handleCancel = () => {
+  router.push({ name: "login" });
+};
+
 const handleCreate = async () => {
   const hasErrors = Object.values(inputFormData.value).some(
     (field) => field.errMsg
