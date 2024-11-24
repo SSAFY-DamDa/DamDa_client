@@ -4,14 +4,15 @@ import { loadKakaoMap } from "@/utils/loadKakaoMap"; // loadKakaoMap 함수 impo
 import { useKakaoStore } from "@/stores/kakao";
 import { watch } from "vue";
 import { contentLabels } from "@/assets/constants/contentLabels";
+import { useTripStore } from "@/stores/trip";
 
-const props = defineProps({
+defineProps({
   positions: {
     type: Array,
-    default: () => [],
   },
 });
 
+const tripStore = useTripStore();
 const kakaoStore = useKakaoStore();
 let mapBox = ref(null);
 const isMapLoaded = ref(false);
@@ -33,17 +34,9 @@ const initializeMap = (kakao) => {
   //지도 컨테이너가 다 뜬 후에 relayout()
   setTimeout(function () {
     map.relayout();
-    addMarkers(props.positions, kakao);
   }, 0);
 };
 
-/**
- *
- * @param {관광지정보} positions
- * @param {카카오객체} kakao
- *
- * @return 카카오 맵에 마커 찍기
- */
 const addMarkers = (positions, kakao) => {
   clearMarkers();
   const imageSrc =
@@ -51,54 +44,56 @@ const addMarkers = (positions, kakao) => {
   const imageSize = new kakao.maps.Size(24, 35);
   const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-  positions.forEach((m) => {
-    const marker = new kakao.maps.Marker({
-      map: map,
-      position: new kakao.maps.LatLng(m.latlng.Ma, m.latlng.La),
-      image: markerImage,
-    });
-    markers.push(marker);
+  console.log("add positions:", positions);
+  if (Array.isArray(positions) && positions.length > 0)
+    positions.forEach((m) => {
+      const marker = new kakao.maps.Marker({
+        map: map,
+        position: new kakao.maps.LatLng(m.latlng.Ma, m.latlng.La),
+        image: markerImage,
+      });
+      markers.push(marker);
 
-    let content =
-      '<div class="kakao-overlay-wrap">' +
-      `    <img 
+      let content =
+        '<div class="kakao-overlay-wrap">' +
+        `    <img 
               class="kakao-overlay overlay-img"
               src=${m.area.img1 || m.area.img2}
             />` +
-      '    <div class="info-wrap">' +
-      `      <div class="kakao-overlay overlay-title" style="white-space: break-spaces;">${m.area.title}</div>` +
-      `      <div class="kakao-overlay overlay-address id=address-main" style="white-space: break-spaces;">${m.area.addr1} ${m.area.addr2}</div>` +
-      `      <div class="kakao-overlay overlay-content-type">
+        '    <div class="info-wrap">' +
+        `      <div class="kakao-overlay overlay-title" style="white-space: break-spaces;">${m.area.title}</div>` +
+        `      <div class="kakao-overlay overlay-address id=address-main" style="white-space: break-spaces;">${m.area.addr1} ${m.area.addr2}</div>` +
+        `      <div class="kakao-overlay overlay-content-type">
               <span style="background-color: ${
                 contentLabels[m.area.content_type_id][1]
               }">
                 ${contentLabels[m.area.content_type_id][0]}
               </span>
              </div>` +
-      "    </div>" +
-      "     <div class=overlay-arrow></div>" +
-      "</div>";
+        "    </div>" +
+        "     <div class=overlay-arrow></div>" +
+        "</div>";
 
-    const overlay = new kakao.maps.CustomOverlay({
-      content: content,
-      position: marker.getPosition(),
-    });
+      const overlay = new kakao.maps.CustomOverlay({
+        content: content,
+        position: marker.getPosition(),
+      });
 
-    kakao.maps.event.addListener(marker, "click", () => {
-      map.setCenter(marker.getPosition());
-      map.setLevel(1);
-    });
+      kakao.maps.event.addListener(marker, "click", () => {
+        map.setCenter(marker.getPosition());
+        map.setLevel(1);
+      });
 
-    kakao.maps.event.addListener(marker, "mouseover", () => {
-      overlay.setMap(map);
-    });
+      kakao.maps.event.addListener(marker, "mouseover", () => {
+        overlay.setMap(map);
+      });
 
-    kakao.maps.event.addListener(marker, "mouseout", () => {
-      setTimeout(() => {
-        overlay.setMap();
+      kakao.maps.event.addListener(marker, "mouseout", () => {
+        setTimeout(() => {
+          overlay.setMap();
+        });
       });
     });
-  });
   map.setCenter(positions[0].latlng);
 };
 
@@ -118,11 +113,13 @@ onMounted(async () => {
 });
 
 watch(
-  () => props.positions,
+  () => tripStore.getPositions,
   (newPositions) => {
-    if (map) addMarkers(newPositions, kakao);
-  },
-  { deep: true }
+    if (map) {
+      console.log("pos:", newPositions);
+      addMarkers(newPositions, kakao);
+    }
+  }
 );
 
 watch(

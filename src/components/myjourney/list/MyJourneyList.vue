@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import MyJourneyItem from "./item/MyJourneyItem.vue";
 
-const props = defineProps({
+defineProps({
   day: {
     type: Array,
   },
@@ -10,11 +10,11 @@ const props = defineProps({
     type: String,
   },
 });
+
 const isShow = ref(false);
 const handleClickDay = () => {
   isShow.value = !isShow.value;
 };
-console.log("mj List:", props.day);
 </script>
 
 <template>

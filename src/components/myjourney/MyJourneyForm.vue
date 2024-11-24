@@ -1,25 +1,35 @@
 <script setup>
 import { getDetailJourney } from "@/api/journey";
-import { useJourneyStore } from "@/stores/journey";
 import { onMounted, ref } from "vue";
 import IconCalendar from "../icons/IconCalendar.vue";
 import IconPeople from "../icons/IconPeople.vue";
 import MyJourneyDay from "./days/MyJourneyDay.vue";
+import { useTripStore } from "@/stores/trip";
 
 const props = defineProps({
   journeyId: {
-    type: Number,
+    type: String,
+  },
+  info: {
+    type: Object,
   },
 });
-const journeyStore = useJourneyStore();
-const info = journeyStore.userJourneyList[props.journeyId];
+const tripStore = useTripStore();
 const journeyInfo = ref({});
+
 onMounted(async () => {
   await getDetailJourney(
-    props.journeyId,
+    Number(props.journeyId),
     (response) => {
+      const positions = [];
       journeyInfo.value = response.data;
-      console.log(response.data["day1"]);
+      console.log(response.data);
+      Object.keys(journeyInfo.value).forEach((day) => {
+        journeyInfo.value[day].map((journey) => {
+          positions.push({ La: journey.latitude, Ma: journey.longitude });
+        });
+      });
+      tripStore.setPositions(positions);
     },
     (error) => {
       console.log("여행 디테일 정보 가져오는 도중 오류!", error);
@@ -56,7 +66,10 @@ onMounted(async () => {
       </div>
     </div>
     <div class="journey-bottom">
-      <MyJourneyDay :journeyInfo="journeyInfo" />
+      <MyJourneyDay
+        v-if="Object.keys(journeyInfo).length > 0"
+        :journeyInfo="journeyInfo"
+      />
     </div>
   </div>
 </template>

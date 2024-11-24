@@ -6,7 +6,7 @@ const props = defineProps({
   journey: {
     type: Object,
   },
-  index: {
+  journeyId: {
     type: Number,
   },
 });
@@ -14,12 +14,12 @@ const startDate = props.journey.startDate.slice(0, 10);
 const endDate = props.journey.endDate.slice(0, 10);
 
 const handleClickJourney = (id) => {
-  router.push(`/myjourney/${id + 1}`);
+  router.push(`/myjourney/${id}`);
 };
 </script>
 
 <template>
-  <div class="journey-item-section" @click="handleClickJourney(index)">
+  <div class="journey-item-section" @click="handleClickJourney(journeyId)">
     <div class="journey-item item-top">
       <div id="journey-color" :style="{ backgroundColor: journey.color }"></div>
       <div id="journey-title">{{ journey.title }}</div>

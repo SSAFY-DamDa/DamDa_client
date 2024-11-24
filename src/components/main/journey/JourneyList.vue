@@ -14,7 +14,6 @@ onMounted(async () => {
     userStore.userInfo.userId,
     (response) => {
       response.data.journey.forEach((j) => {
-        console.log("j:", j);
         userJourneyList.value.push(j);
       });
       userJourneyList.value.sort(
@@ -34,10 +33,10 @@ onMounted(async () => {
     <div id="journey-list-title">여행 계획</div>
     <div id="journey-list-section">
       <JourneyListItem
-        v-for="(journey, index) in userJourneyList"
+        v-for="journey in userJourneyList"
         :key="journey.id"
         :journey="journey"
-        :index="index"
+        :journeyId="journey.id"
       />
     </div>
   </div>

@@ -65,7 +65,7 @@ const handleSearchTitle = async (title) => {
       @search-tag="handleSearchTag"
       @search-title="handleSearchTitle"
     />
-    <KakaoMap :positions="tripStore.getPositions" />
+    <KakaoMap />
   </section>
 </template>
 

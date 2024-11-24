@@ -20,14 +20,12 @@ export const useUserStore = defineStore("user", () => {
     await userLogin(
       user,
       async (response) => {
-        console.log("로그인 성공;", response);
         if (response.status === 201) {
           let { data } = response;
           let accessToken = data["accessToken"];
           let refreshToken = data["refreshToken"];
           isLogin.value = true;
           isValidToken.value = true;
-          console.log("ivt:", isValidToken.value);
           sessionStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
 
@@ -35,7 +33,6 @@ export const useUserStore = defineStore("user", () => {
         }
       },
       () => {
-        console.log("로그인 실패");
         isLogin.value = false;
         isValidToken.value = false;
       }
@@ -49,11 +46,9 @@ export const useUserStore = defineStore("user", () => {
     await userFindUser(
       decodeToken.userId,
       (response) => {
-        console.log("finduser", response);
         if (response.status === 200) {
           isValidToken.value = true;
           userInfo.value = response.data;
-          console.log("finduser isvalidtoken get:", isValidToken.value);
         }
       },
       async () => {
@@ -64,11 +59,9 @@ export const useUserStore = defineStore("user", () => {
   };
 
   const tokenRegenerate = async () => {
-    console.log("token re:", userInfo.value);
     await userRefreshToken(
       JSON.stringify(userInfo.value),
       (response) => {
-        console.log("token re:", response);
         if (response.status === 201) {
           let accessToken = response.data["accessToken"];
           sessionStorage.setItem("accessToken", accessToken);
@@ -76,7 +69,6 @@ export const useUserStore = defineStore("user", () => {
         }
       },
       (error) => {
-        console.log("token re:", error);
         if (error.response.status === 401) {
           userLogout(
             () => {
