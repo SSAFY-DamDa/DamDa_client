@@ -26,9 +26,10 @@ const getAllGuGun = async () => {
   );
 };
 
-const handleSiButtonClick = (gugunCode, index) => {
-  aiJourneyStore.answerDetail.gugun_code = gugunCode;
-  activeGugunCode.value = gugunCode;
+const handleSiButtonClick = (gugun, index) => {
+  aiJourneyStore.answerDetail.gugun_code = gugun.gugunCode;
+  activeGugunCode.value = gugun.gugunCode;
+  aiJourneyStore.selectPlaceName = gugun.gugun_name;
   emit("optionClicked", index);
 };
 </script>
@@ -42,7 +43,7 @@ const handleSiButtonClick = (gugunCode, index) => {
       :key="gugun.gugun_code"
       :value="`${gugun.gugun_name.substring(0, 6)}`"
       :class="{ active: activeGugunCode === gugun.gugun_code }"
-      @click="handleSiButtonClick(gugun.gugun_code, index)"
+      @click="handleSiButtonClick(gugun, index)"
     />
   </div>
 </template>

@@ -26,9 +26,10 @@ const getAllSi = async () => {
 };
 
 // 버튼 클릭 시 해당 sido_code를 aiJourneyStore에 저장하고 활성화 상태로 설정
-const handleSiButtonClick = (sidoCode, index) => {
-  aiJourneyStore.answerDetail.sido_code = sidoCode;
-  activeSidoCode.value = sidoCode;
+const handleSiButtonClick = (si, index) => {
+  aiJourneyStore.answerDetail.sido_code = si.sido_code;
+  activeSidoCode.value = si.sido_code;
+  aiJourneyStore.selectPlaceName = si.sido_name;
   emit("optionClicked", index);
 };
 </script>
@@ -42,7 +43,7 @@ const handleSiButtonClick = (sidoCode, index) => {
       :key="si.sido_code"
       :value="`${si.sido_name.substring(0, 2)}`"
       :class="{ active: activeSidoCode === si.sido_code }"
-      @click="handleSiButtonClick(si.sido_code, index)"
+      @click="handleSiButtonClick(si, index)"
     />
   </div>
 </template>
