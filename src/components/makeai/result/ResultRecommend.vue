@@ -5,6 +5,7 @@ import { onMounted, ref } from "vue";
 import { loadKakaoMap } from "@/utils/loadKakaoMap";
 import { fetchPage } from "@/utils/kakao-init";
 import JourneyInfo from "./JourneyInfo.vue";
+import YoutubeRecommend from "../youtube/YoutubeRecommend.vue";
 
 const tripStore = useTripStore();
 const currentPage = ref(1);
@@ -21,13 +22,23 @@ onMounted(async () => {
 <template>
   <div id="result-view-container">
     <JourneyInfo />
-    <KakaoMap :positions="tripStore.getPositions" />
+    <div class="right-side-container">
+      <KakaoMap :positions="tripStore.getPositions" height="70%" />
+      <YoutubeRecommend />
+    </div>
   </div>
 </template>
 
 <style scoped>
 #result-view-container {
   display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.right-side-container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
 }

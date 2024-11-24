@@ -9,8 +9,10 @@ const emit = defineEmits(["optionClicked"]);
 
 const handleClickNext = () => {
   emit("optionClicked", 0); // 클릭한 옵션의 인덱스를 부모 컴포넌트로 보냄
-  aiJourneyStore.answerDetail.value.start_date = startDate.value;
-  aiJourneyStore.answerDetail.value.end_date = endDate.value;
+  console.log("startDate:", startDate.value);
+  console.log("endDate:", endDate.value);
+  aiJourneyStore.answerDetail.start_date = startDate.value;
+  aiJourneyStore.answerDetail.end_date = endDate.value;
 };
 
 // 시작일과 종료일 메시지
@@ -46,7 +48,7 @@ watch(
       startmsg.value = formatDateToKorean(newDates[0]);
       startDate.value = formatDateToYYYYMMDD(newDates[0]);
 
-      console.log(startDate.value);
+      console.log("in watch", startDate.value);
     } else {
       startmsg.value = "선택되지 않음";
     }
@@ -54,7 +56,7 @@ watch(
     if (newDates && newDates.length > 1) {
       endmsg.value = formatDateToKorean(newDates[1]);
       endDate.value = formatDateToYYYYMMDD(newDates[1]);
-      console.log(endDate.value);
+      console.log("in watch", endDate.value);
     } else {
       endmsg.value = "선택되지 않음";
     }

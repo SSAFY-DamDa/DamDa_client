@@ -22,6 +22,7 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
     color: "",
   });
 
+  const selectPlaceName = ref("");
   const selectDates = ref([]);
   const resultOfNormalAnswer = ref([]);
   const resultOfPublicData = ref([]);
@@ -55,6 +56,7 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
   return {
     answerDetail,
     selectDates,
+    selectPlaceName,
     resultOfNormalAnswer,
     resultOfPublicData,
     recommendedRoute,

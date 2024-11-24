@@ -10,6 +10,11 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  height: {
+    // height prop 추가
+    type: String,
+    default: "100%",
+  },
 });
 
 const kakaoStore = useKakaoStore();
@@ -141,16 +146,14 @@ watch(
 </script>
 
 <template>
-  <div id="map-container">
+  <div id="map-container" :style="{ height: props.height }">
     <div ref="mapBox" v-show="isMapLoaded" id="mapBox"></div>
     <div v-show="!isMapLoaded">로딩중...</div>
   </div>
 </template>
-
 <style scoped>
 #map-container {
   width: 100%;
-  height: 100%;
 }
 
 #mapBox {
