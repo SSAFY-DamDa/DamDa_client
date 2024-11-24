@@ -1,5 +1,6 @@
 <script setup>
 import TheCalendar from "@/components/common/TheCalendar.vue";
+import IconDoubleArrowNav from "@/components/icons/IconDoubleArrowNav.vue";
 import { useAiJourneyStore } from "@/stores/aijourney";
 import { ref, watch } from "vue";
 
@@ -8,6 +9,10 @@ const aiJourneyStore = useAiJourneyStore();
 const emit = defineEmits(["optionClicked"]);
 
 const handleClickNext = () => {
+  if (startDate.value == "" || endDate.value == "") {
+    alert("날짜를 선택해주세요.");
+    return;
+  }
   emit("optionClicked", 0); // 클릭한 옵션의 인덱스를 부모 컴포넌트로 보냄
   console.log("startDate:", startDate.value);
   console.log("endDate:", endDate.value);
@@ -82,7 +87,12 @@ watch(
     <div class="calendar-container">
       <TheCalendar usage="select-calendar" />
     </div>
-    <button @click="handleClickNext">다음</button>
+    <IconDoubleArrowNav
+      class="btn-next"
+      @click="handleClickNext"
+      size="50"
+      angle="0"
+    />
   </div>
 </template>
 
@@ -90,11 +100,11 @@ watch(
 #period-container {
   width: 100%;
   height: 80%;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 50px;
+  position: relative;
 }
 
 .date-container {
@@ -127,5 +137,12 @@ watch(
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.btn-next {
+  position: absolute;
+  left: 102%;
+  top: 35%;
+  transform: translateY(50%);
 }
 </style>

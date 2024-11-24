@@ -2,7 +2,14 @@ import axios from "axios";
 
 const { VITE_OPENAI_API_KEY } = import.meta.env;
 
-export const useGPTApi = async (places, userAnswer) => {
+// 재시도 설정
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // 1초
+
+// 지연 함수
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -44,8 +51,8 @@ Response must follow this exact JSON structure:
 }`,
           },
         ],
-        temperature: 0.7,
-        max_tokens: 2000,
+        temperature: 0.5,
+        max_tokens: 1000,
       },
       {
         headers: {
@@ -81,8 +88,16 @@ Response must follow this exact JSON structure:
     }
   } catch (error) {
     console.error("Error fetching data from OpenAI API:", error);
+
+    // 429 에러일 경우 재시도
+    if (error.response?.status === 429 && retryCount < MAX_RETRIES) {
+      console.log(`재시도 중... (${retryCount + 1}/${MAX_RETRIES})`);
+      await delay(RETRY_DELAY * (retryCount + 1)); // 지수 백오프
+      return useGPTApi(places, userAnswer, retryCount + 1);
+    }
+
     throw new Error(
-      "API 요청 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+      "API 요청 횟수가 초과되었습니다. 잠시 후 다시 시도해 주세요."
     );
   }
 };

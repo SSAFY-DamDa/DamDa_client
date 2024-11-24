@@ -29,10 +29,11 @@ const searchByDefault = async () => {
   await getSearchAITrip(
     {
       areaCode: aiJourneyStore.answerDetail.sido_code,
-      contentTypeId: aiJourneyStore.answerDetail.content_type_id,
+      gugunCode: aiJourneyStore.answerDetail.gugun_code,
     },
     (response) => {
       aiJourneyStore.resultOfNormalAnswer = response.data.tripList;
+      console.log("here", response.data.tripList);
     },
     (error) => {
       console.log("AI 검색 도중 오류!", error);

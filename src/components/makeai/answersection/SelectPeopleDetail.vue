@@ -2,7 +2,7 @@
 import { useAiJourneyStore } from "@/stores/aijourney";
 import { ref } from "vue";
 
-const peopleNum = ref(0);
+const peopleNum = ref(1);
 const aiJourneyStore = useAiJourneyStore();
 
 const emit = defineEmits(["optionClicked"]);
@@ -56,9 +56,8 @@ const handleClickNext = () => {
 
 .input-people-num {
   width: 50%;
-  height: 100%;
   max-width: 170px;
-  max-height: 60px;
+  max-height: 100px;
   border: 1px solid #7bbcb0;
   border-radius: 10px;
   font-weight: 500;

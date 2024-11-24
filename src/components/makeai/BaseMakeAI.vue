@@ -10,6 +10,10 @@ import SelectPeopleDetail from "@/components/makeai/answersection/SelectPeopleDe
 import SelectTheme from "@/components/makeai/answersection/SelectTheme.vue";
 import SelectCompanion from "@/components/makeai/answersection/SelectCompanion.vue";
 import SelectCompanionDetail from "@/components/makeai/answersection/SelectCompanionDetail.vue";
+import IconDoubleArrowNav from "@/components/icons/IconDoubleArrowNav.vue";
+import { useAiJourneyStore } from "@/stores/aijourney";
+
+const aiJourneyStore = useAiJourneyStore();
 
 const title = [
   "어느 지역으로 떠나고 싶은가요?",
@@ -63,7 +67,13 @@ const nextLevel = () => {
 };
 
 const previousLevel = () => {
-  if (level.value > 0) {
+  if (
+    level.value == 2 &&
+    aiJourneyStore.answerDetail.sido_code >= 0 &&
+    aiJourneyStore.answerDetail.sido_code <= 8
+  ) {
+    level.value = 0;
+  } else {
     level.value--;
   }
 };
@@ -93,13 +103,18 @@ const handleOptionClicked = (index) => {
     <ProcessBar :level="level" />
     <span class="make-ai-msg">{{ msg[level] }}</span>
 
-    <component
-      :is="currentComponent"
-      @optionClicked="handleOptionClicked"
-    ></component>
-
-    <div class="button-container">
-      <button class="btn-before" @click="previousLevel">이전</button>
+    <div class="content-wrapper">
+      <IconDoubleArrowNav
+        v-if="level >= 1"
+        class="btn-before"
+        @click="previousLevel"
+        size="50"
+        angle="0"
+      />
+      <component
+        :is="currentComponent"
+        @optionClicked="handleOptionClicked"
+      ></component>
     </div>
   </div>
 </template>
@@ -113,24 +128,71 @@ const handleOptionClicked = (index) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  position: relative;
   border: 1px solid black;
+}
+
+.content-wrapper {
+  width: 100%;
+  height: 60%;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  position: relative;
+}
+
+.btn-before {
+  position: absolute;
+  left: -10%;
+  top: 40%;
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .make-ai-title {
   height: 70px;
   line-height: 70px;
+  font-size: 2.4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .make-ai-msg {
   height: 70px;
   line-height: 70px;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
-.button-container {
-  height: 100px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
+/* 일반 태블릿 크기 */
+@media screen and (max-width: 768px) {
+  #make-ai-view-box {
+    width: 80%;
+  }
+
+  .make-ai-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+
+  .make-ai-msg {
+    font-size: 1.4rem;
+    margin-bottom: 22px;
+  }
+}
+
+/* 모바일 크기 */
+@media screen and (max-width: 480px) {
+  .make-ai-title {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  .make-ai-msg {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    padding: 0 15px; /* 좌우 여백 추가 */
+  }
 }
 </style>
