@@ -84,7 +84,7 @@ const handleCreate = async () => {
 #right-aside-container {
   position: absolute;
   top: 80px;
-  left: 430px;
+  left: 470px;
   width: 405px;
   height: 90%;
   border-radius: 5px;
