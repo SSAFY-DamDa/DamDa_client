@@ -24,9 +24,10 @@ const getSearchTrip = async (param, suc, err) => {
 };
 
 const getSearchAITrip = async (param, suc, err) => {
+  console.log("param", param);
   return await Axios(TRIP)
     .get("/search-ai", {
-      params: { areaCode: param.areaCode, contentTypeId: param.contentTypeId },
+      params: { areaCode: param.areaCode, gugunCode: param.gugunCode },
     })
     .then(suc)
     .catch(err);

@@ -69,6 +69,7 @@ const handleAddPlace = () => {
 <style scoped>
 .trip-list-item-container {
   width: 95%;
+  height: 100%;
   min-height: 120px;
   display: flex;
   align-items: center;
@@ -87,7 +88,7 @@ const handleAddPlace = () => {
   min-height: 125px;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex: 3;
 }
 
@@ -103,7 +104,7 @@ const handleAddPlace = () => {
 }
 
 .trip-item-type {
-  width: 50px;
+  max-width: 100px;
   max-height: 20px;
   line-height: 20px;
   text-align: center;

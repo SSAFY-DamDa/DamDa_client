@@ -2,6 +2,7 @@
 import { useAiJourneyStore } from "@/stores/aijourney";
 import { useJourneyStore } from "@/stores/journey";
 import { ref, onMounted, watch } from "vue";
+import IconArrowNav from "../icons/IconArrowNav.vue";
 
 const journeyStore = useJourneyStore();
 const aiJourneyStore = useAiJourneyStore();
@@ -157,11 +158,19 @@ watch(
 <template>
   <div :class="[usage]">
     <div class="header">
-      <span>{{ today.getFullYear() }}년 {{ today.getMonth() + 1 }}월</span>
+      <div style="width: 50px"></div>
+      <div class="arrow-section">
+        <IconArrowNav @click="() => handleChangeMonth(-1)" angle="180" />
+        <span class="year-month-title"
+          >{{ today.getFullYear() }}년 {{ today.getMonth() + 1 }}월</span
+        >
+        <IconArrowNav @click="() => handleChangeMonth(1)" />
+      </div>
+
       <div class="button-section">
-        <button @click="() => handleChangeMonth(0)">오늘</button>
-        <button @click="() => handleChangeMonth(-1)">이전</button>
-        <button @click="() => handleChangeMonth(1)">다음</button>
+        <button class="today-btn" @click="() => handleChangeMonth(0)">
+          오늘
+        </button>
       </div>
     </div>
 
@@ -212,17 +221,52 @@ watch(
 
 .select-calendar {
   width: 90%;
-  border: 1px solid #c9c9c9;
 
   .date {
-    height: 40px;
+    height: 30px;
   }
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.year-month-title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.arrow-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.today-btn {
+  width: 50px;
+  padding: 5px;
+  margin-left: 5px;
+  border-radius: 10px;
+  border: 1px solid #787878;
+  color: #787878;
+  font-size: 1.2rem;
+  background-color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  flex-grow: 0;
+}
+
+.today-btn:hover {
+  border: 0;
+  background-color: #c2e0db;
+  color: #ffffff;
+}
+
+.today-btn.active {
+  background-color: #7bbcb0;
+  color: #ffffff;
+  border: ;
 }
 
 .days {

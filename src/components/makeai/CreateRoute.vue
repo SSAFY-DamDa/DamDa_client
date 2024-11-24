@@ -17,10 +17,10 @@ onMounted(async () => {
 
   await searchByDefault();
   // await publicData();
+  console.log("after normal response", aiJourneyStore.resultOfNormalAnswer);
 
   await fetchRecommendedRoute();
-  console.log("after normal response", aiJourneyStore.resultOfNormalAnswer);
-  // console.log("after public response", aiJourneyStore.resultOfPublicData);
+  console.log("after gpt response", aiJourneyStore.recommendedRoute);
 
   router.push({ name: "result" });
 });
@@ -29,7 +29,7 @@ const searchByDefault = async () => {
   await getSearchAITrip(
     {
       areaCode: aiJourneyStore.answerDetail.sido_code,
-      contentTypeId: aiJourneyStore.answerDetail.content_type_id,
+      gugunCode: aiJourneyStore.answerDetail.gugun_code,
     },
     (response) => {
       aiJourneyStore.resultOfNormalAnswer = response.data.tripList;
@@ -71,7 +71,6 @@ const fetchRecommendedRoute = async () => {
       aiJourneyStore.answerDetail
     );
     aiJourneyStore.recommendedRoute = result;
-    console.log("here", aiJourneyStore.recommendedRoute);
   } catch (err) {
     console.log("error fetch recommend ", err);
   }

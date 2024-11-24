@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 export const useAiJourneyStore = defineStore("aijourney", () => {
   const answerDetail = ref({
     sido_code: 0,
-    gugun_code: 0,
+    gugun_code: -1,
     period: 0,
     start_date: "",
     end_date: "",

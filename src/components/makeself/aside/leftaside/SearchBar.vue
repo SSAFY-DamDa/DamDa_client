@@ -14,7 +14,7 @@ const title = ref("");
       v-model="title"
     />
     <IconSearch
-      size="35"
+      size="30"
       color="#7bbcb0"
       @click="$emit('searchTitle', title)"
     />
@@ -23,17 +23,18 @@ const title = ref("");
 
 <style scoped>
 .search-bar-container {
-  width: 80%;
-  height: 45px;
+  width: 100%;
+  min-width: 100px;
+  height: 30px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 .search-bar {
-  width: 80%;
-  max-width: 370px;
-  padding: 15px;
+  width: 85%;
+  padding: 10px;
   border: 1px solid #7bbcb0;
   border-radius: 5px;
 }

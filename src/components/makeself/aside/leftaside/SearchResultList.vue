@@ -17,7 +17,8 @@ const tripStore = useTripStore();
 
 <style scoped>
 #trip-list-ul {
-  width: 90%;
+  width: 100%;
+  padding-left: 0px;
   display: flex;
   flex-direction: column;
   overflow: auto;

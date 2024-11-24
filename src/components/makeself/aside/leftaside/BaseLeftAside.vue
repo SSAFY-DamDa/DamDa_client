@@ -16,7 +16,8 @@ import SearchPlace from "@/components/makeself/aside/leftaside/SearchPlace.vue";
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 405px;
+  max-width: 405px;
+  padding: 10px 30px;
 }
 
 hr {

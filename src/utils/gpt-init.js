@@ -2,7 +2,14 @@ import axios from "axios";
 
 const { VITE_OPENAI_API_KEY } = import.meta.env;
 
-export const useGPTApi = async (places, userAnswer) => {
+// 재시도 설정
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // 1초
+
+// 지연 함수
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -44,8 +51,8 @@ Response must follow this exact JSON structure:
 }`,
           },
         ],
-        temperature: 0.7,
-        max_tokens: 2000,
+        temperature: 0.5,
+        max_tokens: 1000,
       },
       {
         headers: {
@@ -58,15 +65,11 @@ Response must follow this exact JSON structure:
     const assistantMessage = response.data.choices[0].message.content.trim();
 
     try {
-      // 응답 전처리 추가
       let cleanedResponse = assistantMessage;
-      // 응답에서 불필요한 백틱이나 'json' 텍스트가 있다면 제거
       cleanedResponse = cleanedResponse.replace(/```json\n?|\n?```/g, "");
 
-      // JSON 파싱 시도
       const parsedResult = JSON.parse(cleanedResponse);
 
-      // 기본 구조 검증
       if (!parsedResult || typeof parsedResult !== "object") {
         throw new Error("Invalid response structure");
       }
@@ -75,14 +78,30 @@ Response must follow this exact JSON structure:
     } catch (parseError) {
       console.error("Error parsing GPT response:", parseError);
       console.error("Received response:", assistantMessage);
+
+      if (retryCount < MAX_RETRIES) {
+        console.log(
+          `JSON 파싱 실패, 재시도 중... (${retryCount + 1}/${MAX_RETRIES})`
+        );
+        await delay(RETRY_DELAY * (retryCount + 1));
+        return useGPTApi(places, userAnswer, retryCount + 1);
+      }
+
       throw new Error(
         "여행 일정을 생성하는 중 오류가 발생했습니다. 다시 시도해 주세요."
       );
     }
   } catch (error) {
     console.error("Error fetching data from OpenAI API:", error);
+
+    if (error.response?.status === 429 && retryCount < MAX_RETRIES) {
+      console.log(`API 요청 재시도 중... (${retryCount + 1}/${MAX_RETRIES})`);
+      await delay(RETRY_DELAY * (retryCount + 1));
+      return useGPTApi(places, userAnswer, retryCount + 1);
+    }
+
     throw new Error(
-      "API 요청 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+      "API 요청 횟수가 초과되었습니다. 잠시 후 다시 시도해 주세요."
     );
   }
 };
