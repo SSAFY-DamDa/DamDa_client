@@ -1,14 +1,27 @@
 <script setup>
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
-
 import PopUpForm from "@/components/popup/PopUpForm.vue";
+
+defineEmits(["close-pop-up"]);
 
 const userStore = useUserStore();
 const router = useRouter();
 
 const isShow = ref(false);
+const handleDocumentClick = () => {
+  if (isShow.value) {
+    handleClosePopUp();
+  }
+};
+
+document.addEventListener("click", handleDocumentClick);
+
+onUnmounted(() => {
+  document.removeEventListener("click", handleDocumentClick);
+});
+
 const handleClickHome = () => {
   router.push({ name: "main" });
 };
@@ -19,6 +32,10 @@ const handleClickFAQ = () => {
 
 const handleOpenPopUp = () => {
   isShow.value = !isShow.value;
+};
+
+const handleClosePopUp = () => {
+  isShow.value = false;
 };
 </script>
 
@@ -43,10 +60,10 @@ const handleOpenPopUp = () => {
         <input
           type="button"
           class="text-name"
-          @click="handleOpenPopUp"
+          @click.stop="handleOpenPopUp"
           :value="userStore.userInfo.userName"
         />
-        <PopUpForm :isShow="isShow" @close-pop-up="isShow = $event" />
+        <PopUpForm :isShow="isShow" @close-pop-up="handleClosePopUp" />
       </div>
     </div>
   </header>
