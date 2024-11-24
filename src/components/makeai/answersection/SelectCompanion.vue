@@ -13,7 +13,7 @@ const handleOptionClick = (option, index) => {
   emit("optionClicked", index); // 클릭한 옵션의 인덱스를 부모 컴포넌트로 보냄
 };
 
-const options = ["장애인", "노약자", "영유아"];
+const options = ["장애인", "노약자", "영유아", "없어요"];
 </script>
 
 <template>
@@ -32,24 +32,61 @@ const options = ["장애인", "노약자", "영유아"];
 
 <style scoped>
 .companion-btn-container {
-  height: 50%;
-  display: grid;
-  grid-gap: 50px;
-  grid-template-columns: repeat(3, minmax(auto, 1fr));
-  align-items: center;
-  justify-content: space-around;
+  width: 100%;
+  height: 75%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  justify-content: center;
+  align-content: center;
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .companion-btn {
-  height: 100%;
-  max-height: 60px;
+  min-width: 70px;
+  height: 60px;
+  padding: 1% 3% 1% 3%;
   border-radius: 10px;
   border: 1px solid #787878;
   color: #787878;
   font-size: 1.8rem;
   background-color: white;
-  word-break: keep-all;
   transition: background-color 0.3s ease, color 0.3s ease;
+  flex-grow: 0;
+}
+
+/* 일반 태블릿 크기 */
+@media screen and (max-width: 768px) {
+  .companion-btn-container {
+    max-width: 350px;
+    gap: 20px;
+  }
+
+  .companion-btn {
+    width: calc(33.33% - 15px);
+    height: 50px;
+    font-size: 1.4rem;
+    min-width: 60px;
+  }
+}
+
+/* 모바일 크기 */
+@media screen and (max-width: 480px) {
+  .companion-btn-container {
+    max-width: 300px;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .companion-btn {
+    width: calc(33.33% - 12px);
+    height: 45px;
+    font-size: 1rem;
+    min-width: 50px;
+    border-radius: 8px;
+  }
 }
 
 .companion-btn:hover {

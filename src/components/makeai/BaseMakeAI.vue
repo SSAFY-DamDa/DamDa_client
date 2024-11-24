@@ -88,8 +88,8 @@ const handleOptionClicked = (index) => {
     level.value += 2;
   }
 
-  //노약자 및 영유아
-  else if (level.value == 6 && (index == 1 || index == 2)) {
+  //노약자 및 영유아, 없어요
+  else if (level.value == 6 && (index == 1 || index == 2 || index == 3)) {
     router.push({ name: "create" });
   } else {
     nextLevel();

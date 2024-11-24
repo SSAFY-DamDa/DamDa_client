@@ -23,7 +23,7 @@ onMounted(async () => {
   <div id="result-view-container">
     <JourneyInfo />
     <div class="right-side-container">
-      <KakaoMap :positions="tripStore.getPositions" height="70%" />
+      <KakaoMap height="70%" />
       <YoutubeRecommend />
     </div>
   </div>

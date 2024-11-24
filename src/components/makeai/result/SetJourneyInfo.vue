@@ -47,7 +47,7 @@ const handleBlurPeople = () => {
     />
     <div class="date-input-container">
       <div class="date-input-box">
-        시작일
+        <span class="date-title">시작일</span>
         <div class="date-input-item">
           <input
             type="date"
@@ -65,7 +65,7 @@ const handleBlurPeople = () => {
       </div>
 
       <div class="date-input-box">
-        종료일
+        <span class="date-title">종료일</span>
         <div class="date-input-item">
           <input
             type="date"
@@ -110,11 +110,12 @@ const handleBlurPeople = () => {
 </template>
 
 <style scoped>
-.journey-info-container {
+.set-container {
   width: 100%;
   max-width: 405px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .set-title {
@@ -135,10 +136,15 @@ const handleBlurPeople = () => {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .date-input-box {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 5px;
+  color: #787878;
 }
 
 .date-input-item {

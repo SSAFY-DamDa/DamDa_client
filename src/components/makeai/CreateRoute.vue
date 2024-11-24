@@ -17,10 +17,10 @@ onMounted(async () => {
 
   await searchByDefault();
   // await publicData();
+  console.log("after normal response", aiJourneyStore.resultOfNormalAnswer);
 
   await fetchRecommendedRoute();
-  console.log("after normal response", aiJourneyStore.resultOfNormalAnswer);
-  // console.log("after public response", aiJourneyStore.resultOfPublicData);
+  console.log("after gpt response", aiJourneyStore.recommendedRoute);
 
   router.push({ name: "result" });
 });
@@ -33,7 +33,6 @@ const searchByDefault = async () => {
     },
     (response) => {
       aiJourneyStore.resultOfNormalAnswer = response.data.tripList;
-      console.log("here", response.data.tripList);
     },
     (error) => {
       console.log("AI 검색 도중 오류!", error);
@@ -72,7 +71,6 @@ const fetchRecommendedRoute = async () => {
       aiJourneyStore.answerDetail
     );
     aiJourneyStore.recommendedRoute = result;
-    console.log("here", aiJourneyStore.recommendedRoute);
   } catch (err) {
     console.log("error fetch recommend ", err);
   }
