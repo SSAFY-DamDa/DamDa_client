@@ -9,11 +9,15 @@ const emit = defineEmits(["optionClicked"]);
 
 const handleClickNext = () => {
   emit("optionClicked", 0); // 클릭한 옵션의 인덱스를 부모 컴포넌트로 보냄
+  aiJourneyStore.answerDetail.value.start_date = startDate.value;
+  aiJourneyStore.answerDetail.value.end_date = endDate.value;
 };
 
 // 시작일과 종료일 메시지
 const startmsg = ref("선택되지 않음");
 const endmsg = ref("선택되지 않음");
+const startDate = ref("");
+const endDate = ref("");
 
 // 날짜를 한국어 형식으로 변환하는 함수
 const formatDateToKorean = (dateString) => {
@@ -29,17 +33,28 @@ const formatDateToKorean = (dateString) => {
   }).format(date);
 };
 
+// 날짜를 'YYYY-MM-DD' 형식으로 변환하는 함수 추가
+const formatDateToYYYYMMDD = (dateString) => {
+  const date = new Date(dateString);
+  return date.toISOString().split("T")[0];
+};
+
 watch(
   () => aiJourneyStore.selectDates.value,
   (newDates) => {
     if (newDates && newDates.length > 0) {
       startmsg.value = formatDateToKorean(newDates[0]);
+      startDate.value = formatDateToYYYYMMDD(newDates[0]);
+
+      console.log(startDate.value);
     } else {
       startmsg.value = "선택되지 않음";
     }
 
     if (newDates && newDates.length > 1) {
       endmsg.value = formatDateToKorean(newDates[1]);
+      endDate.value = formatDateToYYYYMMDD(newDates[1]);
+      console.log(endDate.value);
     } else {
       endmsg.value = "선택되지 않음";
     }

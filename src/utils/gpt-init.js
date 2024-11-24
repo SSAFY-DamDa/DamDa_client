@@ -12,15 +12,15 @@ export const useGPTApi = async (places, userAnswer) => {
           {
             role: "system",
             content:
-              "You are a travel planner. Based on the input locations, generate a travel itinerary in valid JSON format, exactly as provided in the input format. Ensure there are no additional notes, explanations, or text beyond the JSON itself.",
+              "You are a travel planner. You must respond with ONLY valid JSON. Do not include any additional text or explanations. The response must be a properly formatted JSON object containing travel itinerary details.",
           },
           {
             role: "user",
-            content: `Here are the locations in JSON format: ${JSON.stringify(
-              places
-            )}.
+            content: `Create a ${userAnswer.period} day travel plan for ${
+              userAnswer.people
+            } people using these locations: ${JSON.stringify(places)}
 
-Please provide the output in the following exact JSON format:
+Response must follow this exact JSON structure:
 {
   "day1": [
     {
@@ -29,27 +29,23 @@ Please provide the output in the following exact JSON format:
       "area_code": 31,
       "content_id": 2514050,
       "content_type_id": 25,
-      "img1": "http://example.com/image.jpg",
-      "img2": "http://example.com/image.jpg",
+      "img1": "",
+      "img2": "",
       "latitude": 38.0703704758,
       "longitude": 127.1286316956,
       "map_level": 6,
       "si_gun_gu_code": 21,
       "tel": "",
-      "title": "Example Title"
+      "title": ""
     }
-  ]
-}
-    I want ${userAnswer.period} day's plan.
-    Also, the trip will be ${userAnswer.people} people included.
-
-    You should add more days into the result, for example day2, day3, according to the period.
-    
-    
-    `,
+  ],
+  "day2": [...],
+  ...
+}`,
           },
         ],
-        max_tokens: 1500,
+        temperature: 0.7,
+        max_tokens: 2000,
       },
       {
         headers: {
@@ -61,21 +57,32 @@ Please provide the output in the following exact JSON format:
 
     const assistantMessage = response.data.choices[0].message.content.trim();
 
-    console.log("message", assistantMessage);
-
     try {
-      // Parsing the result to ensure the format is the same as the input
-      const parsedResult = JSON.parse(assistantMessage);
+      // 응답 전처리 추가
+      let cleanedResponse = assistantMessage;
+      // 응답에서 불필요한 백틱이나 'json' 텍스트가 있다면 제거
+      cleanedResponse = cleanedResponse.replace(/```json\n?|\n?```/g, "");
+
+      // JSON 파싱 시도
+      const parsedResult = JSON.parse(cleanedResponse);
+
+      // 기본 구조 검증
+      if (!parsedResult || typeof parsedResult !== "object") {
+        throw new Error("Invalid response structure");
+      }
+
       return parsedResult;
     } catch (parseError) {
       console.error("Error parsing GPT response:", parseError);
       console.error("Received response:", assistantMessage);
       throw new Error(
-        "Failed to parse the GPT response. Please check the response format."
+        "여행 일정을 생성하는 중 오류가 발생했습니다. 다시 시도해 주세요."
       );
     }
   } catch (error) {
     console.error("Error fetching data from OpenAI API:", error);
-    throw error;
+    throw new Error(
+      "API 요청 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+    );
   }
 };

@@ -6,16 +6,51 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
     sido_code: 0,
     gugun_code: 0,
     period: 0,
+    start_date: "",
+    end_date: "",
     people: 1,
     content_type_id: 0,
     companion: "",
     companionType: "",
   });
 
+  const finalJourneyInfo = ref({
+    title: "",
+    startDate: "",
+    endDate: "",
+    personnel: "",
+    color: "",
+  });
+
   const selectDates = ref([]);
   const resultOfNormalAnswer = ref([]);
   const resultOfPublicData = ref([]);
-  const recommendedRoute = ref([]);
+  const recommendedRoute = ref([]); //gpt 결과
+
+  const resetJourneyStore = () => {
+    finalJourneyInfo.value = {
+      title: "",
+      startDate: "",
+      endDate: "",
+      personnel: 0,
+      color: "",
+    };
+    answerDetail.value = {
+      sido_code: 0,
+      gugun_code: 0,
+      period: 0,
+      start_date: "",
+      end_date: "",
+      people: 1,
+      content_type_id: 0,
+      companion: "",
+      companionType: "",
+    };
+    selectDates.value = [];
+    resultOfNormalAnswer.value = [];
+    resultOfPublicData.value = [];
+    recommendedRoute.value = [];
+  };
 
   return {
     answerDetail,
@@ -23,5 +58,7 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
     resultOfNormalAnswer,
     resultOfPublicData,
     recommendedRoute,
+    finalJourneyInfo,
+    resetJourneyStore,
   };
 });
