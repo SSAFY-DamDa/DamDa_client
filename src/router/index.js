@@ -16,6 +16,7 @@ import CreateRoute from "@/components/makeai/CreateRoute.vue";
 import MyJourneyView from "@/views/MyJourneyView.vue";
 import MakeAIView from "@/views/MakeAIView.vue";
 import ResultRecommend from "@/components/makeai/result/ResultRecommend.vue";
+import MyCalendarView from "@/views/MyCalendarView.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -57,6 +58,12 @@ const router = createRouter({
       name: "mypage",
       beforeEnter: onlyAuthUser,
       component: MyPageView,
+    },
+    {
+      path: "/mycalendar",
+      name: "mycalendar",
+      beforeEnter: onlyAuthUser,
+      component: MyCalendarView,
     },
     {
       path: "/main",

@@ -22,6 +22,10 @@ const handleMyPage = () => {
   router.push({ name: "mypage" });
 };
 
+const handleMyJourney = () => {
+  router.push({ name: "mycalendar" });
+};
+
 const handleLogout = async () => {
   await userStore.storeLogout();
 };
@@ -31,6 +35,9 @@ const handleLogout = async () => {
   <div v-show="isShow" class="pop-up" @click="handleClickOutside">
     <div @click="handleMyPage" class="pop-up-btn" id="pop-up-mypage">
       마이페이지
+    </div>
+    <div @click="handleMyJourney" class="pop-up-btn" id="pop-up-myplan">
+      나의 여정
     </div>
     <div @click="handleLogout" class="pop-up-btn" id="pop-up-logout">
       로그아웃
