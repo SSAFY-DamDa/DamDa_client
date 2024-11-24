@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 
-const emit = defineEmits(["closePopUp"]);
+const emit = defineEmits(["c"]);
 const router = useRouter();
 const userStore = useUserStore();
 
@@ -12,19 +12,23 @@ defineProps({
   },
 });
 
+const handleClickOutside = (e) => {
+  if (e.target.classList.contains("pop-up")) {
+    emit("close-pop-up", false);
+  }
+};
+
 const handleMyPage = () => {
-  emit("closePopUp", false);
   router.push({ name: "mypage" });
 };
 
 const handleLogout = async () => {
-  emit("closePopUp", false);
   await userStore.storeLogout();
 };
 </script>
 
 <template>
-  <div v-show="isShow" class="pop-up">
+  <div v-show="isShow" class="pop-up" @click="handleClickOutside">
     <div @click="handleMyPage" class="pop-up-btn" id="pop-up-mypage">
       마이페이지
     </div>
