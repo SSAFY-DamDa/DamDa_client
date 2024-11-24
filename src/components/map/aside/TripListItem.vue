@@ -79,6 +79,7 @@ const handleClickMove = () => {
 
 .trip-item-title {
   font-weight: 700;
+  word-break: keep-all;
 }
 
 .trip-item-address {

@@ -63,8 +63,8 @@ const handleDeletePlace = () => {
 }
 
 .trip-item-img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 5px;
   object-fit: cover;
   flex: 1;
@@ -89,7 +89,7 @@ const handleDeletePlace = () => {
 }
 
 .trip-item-type {
-  width: 50px;
+  max-width: 60px;
   max-height: 20px;
   line-height: 20px;
   text-align: center;
@@ -100,9 +100,10 @@ const handleDeletePlace = () => {
 }
 
 .trip-item-title {
-  line-height: 25px;
+  line-height: 20px;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  word-break: keep-all;
 }
 
 .trip-item-address {

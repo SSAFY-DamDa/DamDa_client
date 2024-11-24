@@ -41,6 +41,7 @@ const handlePageChange = async (pg) => {
 <style scoped>
 .search-place-container {
   width: 100%;
+  height: calc(100% - 300px);
   display: flex;
   flex-direction: column;
   align-items: center;

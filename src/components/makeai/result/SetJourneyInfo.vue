@@ -120,7 +120,7 @@ const handleBlurPeople = () => {
 
 .set-title {
   width: 95%;
-  height: 40px;
+  height: 30px;
   padding: 10px;
   border: none;
   border-bottom: 2px solid #c2e0db;
@@ -223,8 +223,8 @@ const handleBlurPeople = () => {
 }
 
 .set-color {
-  width: 100px;
-  height: 50px;
+  width: 70px;
+  height: 30px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

@@ -76,7 +76,6 @@ const handleCreate = async () => {
 <template>
   <section id="right-aside-container">
     <MakeTripList />
-
     <button class="trip-plan-create-btn" @click="handleCreate">생성</button>
   </section>
 </template>
@@ -85,7 +84,7 @@ const handleCreate = async () => {
 #right-aside-container {
   position: absolute;
   top: 80px;
-  left: 410px;
+  left: 430px;
   width: 405px;
   height: 90%;
   border-radius: 5px;

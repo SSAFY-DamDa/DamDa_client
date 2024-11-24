@@ -84,7 +84,7 @@ const validateEndDate = () => {
     />
     <div class="date-input-container">
       <div class="date-input-box">
-        시작일
+        <span class="date-title">시작일</span>
         <div class="date-input-item">
           <input
             type="date"
@@ -103,7 +103,7 @@ const validateEndDate = () => {
       </div>
 
       <div class="date-input-box">
-        종료일
+        <span class="date-title">종료일</span>
         <div class="date-input-item">
           <input
             type="date"
@@ -150,16 +150,16 @@ const validateEndDate = () => {
 
 <style scoped>
 .set-container {
-  width: 80%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 405px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 
 .set-title {
   width: 95%;
-  height: 40px;
+  height: 30px;
   padding: 10px;
   border: none;
   border-bottom: 2px solid #c2e0db;
@@ -175,10 +175,15 @@ const validateEndDate = () => {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 10px;
 }
 
 .date-input-box {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  gap: 5px;
+  color: #787878;
 }
 
 .date-input-item {
@@ -257,8 +262,8 @@ const validateEndDate = () => {
 }
 
 .set-color {
-  width: 100px;
-  height: 50px;
+  width: 70px;
+  height: 30px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

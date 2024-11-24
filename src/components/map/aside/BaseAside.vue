@@ -81,6 +81,7 @@ const handleSearchTag = (tagId) => {
   min-width: 400px;
   display: flex;
   flex-direction: column;
+  padding: 10px 30px 10px 30px;
 }
 
 #search-container {
@@ -90,21 +91,20 @@ const handleSearchTag = (tagId) => {
 }
 
 .search-bar-container {
-  margin: 10px 30px;
-  max-width: 430px;
+  width: 100%;
   min-width: 100px;
   min-height: 30px;
 
   display: flex;
   justify-content: center;
   align-content: center;
-  gap: 5px;
+  gap: 10px;
   background-color: white;
 }
 
 .search-bar {
-  padding: 10px 10px;
-  width: 70%;
+  padding: 10px;
+  width: 85%;
 
   border: 1px solid #b5b5b5;
   border-radius: 5px;
@@ -119,10 +119,19 @@ const handleSearchTag = (tagId) => {
 }
 
 .tag-list {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  padding: 0 10px;
+  gap: 8px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: keep-all;
+}
+
+.tag-list > * {
+  width: calc(25% - 6px); /* 4개의 아이템이 한 줄에 들어가도록 설정 */
+  flex-shrink: 0; /* 크기 축소 방지 */
+  text-align: center;
 }
 
 .tag-item {
@@ -142,6 +151,7 @@ const handleSearchTag = (tagId) => {
 }
 
 #list-container {
+  width: 100%;
   height: calc(100% - 60px);
 }
 </style>
