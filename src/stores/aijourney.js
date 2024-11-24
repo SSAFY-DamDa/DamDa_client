@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const useAiJourneyStore = defineStore("aijourney", () => {
@@ -52,22 +52,6 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
     recommendedRoute.value = [];
   };
 
-  const setJourneyDates = (startDate, endDate) => {
-    finalJourneyInfo.value = {
-      ...finalJourneyInfo.value,
-      startDate,
-      endDate,
-    };
-  };
-
-  const getFinalJourneyInfo = computed(() => {
-    return {
-      ...finalJourneyInfo.value,
-      startDate: finalJourneyInfo.value.startDate,
-      endDate: finalJourneyInfo.value.endDate,
-    };
-  });
-
   return {
     answerDetail,
     selectDates,
@@ -76,7 +60,5 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
     recommendedRoute,
     finalJourneyInfo,
     resetJourneyStore,
-    setJourneyDates,
-    getFinalJourneyInfo,
   };
 });

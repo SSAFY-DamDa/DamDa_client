@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import IconCalendar from "@/components/icons/IconCalendar.vue";
 import IconPeople from "@/components/icons/IconPeople.vue";
 import { storeToRefs } from "pinia";
@@ -35,41 +35,6 @@ const handleFocusPeople = () => {
 const handleBlurPeople = () => {
   isFocusedPeople.value = false;
 };
-
-const handleStartDateChange = (e) => {
-  const newStartDate = e.target.value;
-  finalJourneyInfo.value.startDate = newStartDate;
-
-  if (
-    finalJourneyInfo.value.endDate &&
-    finalJourneyInfo.value.endDate < newStartDate
-  ) {
-    finalJourneyInfo.value.endDate = newStartDate;
-  }
-
-  console.log("Start date changed:", finalJourneyInfo.value.startDate); // 디버깅용
-};
-
-const handleEndDateChange = (e) => {
-  const newEndDate = e.target.value;
-  finalJourneyInfo.value.endDate = newEndDate;
-  console.log("End date changed:", finalJourneyInfo.value.endDate); // 디버깅용
-};
-
-// 값이 제대로 변경되는지 확인하기 위한 watch
-watch(
-  () => finalJourneyInfo.value.startDate,
-  (newVal) => {
-    console.log("Start date updated:", newVal);
-  }
-);
-
-watch(
-  () => finalJourneyInfo.value.endDate,
-  (newVal) => {
-    console.log("End date updated:", newVal);
-  }
-);
 </script>
 
 <template>
@@ -87,8 +52,7 @@ watch(
           <input
             type="date"
             class="date-input"
-            :value="finalJourneyInfo.startDate"
-            @input="handleStartDateChange"
+            v-model="finalJourneyInfo.startDate"
             @focus="handleFocusStart"
             @blur="handleBlurStart"
           />
@@ -106,8 +70,7 @@ watch(
           <input
             type="date"
             class="date-input"
-            :value="finalJourneyInfo.endDate"
-            @input="handleEndDateChange"
+            v-model="finalJourneyInfo.endDate"
             :min="finalJourneyInfo.startDate"
             @focus="handleFocusEnd"
             @blur="handleBlurEnd"

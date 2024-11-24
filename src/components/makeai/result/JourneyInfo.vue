@@ -11,7 +11,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const handleClickLike = async () => {
-  const reqData = aiJourneyStore.getFinalJourneyInfo;
+  const reqData = aiJourneyStore.finalJourneyInfo;
 
   console.log("최종 reqData:", reqData);
 
