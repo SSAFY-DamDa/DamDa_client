@@ -8,14 +8,6 @@ const router = useRouter();
 const toMapPage = () => {
   router.push({ name: "map" });
 };
-
-const toMakeSelfPage = () => {
-  router.push({ name: "makeself" });
-};
-
-const toAIRecomPage = () => {
-  router.push({ name: "make" });
-};
 </script>
 
 <template>
@@ -29,8 +21,6 @@ const toAIRecomPage = () => {
     <TheCalendar usage="main-calendar" />
     <JourneyList />
   </section>
-  <button @click="toMakeSelfPage">직접 지도 만들기</button>
-  <button @click="toAIRecomPage">AI 추천 받기</button>
 </template>
 
 <style scoped>

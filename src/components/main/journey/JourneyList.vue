@@ -4,11 +4,12 @@ import { useUserStore } from "@/stores/user";
 import { onMounted, ref } from "vue";
 import JourneyListItem from "./item/JourneyListItem.vue";
 import { useJourneyStore } from "@/stores/journey";
+import JourneyAddModal from "./modal/JourneyAddModal.vue";
 
 const userStore = useUserStore();
 const journeyStore = useJourneyStore();
 const userJourneyList = ref([]);
-
+const showModal = ref(false);
 onMounted(async () => {
   await getJourney(
     userStore.userInfo.userId,
@@ -31,7 +32,10 @@ onMounted(async () => {
 
 <template>
   <div id="journey-container">
-    <div id="journey-list-title">여행 계획</div>
+    <div id="journey-list-title">
+      여행 계획
+      <button id="journey-add" @click="showModal = true">+</button>
+    </div>
     <div id="journey-list-section">
       <JourneyListItem
         v-for="(journey, index) in userJourneyList"
@@ -40,11 +44,13 @@ onMounted(async () => {
         :index="index"
       />
     </div>
+    <JourneyAddModal v-if="showModal" @close="showModal = false" />
   </div>
 </template>
 
 <style scoped>
 #journey-container {
+  position: relative;
   margin-right: 10px;
   width: 30%;
   max-width: 400px;
@@ -60,11 +66,21 @@ onMounted(async () => {
 #journey-list-title {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding-left: 10px;
   height: 50px;
   background-color: #7bbcb0;
   color: #ffffff;
   font-size: 2rem;
   font-weight: bold;
+}
+
+#journey-add {
+  border: 0px;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0);
+  font-size: 3rem;
+  margin-right: 10px;
+  cursor: pointer;
 }
 </style>
