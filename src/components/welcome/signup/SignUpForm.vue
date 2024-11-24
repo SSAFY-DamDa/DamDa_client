@@ -16,7 +16,7 @@ const inputFormData = ref({
   emailDomain: "",
   birthDate: { text: "", errMsg: "" },
   phoneNum: { text: "", errMsg: "" },
-  address: "",
+  address: { text: "", errMsg: "" },
 });
 const inputEmail = ref("");
 const emailErrMsg = ref("");
@@ -103,6 +103,8 @@ const handleCreate = async () => {
     },
     {}
   );
+
+  console.log("form:", formData);
 
   await userJoin(
     formData,
