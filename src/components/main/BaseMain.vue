@@ -1,78 +1,195 @@
 <script setup>
 import { useRouter } from "vue-router";
-import TheCalendar from "@/components/common/TheCalendar.vue";
-import JourneyList from "./journey/JourneyList.vue";
+import IconDoubleArrowNav from "../icons/IconDoubleArrowNav.vue";
 
 const router = useRouter();
 
-const toMapPage = () => {
-  router.push({ name: "map" });
+const scrollToNextSection = () => {
+  const mapBox = document.getElementById("map-box");
+  mapBox.scrollIntoView({ behavior: "smooth" });
 };
 </script>
 
 <template>
-  <div id="main-container">
-    <section id="main-section">
-      <img src="@/assets/imgs/mainbg.png" alt="메인배너" class="mainbg" />
-      <button class="btn-to-map" @click="toMapPage">
-        지역 및 관광지 검색하러 가기
-      </button>
-    </section>
-    <section id="main-journey-section">
-      <TheCalendar usage="main-calendar" />
-      <JourneyList />
-    </section>
-  </div>
+  <section id="main-container">
+    <div id="main-box">
+      <img
+        src="@/assets/imgs/damda_character_raw.png"
+        alt="메인캐릭터"
+        class="main-logo"
+      />
+      <div class="scroll-down-container" @click="scrollToNextSection">
+        <span class="scroll-down">SCROLL DOWN</span>
+        <IconDoubleArrowNav class="scroll-down-icon" angle="90" />
+      </div>
+    </div>
+    <div id="map-box" data-aos="fade-down">
+      <div class="content-wrapper">
+        <img
+          src="@/assets/imgs/Map-img.png"
+          alt="지도로 이동"
+          class="main-logo"
+        />
+      </div>
+      <div class="content-wrapper">
+        <div class="button" @click="router.push({ name: 'map' })">
+          <p class="btnText">장소 검색</p>
+          <div class="btnTwo">
+            <p class="btnText2">GO!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="ai-box" data-aos="fade-down">
+      <div class="content-wrapper">
+        <div class="button" @click="router.push('/make/question')">
+          <p class="btnText">AI 추천 경로</p>
+          <div class="btnTwo">
+            <p class="btnText2">GO!</p>
+          </div>
+        </div>
+      </div>
+      <div class="content-wrapper">
+        <img
+          src="@/assets/imgs/AI-img.png"
+          alt="AI 추천 경로"
+          class="main-logo"
+        />
+      </div>
+    </div>
+    <div id="self-box" data-aos="fade-down">
+      <div class="content-wrapper">
+        <img
+          src="@/assets/imgs/Calendar-img.png"
+          alt="직접 경로 담기"
+          class="main-logo"
+        />
+      </div>
+      <div class="content-wrapper">
+        <div class="button" @click="router.push('/makeself')">
+          <p class="btnText">직접 여행 계획</p>
+          <div class="btnTwo">
+            <p class="btnText2">GO!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
 #main-container {
-  height: calc(100% - 60px);
-}
-#main-section {
   width: 100%;
-  height: 35%;
-  position: relative;
-  margin-bottom: 2%;
+  height: 100vh - 60px;
+  background-color: #e4f2ef;
 }
 
-.mainbg {
+#main-box {
   position: relative;
-  width: 100%;
-  height: 100%;
-  opacity: 50%;
-  object-fit: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-to-map {
+#main-box .main-logo {
+  width: 20%; /* 기존 크기 유지 */
+}
+
+.scroll-down-container {
   position: absolute;
-  top: 40%;
-  left: 40%;
-  max-width: 200px;
-  padding: 10px 20px;
-  background-color: #fff;
-  border: none;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  font-size: 1.8rem;
-  font-weight: 600;
-  word-break: keep-all;
+  bottom: 100px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
-@media (max-width: 478px) {
-  .btn-to-map {
-    top: 40%;
-    left: 28%;
-    font-size: 1.3rem;
-  }
+.scroll-down {
+  color: #7bbcb0;
+  position: static;
 }
 
-#main-journey-section {
+.scroll-down-icon {
+  position: static;
+}
+
+#main-box {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#map-box,
+#ai-box,
+#self-box {
   width: 80%;
-  height: 60%;
+  height: 100vh;
   margin: 0 auto;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 2rem;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 50%;
+}
+
+.content-wrapper .main-logo {
+  width: 45%;
+  height: auto;
+  object-fit: contain;
+}
+
+.button {
+  background: #fff;
+  margin: 20px auto;
+  width: 200px;
+  height: 50px;
+  overflow: hidden;
+  text-align: center;
+  transition: 0.2s;
+  cursor: pointer;
+  border-radius: 3px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+}
+.btnTwo {
+  position: relative;
+  width: 200px;
+  height: 100px;
+  margin-top: -100px;
+  padding-top: 2px;
+  background: #26a69a;
+  left: -250px;
+  transition: 0.3s;
+}
+.btnText {
+  color: #7bbcb0;
+  transition: 0.3s;
+}
+.btnText2 {
+  margin-top: 63px;
+  margin-right: -130px;
+  color: #fff;
+}
+.button:hover .btnTwo {
+  /*When hovering over .button change .btnTwo*/
+  left: -130px;
+}
+.button:hover .btnText {
+  /*When hovering over .button change .btnText*/
+  margin-left: 65px;
+}
+.button:active {
+  /*Clicked and held*/
+  box-shadow: 0px 5px 6px rgba(0, 0, 0, 0.3);
 }
 </style>

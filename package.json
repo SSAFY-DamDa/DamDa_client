@@ -10,6 +10,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "aos": "^3.0.0-beta.6",
     "axios": "^1.7.7",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.2.6",
