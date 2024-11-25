@@ -36,6 +36,7 @@ journeyStore.journeyDay.forEach((dayItem) => {
 
 const handleCreate = async () => {
   const reqData = mergeJourneyData();
+  console.log("reqData:", reqData);
   console.log("userId:", userStore.userInfo.userId);
   await postRegisterJourney(
     reqData,

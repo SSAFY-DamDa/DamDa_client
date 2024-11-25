@@ -9,32 +9,37 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  journeyId: {
+    type: Number,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["close", "submit"]);
 
-const rating = ref(0);
-const review = ref("");
+const ratings = ref(0);
+const comment = ref("");
 
 const handleSubmit = () => {
-  if (rating.value === 0) {
+  if (ratings.value === 0) {
     alert("별점을 선택해주세요.");
     return;
   }
 
   emit("submit", {
     userId: userStore.userInfo.userId,
-    rating: rating.value,
-    review: review.value,
+    journeyId: props.journeyId,
+    ratings: ratings.value,
+    comment: comment.value,
   });
-  review.value = "";
-  rating.value = 0;
+  comment.value = "";
+  ratings.value = 0;
 };
 
 const handleClose = () => {
   emit("close");
-  review.value = "";
-  rating.value = 0;
+  comment.value = "";
+  ratings.value = 0;
 };
 </script>
 
@@ -43,19 +48,19 @@ const handleClose = () => {
     <div v-if="isOpen" class="modal-overlay" @click.self="handleClose">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>여행 계획 리뷰</h2>
+          <h2>AI 추천 기능 리뷰</h2>
           <button class="close-btn" @click="handleClose">&times;</button>
         </div>
 
         <div class="modal-body">
           <div class="rating-section">
-            <p>이 여행 계획이 마음에 드시나요?</p>
+            <p>AI 추천 기능에 대한 평가를 남겨주세요</p>
             <div class="stars">
               <span
                 v-for="i in 5"
                 :key="i"
-                :class="['star', { active: i <= rating }]"
-                @click="rating = i"
+                :class="['star', { active: i <= ratings }]"
+                @click="ratings = i"
               >
                 ★
               </span>
@@ -63,12 +68,13 @@ const handleClose = () => {
           </div>
 
           <div class="review-section">
-            <p>여행 계획에 대한 의견을 남겨주세요</p>
-            <textarea
-              v-model="review"
-              placeholder="여행 계획에 대한 리뷰를 작성해주세요 (필수)"
-              rows="4"
-            ></textarea>
+            <p>한 줄 후기</p>
+            <input
+              type="text"
+              class="review-input"
+              v-model="comment"
+              placeholder="한 줄 후기를 남겨주세요 (필수)"
+            />
           </div>
         </div>
 
@@ -162,7 +168,7 @@ const handleClose = () => {
   color: #ffd700;
 }
 
-textarea {
+.review-input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ddd;
@@ -174,7 +180,7 @@ textarea {
   font-size: 1.15rem;
 }
 
-textarea:focus {
+.review-input:focus {
   outline: none;
   border-color: #c2e0db;
 }

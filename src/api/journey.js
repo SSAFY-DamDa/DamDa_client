@@ -34,6 +34,14 @@ const deleteJourney = async (param, suc, err) => {
   return await Axios(JOURNEY).delete(`/${param}`).then(suc).catch(err);
 };
 
+const registerReview = async (body, suc, err) => {
+  return await Axios(JOURNEY).post("/review", body).then(suc).catch(err);
+};
+
+const getReviewList = async (suc, err) => {
+  return await Axios(JOURNEY).get(`/reviewAll`).then(suc).catch(err);
+};
+
 export {
   getJourneyList,
   getJourney,
@@ -41,4 +49,6 @@ export {
   postRegisterJourney,
   postRegisterDetailJourney,
   deleteJourney,
+  registerReview,
+  getReviewList,
 };

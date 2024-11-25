@@ -10,6 +10,7 @@ const userStore = useUserStore();
 const journeyStore = useJourneyStore();
 const userJourneyList = ref([]);
 const showModal = ref(false);
+
 onMounted(async () => {
   await getJourney(
     userStore.userInfo.userId,
