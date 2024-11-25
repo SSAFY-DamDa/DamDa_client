@@ -1,6 +1,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import mainBg from "@/assets/imgs/main_bg.jpg";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const subContent = ref(null);
 const mainContent = ref(null);
@@ -10,13 +13,34 @@ const checkScroll = () => {
 
   const scrollPosition = window.scrollY;
   const windowHeight = window.innerHeight;
+  const mainWrapperHeight =
+    document.getElementById("main-wrapper").offsetHeight;
 
-  // 스크롤 위치에 따라 opacity 조절
+  // main-wrapper가 끝나는 지점을 넘어갔는지 확인
+  if (scrollPosition >= mainWrapperHeight - windowHeight) {
+    subContent.value.style.opacity = 0;
+    mainContent.value.style.opacity = 0;
+    return;
+  }
+
+  // opacity 계산 구간 조정
   const subOpacity = Math.max(1 - scrollPosition / windowHeight, 0);
-  const mainOpacity = Math.min(scrollPosition / windowHeight, 1);
+  // opacity 시작점을 늦추고 끝점을 연장 (0.3 ~ 0.8 구간에서 변화)
+  const mainOpacity = Math.max(
+    Math.min((scrollPosition - windowHeight * 0.3) / (windowHeight * 0.5), 1),
+    0
+  );
+
+  // AI가 짜주는 여행만 scale 계산 (1에서 1.5까지)
+  const mainScale = 1 + (scrollPosition / windowHeight) * 0.3; // 1에서 1.5로
 
   subContent.value.style.opacity = subOpacity;
   mainContent.value.style.opacity = mainOpacity;
+
+  // 내가 짜보는 여행은 크기 고정
+  subContent.value.style.transform = `translate(-50%, -50%)`;
+  // AI가 짜주는 여행만 확대
+  mainContent.value.style.transform = `translate(-50%, -50%) scale(${mainScale})`;
 };
 
 onMounted(() => {
@@ -32,12 +56,65 @@ onMounted(() => {
     <div ref="subContent" class="content sub-content">내가 짜보는 여행</div>
     <div ref="mainContent" class="content main-content">AI가 짜주는 여행</div>
   </div>
+  <div id="map-box" data-aos="fade-up" data-aos-duration="3000">
+    <div class="content-wrapper">
+      <img
+        src="@/assets/imgs/Mockup_phone.png"
+        alt="지도로 이동"
+        class="main-logo"
+      />
+      <div class="text-container">
+        <p class="btnText" @click="router.push({ name: 'map' })">지도 검색</p>
+        <span>
+          <p>궁금한 장소를</p>
+          <p>빠르게 검색</p>
+        </span>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div id="ai-box" data-aos="fade-up" data-aos-duration="3000">
+    <div class="content-wrapper">
+      <div class="text-container">
+        <p class="btnText" @click="router.push({ name: 'make' })">AI 추천</p>
+        <span>
+          <p>내 취향에</p>
+          <p>알맞게 추천</p>
+        </span>
+        <div></div>
+      </div>
+      <img
+        src="@/assets/imgs/Mockup_Macbook.png"
+        alt="AI 추천 경로"
+        class="main-logo"
+      />
+    </div>
+  </div>
+  <div id="self-box" data-aos="fade-up" data-aos-duration="3000">
+    <div class="content-wrapper">
+      <img
+        src="@/assets/imgs/Mockup_Ipad.png"
+        alt="직접 경로 담기"
+        class="main-logo"
+      />
+      <div class="text-container">
+        <p class="btnText" @click="router.push({ name: 'makeself' })">
+          직접 계획
+        </p>
+        <span>
+          <p>원하는대로</p>
+          <p>자유롭게 계획</p>
+        </span>
+        <div></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 #main-wrapper {
   position: relative;
-  height: 2500px;
+  height: 4000px;
   background-color: #000000;
   display: flex;
   flex-direction: column;
@@ -54,6 +131,7 @@ onMounted(() => {
   object-fit: cover;
   z-index: -1; /* 콘텐츠 뒤에 위치 */
 }
+
 .content {
   position: fixed;
   top: 50%;
@@ -63,15 +141,77 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   color: #ffffff;
-  transition: opacity 0.5s;
+  transition: all 0.3s ease; /* 부드러운 전환 효과 추가 */
   z-index: 1;
+  font-size: 4rem;
+  font-weight: bold;
 }
 
 .sub-content {
   opacity: 1;
+  transform: translate(-50%, -50%); /* 크기 변화 없음 */
 }
 
 .main-content {
   opacity: 0;
+  transform: translate(-50%, -50%) scale(1); /* 초기 크기 1로 설정 */
+}
+
+.content-wrapper {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 80%;
+  gap: 400px;
+}
+
+#map-box,
+#ai-box,
+#self-box {
+  width: 80%;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-logo {
+  width: 50%;
+  height: 50%;
+}
+
+.text-container {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  > p {
+    flex: 1;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #7bbcb0;
+  }
+
+  > span {
+    flex: 3;
+    height: 50%;
+    font-size: 4rem;
+    font-weight: bold;
+    color: black;
+    word-break: keep-all;
+  }
+
+  > span > p {
+    width: 100%;
+    margin: 0;
+  }
+
+  > div {
+    flex: 1;
+  }
 }
 </style>

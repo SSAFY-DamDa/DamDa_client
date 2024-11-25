@@ -71,10 +71,10 @@ const handleClosePopUp = () => {
 
 <style scoped>
 header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #f0f0f0;
-  position: sticky;
+  background-color: transparent;
+  position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   height: 60px;
   box-sizing: border-box;
@@ -110,7 +110,7 @@ img {
 .text-name {
   border: 0px;
   text-decoration: underline;
-  background-color: #ffffff;
+  background-color: transparent;
   cursor: pointer;
 }
 </style>
