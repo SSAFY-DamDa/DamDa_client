@@ -338,6 +338,7 @@ watch(
 .day {
   height: auto;
   width: 100%;
+  margin-left: 5px;
 }
 
 .date {
@@ -348,6 +349,7 @@ watch(
 }
 
 .date-number {
+  margin-left: 5px;
   text-align: start;
 }
 
