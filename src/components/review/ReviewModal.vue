@@ -29,8 +29,8 @@ const handleSubmit = () => {
   emit("submit", {
     userId: userStore.userInfo.userId,
     journeyId: props.journeyId,
-    rating: ratings.value,
-    review: comment.value,
+    ratings: ratings.value,
+    comment: comment.value,
   });
   comment.value = "";
   ratings.value = 0;

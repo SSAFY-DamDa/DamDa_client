@@ -6,6 +6,7 @@ import MyJourneyDay from "./days/MyJourneyDay.vue";
 import { ref } from "vue";
 import PopUpMenu from "../popup/PopUpMenu.vue";
 import ReviewModal from "../review/ReviewModal.vue";
+import { registerReview } from "@/api/journey";
 
 defineProps({
   info: {
@@ -37,7 +38,15 @@ const handleCloseReview = () => {
 };
 
 const handleSubmitReview = (reviewData) => {
-  console.log("Review submitted:", reviewData);
+  registerReview(
+    reviewData,
+    () => {
+      alert("리뷰가 등록되었습니다.");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
   isReviewModalOpen.value = false;
 };
 </script>
@@ -55,7 +64,6 @@ const handleSubmitReview = (reviewData) => {
         <PopUpMenu
           :infoId="info.id"
           :isShow="isShow"
-          :journeyId="journeyInfo.id"
           @close-pop-up="handleClosePopUp"
           @open-review="handleReviewModal"
         />
@@ -85,6 +93,7 @@ const handleSubmitReview = (reviewData) => {
     </div>
     <ReviewModal
       :isOpen="isReviewModalOpen"
+      :journeyId="info.id"
       @close="handleCloseReview"
       @submit="handleSubmitReview"
     />
