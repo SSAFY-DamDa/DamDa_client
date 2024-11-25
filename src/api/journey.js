@@ -30,10 +30,15 @@ const postRegisterDetailJourney = async (body, param, suc, err) => {
     .catch(err);
 };
 
+const deleteJourney = async (param, suc, err) => {
+  return await Axios(JOURNEY).delete(`/${param}`).then(suc).catch(err);
+};
+
 export {
   getJourneyList,
   getJourney,
   getDetailJourney,
   postRegisterJourney,
   postRegisterDetailJourney,
+  deleteJourney,
 };

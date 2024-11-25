@@ -2,8 +2,12 @@
 import IconCalendar from "../icons/IconCalendar.vue";
 import IconPeople from "../icons/IconPeople.vue";
 import MyJourneyDay from "./days/MyJourneyDay.vue";
+import { deleteJourney } from "@/api/journey";
+import { useRouter } from "vue-router";
 
-defineProps({
+const router = useRouter();
+
+const props = defineProps({
   info: {
     type: Object,
   },
@@ -11,12 +15,34 @@ defineProps({
     type: Object,
   },
 });
+
+const handleDeleteJourney = () => {
+  deleteJourney(
+    props.info.id,
+    () => {
+      console.log("여행 삭제 성공");
+      alert("여행 삭제에 성공했습니다.");
+      router.push({ name: "mycalendar" });
+    },
+    (error) => {
+      alert("삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      console.log("여행 삭제 실패", error);
+    }
+  );
+};
 </script>
 
 <template>
   <div class="journey-form">
     <div class="journey-top">
-      <div id="journey-detail-title">{{ info.title }}</div>
+      <div class="title-container">
+        <div
+          id="journey-detail-color"
+          :style="{ backgroundColor: info.color }"
+        ></div>
+        <div id="journey-detail-title">{{ info.title }}</div>
+      </div>
+
       <div class="journey-detail-date">
         <div id="journey-detail-start" class="date-box">
           <IconCalendar size="20" class="calendar-icon" color="#7bbcb0" />
@@ -34,10 +60,9 @@ defineProps({
           <IconPeople size="20" color="#7bbcb0" />
           {{ info.personnel }}
         </div>
-        <div
-          id="journey-detail-color"
-          :style="{ backgroundColor: info.color }"
-        ></div>
+        <button class="delete-button" @click="handleDeleteJourney">
+          여행 삭제
+        </button>
       </div>
     </div>
     <div class="journey-bottom">
@@ -60,6 +85,12 @@ defineProps({
   align-items: center;
   border-bottom: 1px solid #7bbcb0;
   margin-bottom: 10px;
+}
+
+.title-container {
+  width: 80%;
+  display: flex;
+  align-items: center;
 }
 
 #journey-detail-title {
@@ -112,6 +143,15 @@ defineProps({
   width: 20px;
   height: 20px;
   border-radius: 10px;
+}
+
+.delete-button {
+  border: none;
+  width: 20%;
+  height: 95%;
+  border-radius: 10px;
+  background-color: #7bbcb0;
+  color: #fff;
 }
 
 .journey-bottom {
