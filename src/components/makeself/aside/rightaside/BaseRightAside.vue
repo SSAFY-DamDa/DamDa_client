@@ -85,7 +85,7 @@ const handleCreate = async () => {
 <style scoped>
 #right-aside-container {
   position: absolute;
-  top: 80px;
+  top: 30px;
   left: 470px;
   width: 405px;
   height: 90%;
@@ -103,7 +103,7 @@ const handleCreate = async () => {
   border: 0;
   border-radius: 20px;
   background-color: #c2e0db;
-  padding: 20px;
+  padding: 10px 20px;
   color: white;
   font-weight: 700;
 }

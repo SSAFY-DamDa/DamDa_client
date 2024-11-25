@@ -1,9 +1,9 @@
 <script setup>
-import BaseMain3 from "@/components/main/BaseMain3.vue";
+import BaseMain from "@/components/main/BaseMain.vue";
 </script>
 
 <template>
-  <BaseMain3 />
+  <BaseMain />
 </template>
 
 <style scoped></style>
