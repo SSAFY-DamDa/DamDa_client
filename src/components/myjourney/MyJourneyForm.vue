@@ -12,13 +12,17 @@ const props = defineProps({
   },
 });
 const journeyStore = useJourneyStore();
-const info = journeyStore.userJourneyList[props.journeyId];
-const journeyInfo = ref({});
+const info = journeyStore.userJourneyList[props.journeyId - 1];
+
+console.log("info:", info);
+const journeyInfo = ref(null);
+
 onMounted(async () => {
   await getDetailJourney(
     props.journeyId,
     (response) => {
       journeyInfo.value = response.data;
+
       console.log("day1", response.data);
     },
     (error) => {
@@ -56,7 +60,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="journey-bottom">
-      <MyJourneyDay :journeyInfo="journeyInfo" />
+      <MyJourneyDay v-if="journeyInfo" :journeyInfo="journeyInfo" />
     </div>
   </div>
 </template>

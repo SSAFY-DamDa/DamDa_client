@@ -22,18 +22,15 @@ const handleClickLike = async () => {
       console.log(response);
       const journeyId = response.data.journeyId;
       // 2. 여행 경로 정보 등록
-      const journeyDetail = {};
 
-      // journeyDay 데이터를 journeyDetail 구조로 합치기
-      aiJourneyStore.recommendedRoute.forEach((dayItem) => {
-        const dayKey = `day${dayItem.day}`;
-        journeyDetail[dayKey] = dayItem.places.map((place) => ({
-          ...place,
-        }));
-      });
-      console.log("journey detail:", journeyDetail);
+      console.log(
+        "aiJourneyStore.recommendedRoute:",
+        aiJourneyStore.recommendedRoute
+      );
+
+      console.log("journey detail:", aiJourneyStore.recommendedRoute);
       await postRegisterDetailJourney(
-        journeyDetail,
+        aiJourneyStore.recommendedRoute,
         journeyId,
         () => {
           aiJourneyStore.resetJourneyStore;
