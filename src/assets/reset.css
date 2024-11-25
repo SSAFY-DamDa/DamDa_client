@@ -24,6 +24,14 @@ body,
   font-family: "NotoSansKR-Regular";
 }
 
+@media (max-width: 1024px) {
+  html,
+  body,
+  #app {
+    font-size: 50%;
+  }
+}
+
 body::-webkit-scrollbar {
   width: 4px;
 }
