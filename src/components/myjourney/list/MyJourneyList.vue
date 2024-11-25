@@ -14,7 +14,8 @@ const isShow = ref(false);
 const handleClickDay = () => {
   isShow.value = !isShow.value;
 };
-console.log("mj List:", props.day);
+
+console.log("my journey list day:", props.day);
 </script>
 
 <template>
@@ -58,6 +59,9 @@ console.log("mj List:", props.day);
 }
 
 .day-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   overflow: hidden;
   transition: max-height 0.4s ease, padding 0.6s ease;
 }

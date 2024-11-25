@@ -1,34 +1,15 @@
 <script setup>
-import { getDetailJourney } from "@/api/journey";
-import { useJourneyStore } from "@/stores/journey";
-import { onMounted, ref } from "vue";
 import IconCalendar from "../icons/IconCalendar.vue";
 import IconPeople from "../icons/IconPeople.vue";
 import MyJourneyDay from "./days/MyJourneyDay.vue";
 
-const props = defineProps({
-  journeyId: {
-    type: Number,
+defineProps({
+  info: {
+    type: Object,
   },
-});
-const journeyStore = useJourneyStore();
-const info = journeyStore.userJourneyList[props.journeyId - 1];
-
-console.log("info:", info);
-const journeyInfo = ref(null);
-
-onMounted(async () => {
-  await getDetailJourney(
-    props.journeyId,
-    (response) => {
-      journeyInfo.value = response.data;
-
-      console.log("day1", response.data);
-    },
-    (error) => {
-      console.log("여행 디테일 정보 가져오는 도중 오류!", error);
-    }
-  );
+  journeyInfo: {
+    type: Object,
+  },
 });
 </script>
 

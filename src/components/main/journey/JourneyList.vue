@@ -15,7 +15,6 @@ onMounted(async () => {
     userStore.userInfo.userId,
     (response) => {
       response.data.journey.forEach((j) => {
-        console.log("j:", j);
         userJourneyList.value.push(j);
       });
       userJourneyList.value.sort(
