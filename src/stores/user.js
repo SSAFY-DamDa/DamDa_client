@@ -32,8 +32,12 @@ export const useUserStore = defineStore("user", () => {
           router.push({ name: "main" });
         }
       },
-      () => {
-        console.log("로그인 실패");
+      (err) => {
+        if (err.response.status === 401) {
+          alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+        } else {
+          alert("로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        }
         isLogin.value = false;
         isValidToken.value = false;
       }

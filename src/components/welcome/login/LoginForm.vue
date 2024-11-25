@@ -50,7 +50,7 @@ watch(
     <div class="err-msg">{{ errMsg }}</div>
     <input type="submit" id="login-btn" value="로그인" />
     <div class="text-button">
-      <RouterLink :to="{ name: 'findpwd' }">비밀번호를 잊으셧나요?</RouterLink>
+      <RouterLink :to="{ name: 'findpwd' }">비밀번호를 잊으셨나요?</RouterLink>
       <span style="color: #7bbcb0; padding: 0 10px"> | </span>
       <RouterLink :to="{ name: 'signup' }">회원가입</RouterLink>
     </div>
