@@ -12,7 +12,9 @@ const route = useRoute();
 const { params } = route;
 const journeyStore = useJourneyStore();
 const tripStore = useTripStore();
-const info = journeyStore.userJourneyList[params.id - 1];
+const info = journeyStore.userJourneyList.find(
+  (journey) => journey.id === Number(params.id)
+);
 
 const journeyInfo = ref(null);
 

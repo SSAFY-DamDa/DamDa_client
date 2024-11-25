@@ -40,7 +40,6 @@ onMounted(async () => {
         v-for="(journey, index) in userJourneyList"
         :key="journey.id"
         :journey="journey"
-        :index="index"
       />
     </div>
     <JourneyAddModal v-if="showModal" @close="showModal = false" />
