@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import MyJourneyItem from "./item/MyJourneyItem.vue";
 
-defineProps({
+const props = defineProps({
   day: {
     type: Array,
   },
@@ -14,6 +14,8 @@ const isShow = ref(false);
 const handleClickDay = () => {
   isShow.value = !isShow.value;
 };
+
+console.log("my journey list day:", props.day);
 </script>
 
 <template>
@@ -57,6 +59,9 @@ const handleClickDay = () => {
 }
 
 .day-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
   overflow: hidden;
   transition: max-height 0.4s ease, padding 0.6s ease;
 }
