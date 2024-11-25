@@ -48,10 +48,21 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+@media (min-width: 700px) {
+  #journey-container {
+    width: 30%;
+  }
+}
+
+@media (max-width: 700px) {
+  #journey-container {
+    width: 100%;
+  }
+}
+
 #journey-container {
   position: relative;
   margin-right: 10px;
-  width: 30%;
   max-width: 400px;
   height: 100%;
   min-height: fit-content;

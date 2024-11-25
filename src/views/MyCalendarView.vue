@@ -13,9 +13,19 @@ import JourneyList from "@/components/main/journey/JourneyList.vue";
 </template>
 
 <style scoped>
-#mycalendar-container {
-  height: calc(100% - 60px);
-  margin-top: 40px;
+@media (max-width: 700px) {
+  #main-journey-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (min-width: 700px) {
+  #mycalendar-container {
+    height: calc(100% - 60px);
+    margin-top: 40px;
+  }
 }
 
 #main-journey-section {
