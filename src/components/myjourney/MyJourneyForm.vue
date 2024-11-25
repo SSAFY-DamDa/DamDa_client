@@ -22,6 +22,7 @@ onMounted(async () => {
     props.journeyId,
     (response) => {
       journeyInfo.value = response.data;
+
       console.log("day1", response.data);
     },
     (error) => {

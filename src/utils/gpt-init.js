@@ -11,6 +11,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
   try {
+    32;
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -18,37 +19,89 @@ export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
         messages: [
           {
             role: "system",
-            content:
-              "You are a travel planner. You must respond with ONLY valid JSON. Do not include any additional text or explanations. The response must be a properly formatted JSON object containing travel itinerary details.",
+            content: `You are a travel planner. You must respond with ONLY valid JSON. Do not include any additional text or explanations. 
+
+            Important planning rules:
+            1. For each day, locations must be within 30 minutes of travel time from each other by public transportation
+            2. Plan the route efficiently by considering the geographical proximity of places
+            3. Each day must follow this exact sequence:
+              - Restaurant (morning) - content_type_id: 39
+              - Activity spot (from user's content_type_id)
+              - Activity spot (from user's content_type_id)
+              - Restaurant (evening) - content_type_id: 39
+              - Accommodation - content_type_id: 32 (EXCEPT for the last day)
+            4. Do not repeat any locations across days EXCEPT for accommodations
+            
+            Prioritize locations that are close to each other to minimize travel time.`,
           },
           {
             role: "user",
             content: `Create a ${userAnswer.period} day travel plan for ${
               userAnswer.people
             } people using these locations: ${JSON.stringify(places)}
+            For activity spots, you must use content_type_id: ${
+              userAnswer.content_type_id
+            }
 
-Response must follow this exact JSON structure:
-{
-  "day1": [
-    {
-      "addr1": "",
-      "addr2": "",
-      "area_code": 31,
-      "content_id": 2514050,
-      "content_type_id": 25,
-      "img1": "",
-      "img2": "",
-      "latitude": 38.0703704758,
-      "longitude": 127.1286316956,
-      "map_level": 6,
-      "si_gun_gu_code": 21,
-      "tel": "",
-      "title": ""
-    }
-  ],
-  "day2": [...],
-  ...
-}`,
+            Requirements:
+            - All selected places for each day should be within 30 minutes travel distance from each other
+            - Consider the geographical location to minimize travel time
+            - Ensure logical flow of movement between locations
+            - Do not repeat any locations across days (accommodation can be repeated)
+            - Last day should NOT include accommodation
+
+            Response must follow this exact JSON structure:
+            {
+              "day1": [
+                {
+                  "content_type_id": 39,
+                  "title": "Morning Restaurant",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": ${userAnswer.content_type_id},
+                  "title": "Activity 1",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": ${userAnswer.content_type_id},
+                  "title": "Activity 2",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": 39,
+                  "title": "Evening Restaurant",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": 32,
+                  "title": "Accommodation",
+                  ... other fields ...
+                }
+              ],
+              "day${userAnswer.period}": [
+                {
+                  "content_type_id": 39,
+                  "title": "Morning Restaurant",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": ${userAnswer.content_type_id},
+                  "title": "Activity 1",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": ${userAnswer.content_type_id},
+                  "title": "Activity 2",
+                  ... other fields ...
+                },
+                {
+                  "content_type_id": 39,
+                  "title": "Evening Restaurant",
+                  ... other fields ...
+                }
+              ]
+            }`,
           },
         ],
         temperature: 0.5,

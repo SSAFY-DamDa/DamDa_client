@@ -8,6 +8,8 @@ import MyJourneyForm from "@/components/myjourney/MyJourneyForm.vue";
 const route = useRoute();
 const tripStore = useTripStore();
 const { params } = route;
+
+console.log("tripStore.getPositions:", tripStore.getPositions);
 </script>
 
 <template>

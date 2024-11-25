@@ -56,6 +56,8 @@ const addMarkers = (positions, kakao) => {
   const imageSize = new kakao.maps.Size(24, 35);
   const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
+  console.log("positions:", positions);
+
   positions.forEach((m) => {
     const marker = new kakao.maps.Marker({
       map: map,
