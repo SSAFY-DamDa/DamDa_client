@@ -22,6 +22,8 @@ main {
 }
 
 .height-full {
+  position: relative;
+  top: 60px;
   height: calc(100% - 60px);
 }
 </style>
