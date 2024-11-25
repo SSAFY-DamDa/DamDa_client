@@ -6,7 +6,10 @@ const title = ref("");
 </script>
 
 <template>
-  <form class="search-bar-container">
+  <form
+    class="search-bar-container"
+    @submit.prevent="$emit('searchTitle', title)"
+  >
     <input
       type="search"
       class="search-bar"
