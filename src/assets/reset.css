@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "NotoSansKR-Light";
+  src: url("@/assets/fonts/NotoSansKR-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "NotoSansKR-Regular";
+  src: url("@/assets/fonts/NotoSansKR-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "NotoSansKR-Bold";
+  src: url("@/assets/fonts/NotoSansKR-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
 html,
 body,
 #app {
@@ -5,7 +21,7 @@ body,
   height: 100%;
   margin: 0;
   font-size: 62.5%;
-  font-family: "Noto Sans KR-Regular";
+  font-family: "NotoSansKR-Regular";
 }
 
 body::-webkit-scrollbar {
