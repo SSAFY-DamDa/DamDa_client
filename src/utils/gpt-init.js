@@ -31,6 +31,7 @@ export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
               - Restaurant (evening) - content_type_id: 39
               - Accommodation - content_type_id: 32 (EXCEPT for the last day)
             4. Do not repeat any locations across days EXCEPT for accommodations
+            5. You must include content_id for each place from the provided places data
             
             Prioritize locations that are close to each other to minimize travel time.`,
           },
@@ -49,31 +50,37 @@ export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
             - Ensure logical flow of movement between locations
             - Do not repeat any locations across days (accommodation can be repeated)
             - Last day should NOT include accommodation
+            - Must include content_id for each place from the provided data
 
             Response must follow this exact JSON structure:
             {
               "day1": [
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": 39,
                   "title": "Morning Restaurant",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": ${userAnswer.content_type_id},
                   "title": "Activity 1",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": ${userAnswer.content_type_id},
                   "title": "Activity 2",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": 39,
                   "title": "Evening Restaurant",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": 32,
                   "title": "Accommodation",
                   ... other fields ...
@@ -81,21 +88,25 @@ export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
               ],
               "day${userAnswer.period}": [
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": 39,
                   "title": "Morning Restaurant",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": ${userAnswer.content_type_id},
                   "title": "Activity 1",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": ${userAnswer.content_type_id},
                   "title": "Activity 2",
                   ... other fields ...
                 },
                 {
+                  "content_id": "MUST_INCLUDE_FROM_PROVIDED_DATA",
                   "content_type_id": 39,
                   "title": "Evening Restaurant",
                   ... other fields ...

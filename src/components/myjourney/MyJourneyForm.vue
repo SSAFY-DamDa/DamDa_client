@@ -1,13 +1,13 @@
 <script setup>
 import IconCalendar from "../icons/IconCalendar.vue";
+import IconMenu from "../icons/IconMenu.vue";
 import IconPeople from "../icons/IconPeople.vue";
 import MyJourneyDay from "./days/MyJourneyDay.vue";
-import { deleteJourney } from "@/api/journey";
-import { useRouter } from "vue-router";
+import { ref } from "vue";
+import PopUpMenu from "../popup/PopUpMenu.vue";
+import ReviewModal from "../review/ReviewModal.vue";
 
-const router = useRouter();
-
-const props = defineProps({
+defineProps({
   info: {
     type: Object,
   },
@@ -16,19 +16,29 @@ const props = defineProps({
   },
 });
 
-const handleDeleteJourney = () => {
-  deleteJourney(
-    props.info.id,
-    () => {
-      console.log("여행 삭제 성공");
-      alert("여행 삭제에 성공했습니다.");
-      router.push({ name: "mycalendar" });
-    },
-    (error) => {
-      alert("삭제에 실패했습니다. 잠시 후 다시 시도해주세요.");
-      console.log("여행 삭제 실패", error);
-    }
-  );
+const isShow = ref(false);
+const isReviewModalOpen = ref(false);
+
+const handleOpenPopUp = () => {
+  isShow.value = !isShow.value;
+};
+
+const handleClosePopUp = () => {
+  isShow.value = false;
+};
+
+const handleReviewModal = () => {
+  isReviewModalOpen.value = true;
+  isShow.value = false;
+};
+
+const handleCloseReview = () => {
+  isReviewModalOpen.value = false;
+};
+
+const handleSubmitReview = (reviewData) => {
+  console.log("Review submitted:", reviewData);
+  isReviewModalOpen.value = false;
 };
 </script>
 
@@ -41,6 +51,14 @@ const handleDeleteJourney = () => {
           :style="{ backgroundColor: info.color }"
         ></div>
         <div id="journey-detail-title">{{ info.title }}</div>
+        <IconMenu class="menu-button" @click.stop="handleOpenPopUp" />
+        <PopUpMenu
+          :infoId="info.id"
+          :isShow="isShow"
+          :journeyId="journeyInfo.id"
+          @close-pop-up="handleClosePopUp"
+          @open-review="handleReviewModal"
+        />
       </div>
 
       <div class="journey-detail-date">
@@ -60,14 +78,16 @@ const handleDeleteJourney = () => {
           <IconPeople size="20" color="#7bbcb0" />
           {{ info.personnel }}
         </div>
-        <button class="delete-button" @click="handleDeleteJourney">
-          여행 삭제
-        </button>
       </div>
     </div>
     <div class="journey-bottom">
       <MyJourneyDay v-if="journeyInfo" :journeyInfo="journeyInfo" />
     </div>
+    <ReviewModal
+      :isOpen="isReviewModalOpen"
+      @close="handleCloseReview"
+      @submit="handleSubmitReview"
+    />
   </div>
 </template>
 
@@ -88,6 +108,7 @@ const handleDeleteJourney = () => {
 }
 
 .title-container {
+  position: relative;
   width: 80%;
   display: flex;
   align-items: center;
@@ -145,13 +166,7 @@ const handleDeleteJourney = () => {
   border-radius: 10px;
 }
 
-.delete-button {
-  border: none;
-  width: 20%;
-  height: 95%;
-  border-radius: 10px;
-  background-color: #7bbcb0;
-  color: #fff;
+.menu-button {
 }
 
 .journey-bottom {

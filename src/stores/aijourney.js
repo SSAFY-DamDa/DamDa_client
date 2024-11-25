@@ -36,7 +36,7 @@ export const useAiJourneyStore = defineStore("aijourney", () => {
       endDate: "",
       personnel: 0,
       color: "",
-      ai: 0,
+      ai: 1,
     };
     answerDetail.value = {
       sido_code: 0,
