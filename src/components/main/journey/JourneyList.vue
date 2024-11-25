@@ -37,7 +37,7 @@ onMounted(async () => {
     </div>
     <div id="journey-list-section">
       <JourneyListItem
-        v-for="(journey, index) in userJourneyList"
+        v-for="journey in userJourneyList"
         :key="journey.id"
         :journey="journey"
       />

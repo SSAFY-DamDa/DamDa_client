@@ -56,56 +56,62 @@ onMounted(() => {
     <div ref="subContent" class="content sub-content">내가 짜보는 여행</div>
     <div ref="mainContent" class="content main-content">AI가 짜주는 여행</div>
   </div>
-  <div id="map-box" data-aos="fade-up" data-aos-duration="3000">
-    <div class="content-wrapper">
-      <img
-        src="@/assets/imgs/Mockup_phone.png"
-        alt="지도로 이동"
-        class="main-logo"
-      />
-      <div class="text-container">
-        <p class="btnText" @click="router.push({ name: 'map' })">지도 검색</p>
-        <span>
-          <p>궁금한 장소를</p>
-          <p>빠르게 검색</p>
-        </span>
-        <div></div>
+  <div class="content-box">
+    <div id="map-box" data-aos="fade-down-right" data-aos-duration="1000">
+      <div class="content-wrapper">
+        <img
+          src="@/assets/imgs/Mockup_phone.png"
+          alt="지도로 이동"
+          class="main-logo"
+        />
+        <div class="text-container">
+          <p>지도 검색</p>
+          <span>
+            <p>궁금한 장소를</p>
+            <p>빠르게 검색</p>
+          </span>
+          <div class="btnText" @click="router.push({ name: 'map' })">
+            바로가기
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div id="ai-box" data-aos="fade-up" data-aos-duration="3000">
-    <div class="content-wrapper">
-      <div class="text-container">
-        <p class="btnText" @click="router.push({ name: 'make' })">AI 추천</p>
-        <span>
-          <p>내 취향에</p>
-          <p>알맞게 추천</p>
-        </span>
-        <div></div>
+    <div id="ai-box" data-aos="fade-down-left" data-aos-duration="1000">
+      <div class="content-wrapper">
+        <div class="text-container" id="ai-text-container">
+          <p>AI 추천</p>
+          <span>
+            <p>내 취향에</p>
+            <p>알맞게 추천</p>
+          </span>
+          <div class="btnText" @click="router.push({ name: 'map' })">
+            바로가기
+          </div>
+        </div>
+        <img
+          src="@/assets/imgs/Mockup_Macbook.png"
+          alt="AI 추천 경로"
+          class="main-logo"
+        />
       </div>
-      <img
-        src="@/assets/imgs/Mockup_Macbook.png"
-        alt="AI 추천 경로"
-        class="main-logo"
-      />
     </div>
-  </div>
-  <div id="self-box" data-aos="fade-up" data-aos-duration="3000">
-    <div class="content-wrapper">
-      <img
-        src="@/assets/imgs/Mockup_Ipad.png"
-        alt="직접 경로 담기"
-        class="main-logo"
-      />
-      <div class="text-container">
-        <p class="btnText" @click="router.push({ name: 'makeself' })">
-          직접 계획
-        </p>
-        <span>
-          <p>원하는대로</p>
-          <p>자유롭게 계획</p>
-        </span>
-        <div></div>
+    <div id="self-box" data-aos="fade-down-right" data-aos-duration="1000">
+      <div class="content-wrapper">
+        <img
+          src="@/assets/imgs/Mockup_Ipad.png"
+          alt="직접 경로 담기"
+          class="main-logo"
+        />
+        <div class="text-container">
+          <p>직접 계획</p>
+          <span>
+            <p>원하는대로</p>
+            <p>자유롭게 계획</p>
+          </span>
+          <div class="btnText" @click="router.push({ name: 'makeself' })">
+            바로가기
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -125,10 +131,11 @@ onMounted(() => {
 
 #main-bg {
   position: fixed; /* 화면에 고정 */
-  top: 0;
-  left: 0;
+  top: 50%;
+  left: 50%;
   width: 100%;
-  object-fit: cover;
+  max-width: 1500px; /* 최대 너비를 1500px로 제한 */
+  transform: translate(-50%, -50%); /* 화면 중앙에 배치 */
   z-index: -1; /* 콘텐츠 뒤에 위치 */
 }
 
@@ -147,6 +154,12 @@ onMounted(() => {
   font-weight: bold;
 }
 
+.content-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .sub-content {
   opacity: 1;
   transform: translate(-50%, -50%); /* 크기 변화 없음 */
@@ -158,13 +171,11 @@ onMounted(() => {
 }
 
 .content-wrapper {
-  width: 100%;
   height: 80%;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  max-width: 80%;
-  gap: 400px;
+  gap: 300px;
 }
 
 #map-box,
@@ -189,15 +200,14 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: start;
+
   > p {
-    flex: 1;
     font-size: 3rem;
     font-weight: bold;
     color: #7bbcb0;
   }
 
   > span {
-    flex: 3;
     height: 50%;
     font-size: 4rem;
     font-weight: bold;
@@ -210,8 +220,24 @@ onMounted(() => {
     margin: 0;
   }
 
-  > div {
-    flex: 1;
+  .btnText {
+    align-content: center;
+    padding: 10px 20px;
+    background-color: #7bbcb0;
+    border-radius: 10px;
+    font-weight: bold;
+    color: #ffffff;
+    cursor: pointer;
   }
+
+  .btnText:hover {
+    background-color: #ffffff;
+    color: #7bbcb0;
+  }
+}
+
+#ai-text-container {
+  align-items: end;
+  text-align: end;
 }
 </style>
