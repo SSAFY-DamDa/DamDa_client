@@ -38,6 +38,10 @@ const registerReview = async (body, suc, err) => {
   return await Axios(JOURNEY).post("/review", body).then(suc).catch(err);
 };
 
+const getReviewList = async (suc, err) => {
+  return await Axios(JOURNEY).get(`/reviewAll`).then(suc).catch(err);
+};
+
 export {
   getJourneyList,
   getJourney,
@@ -46,4 +50,5 @@ export {
   postRegisterDetailJourney,
   deleteJourney,
   registerReview,
+  getReviewList,
 };

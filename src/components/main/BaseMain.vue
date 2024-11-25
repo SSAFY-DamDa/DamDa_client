@@ -2,6 +2,7 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import mainBg from "@/assets/imgs/main_bg.jpg";
 import { useRouter } from "vue-router";
+import ReviewList from "../review/ReviewList.vue";
 
 const router = useRouter();
 
@@ -138,6 +139,7 @@ onUnmounted(() => {
           class="main-logo"
         />
       </div>
+      <ReviewList />
     </div>
     <div id="self-box" data-aos="fade-down-right" data-aos-duration="1000">
       <div class="content-wrapper">
@@ -224,12 +226,20 @@ onUnmounted(() => {
 }
 
 #map-box,
-#ai-box,
 #self-box {
   width: 80%;
   height: 100vh;
   margin: 0 auto;
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ai-box {
+  width: 80%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
