@@ -82,7 +82,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 10;
+  z-index: 100;
 }
 
 img {
