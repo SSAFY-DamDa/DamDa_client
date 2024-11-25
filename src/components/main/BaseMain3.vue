@@ -84,7 +84,7 @@ onMounted(() => {
             <p>내 취향에</p>
             <p>알맞게 추천</p>
           </span>
-          <div class="btnText" @click="router.push({ name: 'map' })">
+          <div class="btnText" @click="router.push({ name: 'make' })">
             바로가기
           </div>
         </div>

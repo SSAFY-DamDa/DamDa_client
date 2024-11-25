@@ -17,6 +17,7 @@ const mergeJourneyData = () => {
     endDate: journeyStore.journeyDetail.end_date,
     personnel: journeyStore.journeyDetail.personnel,
     color: journeyStore.journeyDetail.color,
+    ai: journeyStore.journeyDetail.ai,
   };
   console.log("here ", reqData);
 
