@@ -1,9 +1,11 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { loadKakaoMap } from "@/utils/loadKakaoMap"; // loadKakaoMap 함수 import
+import { loadKakaoMap } from "@/utils/loadKakaoMap";
 import { useKakaoStore } from "@/stores/kakao";
 import { watch } from "vue";
 import { contentLabels } from "@/assets/constants/contentLabels";
+import { useTripStore } from "@/stores/trip";
+import noimage from "@/assets/imgs/noimage.jpg";
 
 const props = defineProps({
   positions: {
@@ -17,11 +19,11 @@ const props = defineProps({
   },
 });
 
+const tripStore = useTripStore();
 const kakaoStore = useKakaoStore();
 let mapBox = ref(null);
 const isMapLoaded = ref(false);
 let map = null;
-let markers = [];
 
 const initializeMap = (kakao) => {
   const options = {
@@ -38,7 +40,7 @@ const initializeMap = (kakao) => {
   //지도 컨테이너가 다 뜬 후에 relayout()
   setTimeout(function () {
     map.relayout();
-    addMarkers(props.positions, kakao);
+    addMarkers(tripStore.getPositions, kakao);
   }, 0);
 };
 
@@ -56,21 +58,19 @@ const addMarkers = (positions, kakao) => {
   const imageSize = new kakao.maps.Size(24, 35);
   const markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
 
-  console.log("positions:", positions);
-
   positions.forEach((m) => {
     const marker = new kakao.maps.Marker({
       map: map,
       position: new kakao.maps.LatLng(m.latlng.Ma, m.latlng.La),
       image: markerImage,
     });
-    markers.push(marker);
+    kakaoStore.addMarker(marker);
 
     let content =
       '<div class="kakao-overlay-wrap">' +
       `    <img 
               class="kakao-overlay overlay-img"
-              src=${m.area.img1 || m.area.img2}
+              src=${m.area.img1 || m.area.img2 || noimage}
             />` +
       '    <div class="info-wrap">' +
       `      <div class="kakao-overlay overlay-title" style="white-space: break-spaces;">${m.area.title}</div>` +
@@ -110,12 +110,13 @@ const addMarkers = (positions, kakao) => {
 };
 
 const clearMarkers = () => {
-  markers.forEach((marker) => marker.setMap(null));
-  markers = [];
+  if (kakaoStore.markers && kakaoStore.markers.length > 0) {
+    kakaoStore.markers.forEach((marker) => marker.setMap(null));
+    kakaoStore.markers = [];
+  }
 };
 
 onMounted(async () => {
-  console.log("onMounted 실행됨");
   try {
     const kakao = await loadKakaoMap();
     initializeMap(kakao); // 맵 초기화
@@ -125,7 +126,7 @@ onMounted(async () => {
 });
 
 watch(
-  () => props.positions,
+  () => tripStore.getPositions,
   (newPositions) => {
     if (map) addMarkers(newPositions, kakao);
   },

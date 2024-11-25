@@ -1,13 +1,11 @@
 <script setup>
 import MyJourneyList from "../list/MyJourneyList.vue";
 
-const props = defineProps({
+defineProps({
   journeyInfo: {
     type: Object,
   },
 });
-
-console.log("day:", props.journeyInfo);
 </script>
 
 <template>

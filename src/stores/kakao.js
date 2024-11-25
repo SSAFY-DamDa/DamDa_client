@@ -3,27 +3,31 @@ import { defineStore } from "pinia";
 
 export const useKakaoStore = defineStore("kakao", () => {
   //state
-  const kakao = ref(null);
   const coordinate = ref([37.500613, 127.036431]);
+  const markers = ref([]);
 
   //get
-  const getKakao = computed(() => kakao.value);
   const getCoordinate = computed(() => coordinate.value);
 
   //set
-  const setKakao = (_kakao) => {
-    console.log("카카오 실행!");
-    kakao.value = _kakao;
-  };
-
   const setCoordinate = (_coor) => {
     coordinate.value = _coor;
   };
 
+  const addMarker = (_marker) => {
+    markers.value.push(_marker);
+  };
+
+  const resetKakao = () => {
+    coordinate.value = [37.500613, 127.036431];
+    markers.value = [];
+  };
+
   return {
-    getKakao,
     getCoordinate,
-    setKakao,
+    markers,
     setCoordinate,
+    addMarker,
+    resetKakao,
   };
 });
