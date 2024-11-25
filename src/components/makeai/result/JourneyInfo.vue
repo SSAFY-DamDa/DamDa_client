@@ -5,6 +5,7 @@ import { useAiJourneyStore } from "@/stores/aijourney";
 import { useRouter } from "vue-router";
 import { postRegisterDetailJourney, postRegisterJourney } from "@/api/journey";
 import { useUserStore } from "@/stores/user";
+import { ref } from "vue";
 
 const aiJourneyStore = useAiJourneyStore();
 const userStore = useUserStore();
@@ -12,7 +13,6 @@ const router = useRouter();
 
 const handleClickLike = async () => {
   const reqData = aiJourneyStore.finalJourneyInfo;
-
   console.log("최종 reqData:", reqData);
 
   await postRegisterJourney(
@@ -21,14 +21,12 @@ const handleClickLike = async () => {
     async (response) => {
       console.log(response);
       const journeyId = response.data.journeyId;
-      // 2. 여행 경로 정보 등록
 
       console.log(
         "aiJourneyStore.recommendedRoute:",
         aiJourneyStore.recommendedRoute
       );
 
-      console.log("journey detail:", aiJourneyStore.recommendedRoute);
       await postRegisterDetailJourney(
         aiJourneyStore.recommendedRoute,
         journeyId,
@@ -47,6 +45,7 @@ const handleClickLike = async () => {
     }
   );
 };
+
 const handleClickRegenerate = () => {
   router.push({ name: "create" });
 };
