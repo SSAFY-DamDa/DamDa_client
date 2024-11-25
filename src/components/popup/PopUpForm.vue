@@ -70,11 +70,9 @@ const handleLogout = async () => {
   cursor: pointer;
 }
 
-#pop-up-logout:hover {
-  color: #000000;
-  text-decoration: underline;
-}
-#pop-up-mypage:hover {
+.pop-up-btn:hover {
+  font-weight: 600;
+  transition: font-weight 0.3s ease;
   color: #000000;
   text-decoration: underline;
 }
