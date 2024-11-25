@@ -47,6 +47,16 @@ const makeCalendar = (date) => {
   weeks.value = chunkArray(allDates, 7);
 };
 
+// 오늘 날짜 확인
+const isToday = (date) => {
+  const now = new Date();
+  return (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate()
+  );
+};
+
 // 일정 추가
 const addEventDates = (date) => {
   if (props.usage !== "main-calendar") return false;
@@ -77,6 +87,22 @@ const isEventDate = (date) => {
       ) {
         return event.color; // 해당 날짜의 색상 반환
       }
+    }
+  }
+  return null;
+};
+
+// 연속된 이벤트의 시작, 중간, 끝 확인
+const getEventPosition = (date) => {
+  const dateStr = date.toISOString().split("T")[0];
+  for (const event of eventSchedule.value) {
+    const eventDates = event.dates.map((d) => d.toISOString().split("T")[0]);
+    const index = eventDates.indexOf(dateStr);
+    if (index !== -1) {
+      if (eventDates.length === 1) return "single";
+      if (index === 0) return "start";
+      if (index === eventDates.length - 1) return "end";
+      return "middle";
     }
   }
   return null;
@@ -175,28 +201,54 @@ watch(
     </div>
 
     <div class="days">
-      <div class="date" v-for="day in days" :key="day">{{ day }}</div>
+      <div class="day" v-for="(day, index) in days" :key="day">
+        <span
+          :class="[
+            'day-title',
+            { isSunday: index === 0 },
+            { isSaturday: index === 6 },
+          ]"
+        >
+          {{ day }}
+        </span>
+      </div>
     </div>
 
     <div class="weeks">
       <div class="week" v-for="week in weeks" :key="week[0]">
         <div
           class="date"
-          v-for="date in week"
+          v-for="(date, index) in week"
           :key="date"
           :class="{
             preMonth: date.getMonth() < today.getMonth(),
             nextMonth: date.getMonth() > today.getMonth(),
             selectedRange: isInSelectedRange(date),
+            today: isToday(date), // 오늘 날짜에 클래스 추가
           }"
           @click="handleClickDate(date)"
         >
-          <div class="date-number">
+          <div
+            :class="[
+              'date-number',
+              { isSunday: index === 0 },
+              { isSaturday: index === 6 },
+            ]"
+          >
             {{ date.getDate() }}
           </div>
           <div
-            class="isEvent"
-            :style="{ backgroundColor: isEventDate(date) }"
+            :class="[
+              'isEvent',
+              {
+                'start-event': getEventPosition(date) === 'start',
+                'end-event': getEventPosition(date) === 'end',
+                'single-event': getEventPosition(date) === 'single',
+              },
+            ]"
+            :style="{
+              backgroundColor: isEventDate(date),
+            }"
           ></div>
         </div>
       </div>
@@ -215,6 +267,13 @@ watch(
 @media (max-width: 1440px) {
   .main-calendar {
     width: 70%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-calendar {
+    width: 100%;
     height: 70%;
   }
 }
@@ -266,26 +325,26 @@ watch(
 .today-btn.active {
   background-color: #7bbcb0;
   color: #ffffff;
-  border: ;
 }
 
 .days {
   display: flex;
   justify-content: space-between;
+  background-color: #f9f9f9;
   border-bottom: 1px solid #c9c9c9;
+  border: 1px solid #c9c9c9;
 }
 
 .day {
-  text-align: center;
-  padding: 10px;
+  height: auto;
+  width: 100%;
 }
 
 .date {
   width: 100%;
-  height: 100%;
-  min-height: 50px;
-  max-height: 100px;
+  height: 100px;
   border-collapse: collapse;
+  position: relative; /* box-shadow를 사용하기 위해 position 설정 */
 }
 
 .date-number {
@@ -293,10 +352,13 @@ watch(
 }
 
 .weeks {
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   border-collapse: collapse;
+  border: 1px solid #c9c9c9;
+  border-top: 0;
+  border-bottom: 0;
 }
 
 .week {
@@ -318,7 +380,39 @@ watch(
   height: 10px;
 }
 
+.start-event {
+  position: absolute;
+  left: 3px;
+  width: calc(100% - 3px);
+  border-radius: 5px 0 0 5px;
+}
+
+.end-event {
+  position: absolute;
+  right: 3px;
+  width: calc(100% - 3px);
+  border-radius: 0 5px 5px 0;
+}
+
+.single-event {
+  width: 5px;
+}
+
 .selectedRange {
   background-color: #c2e0db;
+}
+
+/* 오늘 날짜 스타일 */
+.today {
+  background-color: #e0f7e9; /* 연한 초록색 배경 */
+  box-shadow: inset 0 0 0 2px #4caf50; /* 진한 초록색 테두리 */
+}
+
+.isSunday {
+  color: rgb(255, 30, 30);
+}
+
+.isSaturday {
+  color: rgb(30, 30, 248);
 }
 </style>
