@@ -354,13 +354,16 @@ watch(
 }
 
 .weeks {
-  height: 100%;
   display: flex;
   flex-direction: column;
   border-collapse: collapse;
   border: 1px solid #c9c9c9;
   border-top: 0;
   border-bottom: 0;
+}
+
+.select-calendar .weeks {
+  height: 100%;
 }
 
 .week {

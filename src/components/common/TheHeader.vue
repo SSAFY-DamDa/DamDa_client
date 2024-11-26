@@ -3,10 +3,12 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
 import PopUpForm from "@/components/popup/PopUpForm.vue";
+import { useLogoStore } from "@/stores/logo";
 
 defineEmits(["close-pop-up"]);
 
 const userStore = useUserStore();
+const logoStore = useLogoStore();
 const router = useRouter();
 
 const isShow = ref(false);
@@ -31,12 +33,10 @@ const handleScroll = () => {
 
 onMounted(() => {
   document.addEventListener("click", handleDocumentClick);
-  window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
   document.removeEventListener("click", handleDocumentClick);
-  window.removeEventListener("scroll", handleScroll); // 스크롤 이벤트 제거
 });
 
 const handleClickContent = (content) => {
@@ -64,7 +64,7 @@ const handleClosePopUp = () => {
 <template>
   <header v-if="userStore.userInfo">
     <img
-      src="@/assets/imgs/damda_logo.png"
+      :src="logoStore.logo"
       alt="logo"
       class="logo"
       @click="handleClickText('main')"
@@ -138,6 +138,11 @@ img {
 
 .logo {
   cursor: pointer;
+}
+
+.desktop-btn {
+  align-items: center;
+  color: #ffffff;
 }
 
 .text-btn-section {
