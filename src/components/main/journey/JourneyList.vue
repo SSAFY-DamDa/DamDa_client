@@ -16,7 +16,9 @@ onMounted(async () => {
     userStore.userInfo.userId,
     (response) => {
       response.data.journey.forEach((j) => {
-        userJourneyList.value.push(j);
+        if (new Date(j.endDate) > new Date()) {
+          userJourneyList.value.push(j);
+        }
       });
       userJourneyList.value.sort(
         (a, b) => new Date(a.startDate) - new Date(b.startDate)

@@ -282,7 +282,7 @@ watch(
   width: 90%;
 
   .date {
-    height: 30px;
+    height: 100%;
   }
 }
 
@@ -345,7 +345,7 @@ watch(
   width: 100%;
   height: 100px;
   border-collapse: collapse;
-  position: relative; /* box-shadow를 사용하기 위해 position 설정 */
+  position: relative;
 }
 
 .date-number {
@@ -354,7 +354,7 @@ watch(
 }
 
 .weeks {
-  height: auto;
+  height: 100%;
   display: flex;
   flex-direction: column;
   border-collapse: collapse;
@@ -374,16 +374,16 @@ watch(
 
 .preMonth,
 .nextMonth {
-  color: #c9c9c9;
+  opacity: 0.5;
 }
 
 .isEvent {
+  position: absolute;
   width: 100%;
   height: 10px;
 }
 
 .start-event {
-  position: absolute;
   left: 3px;
   width: calc(100% - 3px);
   border-radius: 5px 0 0 5px;
@@ -404,10 +404,9 @@ watch(
   background-color: #c2e0db;
 }
 
-/* 오늘 날짜 스타일 */
 .today {
-  background-color: #e0f7e9; /* 연한 초록색 배경 */
-  box-shadow: inset 0 0 0 2px #4caf50; /* 진한 초록색 테두리 */
+  background-color: #e0f7e9;
+  box-shadow: inset 0 0 0 2px #4caf50;
 }
 
 .isSunday {

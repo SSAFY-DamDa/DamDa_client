@@ -12,6 +12,15 @@ const getJourney = async (param, suc, err) => {
     .catch(err);
 };
 
+const getPreJourney = async (param, suc, err) => {
+  return await Axios(JOURNEY)
+    .get("/pre", {
+      params: { userId: param.userId, startDate: param.startDate },
+    })
+    .then(suc)
+    .catch(err);
+};
+
 const getDetailJourney = async (param, suc, err) => {
   return await Axios(JOURNEY).get(`/detail/${param}`).then(suc).catch(err);
 };
@@ -45,6 +54,7 @@ const getReviewList = async (suc, err) => {
 export {
   getJourneyList,
   getJourney,
+  getPreJourney,
   getDetailJourney,
   postRegisterJourney,
   postRegisterDetailJourney,

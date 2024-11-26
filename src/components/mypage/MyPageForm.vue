@@ -1,13 +1,12 @@
 <script setup>
 import MypageMainAside from "@/components/mypage/aside/MyPageAside.vue";
-import MyPageMain from "@/components/mypage/main/MyPageMain.vue";
-
+import { RouterView } from "vue-router";
 </script>
 
 <template>
   <div class="mypage-form">
     <MypageMainAside />
-    <MyPageMain />
+    <RouterView />
   </div>
 </template>
 
@@ -24,7 +23,7 @@ main {
   flex-direction: column;
 }
 
-main>h3 {
+main > h3 {
   margin-left: 50px;
 }
 

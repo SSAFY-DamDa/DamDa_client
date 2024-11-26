@@ -17,6 +17,8 @@ import MyJourneyView from "@/views/MyJourneyView.vue";
 import MakeAIView from "@/views/MakeAIView.vue";
 import ResultRecommend from "@/components/makeai/result/ResultRecommend.vue";
 import MyCalendarView from "@/views/MyCalendarView.vue";
+import MyPagePreJourney from "@/components/mypage/main/MyPagePreJourney.vue";
+import MyPageProfile from "@/components/mypage/main/MyPageProfile.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -57,7 +59,20 @@ const router = createRouter({
       path: "/mypage",
       name: "mypage",
       beforeEnter: onlyAuthUser,
+      redirect: { name: "profile" },
       component: MyPageView,
+      children: [
+        {
+          path: "profile",
+          name: "profile",
+          component: MyPageProfile,
+        },
+        {
+          path: "prejourney",
+          name: "prejourney",
+          component: MyPagePreJourney,
+        },
+      ],
     },
     {
       path: "/mycalendar",
