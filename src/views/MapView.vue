@@ -47,11 +47,11 @@ const handleSearchTag = async (tagId) => {
   tripStore.setIsLoaded(true);
 };
 
-const handleSearchTitle = async (title) => {
+const handleSearchTitle = async (title, filter, location) => {
   currentPage.value = 1;
   const kakao = await loadKakaoMap();
   tripStore.setIsLoaded(false);
-  await fetchTitleSearchPage(1, kakao, title, tripStore);
+  await fetchTitleSearchPage(1, kakao, title, filter, location, tripStore);
   tripStore.setIsLoaded(true);
 };
 </script>
@@ -59,7 +59,6 @@ const handleSearchTitle = async (title) => {
 <template>
   <section id="map-view-section">
     <BaseAside
-      v-if="tripStore.getIsLoaded"
       :currentPage="currentPage"
       @page-change="handlePageChange"
       @search-tag="handleSearchTag"
