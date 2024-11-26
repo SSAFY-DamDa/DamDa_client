@@ -3,8 +3,10 @@ import { getPreJourney } from "@/api/journey";
 import { useUserStore } from "@/stores/user";
 import { ref, watch } from "vue";
 import JourneyListItem from "@/components/main/journey/item/JourneyListItem.vue";
+import { useJourneyStore } from "@/stores/journey";
 
 const userStore = useUserStore();
+const journeyStore = useJourneyStore();
 const thisYear = ref(new Date().getFullYear());
 const yearList = ref([]);
 const monthList = ref([
@@ -47,6 +49,7 @@ watch(
       { userId: userStore.userInfo.userId, startDate: formData },
       (response) => {
         preJourneyList.value = response.data.journey;
+        journeyStore.setUserJourneyList(preJourneyList.value);
         console.log("이전 여정들", preJourneyList.value);
       },
       (error) => {
