@@ -4,6 +4,7 @@ import TripList from "@/components/map/aside/TripList.vue";
 import ThePageNavigation from "@/components/common/ThePageNavigation.vue";
 import { useTripStore } from "@/stores/trip";
 import { getAutoComplete } from "@/api/trip";
+import IconSearch from "@/components/icons/IconSearch.vue";
 
 // debounce 유틸 함수
 const debounce = (fn, delay) => {
@@ -185,8 +186,9 @@ const handleInput = (e) => {
           @focus="handleFocus"
           @input="handleInput"
         />
-        <img
-          src="@/assets/icons/search.svg"
+        <IconSearch
+          size="30"
+          color="#7bbcb0"
           class="search-btn"
           @click="handleSearchTitle"
           style="cursor: pointer"
