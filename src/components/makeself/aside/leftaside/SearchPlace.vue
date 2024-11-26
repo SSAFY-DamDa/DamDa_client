@@ -10,11 +10,11 @@ import { useTripStore } from "@/stores/trip";
 const currentPage = ref(1);
 const tripStore = useTripStore();
 
-const handleSearchTitle = async (title) => {
+const handleSearchTitle = async (title, filter, location) => {
   currentPage.value = 1;
   const kakao = await loadKakaoMap();
   tripStore.setIsLoaded(false);
-  await fetchTitleSearchPage(1, kakao, title, tripStore);
+  await fetchTitleSearchPage(1, kakao, title, filter, location, tripStore);
   tripStore.setIsLoaded(true);
 };
 
@@ -45,5 +45,6 @@ const handlePageChange = async (pg) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 </style>
