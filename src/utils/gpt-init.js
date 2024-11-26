@@ -116,7 +116,7 @@ export const useGPTApi = async (places, userAnswer, retryCount = 0) => {
           },
         ],
         temperature: 0.5,
-        max_tokens: 2000,
+        max_tokens: 5000,
       },
       {
         headers: {

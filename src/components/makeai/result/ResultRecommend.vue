@@ -1,16 +1,14 @@
 <script setup>
 import KakaoMap from "@/components/common/TheKakaoMap.vue";
-import { useTripStore } from "@/stores/trip";
 import JourneyInfo from "./JourneyInfo.vue";
 import YoutubeRecommend from "../youtube/YoutubeRecommend.vue";
-const tripStore = useTripStore();
 </script>
 
 <template>
   <div id="result-view-container">
     <JourneyInfo />
     <div class="right-side-container">
-      <KakaoMap height="70%" :positions="tripStore.getPositions" />
+      <KakaoMap height="70%" />
       <YoutubeRecommend />
     </div>
   </div>

@@ -5,7 +5,6 @@ import { useAiJourneyStore } from "@/stores/aijourney";
 import { useRouter } from "vue-router";
 import { postRegisterDetailJourney, postRegisterJourney } from "@/api/journey";
 import { useUserStore } from "@/stores/user";
-import { ref } from "vue";
 
 const aiJourneyStore = useAiJourneyStore();
 const userStore = useUserStore();
