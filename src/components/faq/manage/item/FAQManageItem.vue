@@ -46,12 +46,19 @@ const handleClickDetail = async () => {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #000000;
-  padding: 10px 20px;
+  padding: 30px 20px;
 }
 
 #faq-item-subject {
-  width: 80%;
+  width: 70%;
   display: flex;
   justify-content: flex-start;
+  font-size: 1.8rem;
+  color: black;
+}
+
+#faq-item-subject:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

@@ -80,7 +80,7 @@ const handleDelete = async () => {
       :readonly="!isModify"
     ></textarea>
     <div id="faq-detail-bottom">
-      <div style="padding: 20px 0px 10px 0px">
+      <div style="padding: 15px 0px 15px 0px">
         <button id="faq-list-button" @click="handleManageList">목록</button>
       </div>
       <div id="faq-detail-data">
@@ -113,7 +113,8 @@ textarea {
 
 #faq-detail {
   width: 100%;
-
+  height: 100%;
+  padding: 30px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -122,22 +123,27 @@ textarea {
 
 #faq-detail-top {
   width: 50%;
-  padding: 60px 10px 10px 10px;
+  padding: 30px 10px 30px 10px;
   border-bottom: 1px solid #cdcdcd;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 #faq-detail-middle {
   width: 50%;
   min-height: 200px;
   border-bottom: 1px solid #cdcdcd;
+  margin-top: 20px;
   padding: 10px;
   display: flex;
+  font-size: 1.6rem;
+  word-break: keep-all;
 }
 
 #faq-detail-bottom {
   width: 50%;
+  padding: 30px;
   display: flex;
   justify-content: space-between;
 }
@@ -158,6 +164,16 @@ textarea {
   border: 0;
   border-radius: 3px;
   color: #ffffff;
+}
+
+button {
+  min-width: 80px;
+  min-height: 40px;
+  padding: 10px;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 #faq-list-button {

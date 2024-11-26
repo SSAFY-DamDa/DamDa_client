@@ -11,7 +11,6 @@ const articleList = ref([]);
 const activeArticleNo = ref(null);
 
 onMounted(async () => {
-  console.log("onMouned");
   await getListFAQ(
     (response) => {
       articleList.value = response.data.articles;
@@ -30,7 +29,7 @@ const handleToggle = (articleNo) => {
 </script>
 
 <template>
-  <div class="faq-section">
+  <div class="faq-list-section">
     <FAQItem
       v-for="article in articleList"
       :key="article.articleNo"
@@ -42,8 +41,8 @@ const handleToggle = (articleNo) => {
 </template>
 
 <style scoped>
-.faq-section {
-  width: 100%;
+.faq-list-section {
+  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
