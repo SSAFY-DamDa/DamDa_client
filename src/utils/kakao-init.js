@@ -45,23 +45,54 @@ export const fetchTagSearchPage = async (page, kakao, tagId, tripStore) => {
   );
 };
 
-export const fetchTitleSearchPage = async (page, kakao, title, tripStore) => {
-  await getSearchTrip(
-    {
-      areaCode: 0,
-      contentTypeId: isTag.value,
-      title: title,
-      pgno: page,
-    },
-    (response) => {
-      isTitle.value = title;
-      makeTripList(response.data.tripList, kakao, tripStore);
-      tripStore.setTotalPage(response.data.totalPage);
-    },
-    (error) => {
-      console.log("여행 검색 도중 오류!", error);
-    }
-  );
+export const fetchTitleSearchPage = async (
+  page,
+  kakao,
+  title,
+  filter,
+  location,
+  tripStore
+) => {
+  //전체 검색
+  if (filter == "total") {
+    await getSearchTrip(
+      {
+        areaCode: 0,
+        gugunCode: 0,
+        contentTypeId: isTag.value,
+        title: title,
+        pgno: page,
+      },
+      (response) => {
+        isTitle.value = title;
+        makeTripList(response.data.tripList, kakao, tripStore);
+        tripStore.setTotalPage(response.data.totalPage);
+      },
+      (error) => {
+        console.log("여행 검색 도중 오류!", error);
+      }
+    );
+  }
+  //지역 검색
+  else {
+    await getSearchTrip(
+      {
+        areaCode: location.sidoCode,
+        gugunCode: location.gugunCode,
+        contentTypeId: 0,
+        title: "",
+        pgno: page,
+      },
+      (response) => {
+        isTitle.value = title;
+        makeTripList(response.data.tripList, kakao, tripStore);
+        tripStore.setTotalPage(response.data.totalPage);
+      },
+      (error) => {
+        console.log("여행 검색 도중 오류!", error);
+      }
+    );
+  }
 };
 
 const makeTripList = (_tripList, kakao, tripStore) => {

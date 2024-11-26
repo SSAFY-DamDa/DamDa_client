@@ -14,6 +14,7 @@ const getSearchTrip = async (param, suc, err) => {
     .get("/search", {
       params: {
         areaCode: param.areaCode,
+        gugunCode: param.gugunCode,
         contentTypeId: param.contentTypeId,
         title: param.title,
         pgno: param.pgno,
@@ -44,4 +45,18 @@ const getGugunList = async (param, suc, err) => {
     .catch(err);
 };
 
-export { getTripList, getSearchTrip, getSearchAITrip, getSiList, getGugunList };
+const getAutoComplete = async (param, suc, err) => {
+  return await Axios(TRIP)
+    .get("/autocomplete", { params: { title: param } })
+    .then(suc)
+    .catch(err);
+};
+
+export {
+  getTripList,
+  getSearchTrip,
+  getSearchAITrip,
+  getSiList,
+  getGugunList,
+  getAutoComplete,
+};
