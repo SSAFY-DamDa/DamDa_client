@@ -19,8 +19,9 @@ const handleReview = () => {
   emit("open-review");
 };
 
-const handleDeleteJourney = () => {
-  deleteJourney(
+const handleDeleteJourney = async () => {
+  console.log("지울 id:", props.infoId);
+  await deleteJourney(
     props.infoId,
     () => {
       console.log("여행 삭제 성공");

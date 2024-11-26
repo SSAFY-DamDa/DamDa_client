@@ -10,6 +10,13 @@ export const useTripStore = defineStore("trip", () => {
   const positions = ref([]);
   const totalPage = ref(1);
   const selectTag = ref("");
+  const paramObj = ref({
+    areaCode: 0,
+    gugunCode: 0,
+    contentTypeId: 0,
+    title: "",
+    pgno: 1,
+  });
 
   //get
   const getIsLoaded = computed(() => isLoaded.value);
@@ -19,6 +26,7 @@ export const useTripStore = defineStore("trip", () => {
   const getPositions = computed(() => positions.value);
   const getTotalPage = computed(() => totalPage.value);
   const getSelectTag = computed(() => selectTag.value);
+  const getParamObj = computed(() => paramObj.value);
 
   //set
   const setIsLoaded = (flag) => {
@@ -49,6 +57,20 @@ export const useTripStore = defineStore("trip", () => {
     selectTag.value = tag;
   };
 
+  const setParamObj = (param) => {
+    paramObj.value = param;
+  };
+
+  const resetParamObj = () => {
+    paramObj.value = {
+      areaCode: 0,
+      gugunCode: 0,
+      contentTypeId: 0,
+      title: "",
+      pgno: 1,
+    };
+  };
+
   return {
     getIsLoaded,
     getTripList,
@@ -57,6 +79,7 @@ export const useTripStore = defineStore("trip", () => {
     getPositions,
     getTotalPage,
     getSelectTag,
+    getParamObj,
     setIsLoaded,
     setTripList,
     setSiList,
@@ -64,5 +87,7 @@ export const useTripStore = defineStore("trip", () => {
     setPositions,
     setTotalPage,
     setSelectTag,
+    setParamObj,
+    resetParamObj,
   };
 });

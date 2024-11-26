@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import IconCalendar from "@/components/icons/IconCalendar.vue";
 import IconPeople from "@/components/icons/IconPeople.vue";
 import { storeToRefs } from "pinia";
@@ -11,6 +11,17 @@ const isFocusedPeople = ref(false);
 
 const aiJourneyStore = useAiJourneyStore();
 const { finalJourneyInfo } = storeToRefs(aiJourneyStore);
+
+onMounted(() => {
+  console.log("ajs:", aiJourneyStore.answerDetail);
+  finalJourneyInfo.value.startDate = toKST(
+    aiJourneyStore.answerDetail.start_date
+  );
+  finalJourneyInfo.value.endDate = toKST(aiJourneyStore.answerDetail.end_date);
+  finalJourneyInfo.value.personnel = aiJourneyStore.answerDetail.people;
+  console.log("fji:", finalJourneyInfo.value);
+  console.log(finalJourneyInfo.value.endDate.toString);
+});
 
 const handleFocusStart = () => {
   isFocusedStart.value = true;
@@ -34,6 +45,14 @@ const handleFocusPeople = () => {
 
 const handleBlurPeople = () => {
   isFocusedPeople.value = false;
+};
+
+const toKST = (date) => {
+  const kstOffset = 9 * 60 * 60 * 1000; // KST는 UTC+9
+  const kstDate = new Date(new Date(date).getTime() - kstOffset);
+  return `${kstDate.getFullYear()}-${kstDate.getMonth() + 1}-${
+    kstDate.getDate() + 1
+  }`;
 };
 </script>
 

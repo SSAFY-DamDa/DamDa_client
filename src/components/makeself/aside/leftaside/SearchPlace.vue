@@ -13,16 +13,27 @@ const tripStore = useTripStore();
 const handleSearchTitle = async (title, filter, location) => {
   currentPage.value = 1;
   const kakao = await loadKakaoMap();
+  tripStore.setParamObj({
+    ...tripStore.getParamObj,
+    title: title,
+    areaCode: location.sidoCode,
+    gugunCode: location.gugunCode,
+    pgno: 1,
+  });
   tripStore.setIsLoaded(false);
-  await fetchTitleSearchPage(1, kakao, title, filter, location, tripStore);
+  await fetchTitleSearchPage(kakao, filter, tripStore);
   tripStore.setIsLoaded(true);
 };
 
 const handlePageChange = async (pg) => {
   currentPage.value = pg;
   tripStore.setIsLoaded(false);
+  tripStore.setParamObj({
+    ...tripStore.getParamObj,
+    pgno: pg,
+  });
   const kakao = await loadKakaoMap();
-  await fetchPage(currentPage.value, kakao, tripStore);
+  await fetchPage(kakao, tripStore);
   tripStore.setIsLoaded(true);
 };
 </script>
