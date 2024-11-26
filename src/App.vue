@@ -1,11 +1,14 @@
 <script setup>
 import { RouterView } from "vue-router";
+import { useUserStore } from "./stores/user";
 import TheHeader from "@/components/common/TheHeader.vue";
+
+const userStore = useUserStore();
 </script>
 
 <template>
   <TheHeader />
-  <main>
+  <main :class="{ 'height-full': userStore.userInfo }">
     <RouterView />
   </main>
 </template>
@@ -14,7 +17,13 @@ import TheHeader from "@/components/common/TheHeader.vue";
 main {
   flex: 1;
   width: 100%;
-  height: calc(100% - 60px);
+  height: 100%;
   font-size: 1.6rem;
+}
+
+.height-full {
+  position: relative;
+  top: 60px;
+  height: calc(100% - 60px);
 }
 </style>

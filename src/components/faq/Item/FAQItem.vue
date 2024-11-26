@@ -23,8 +23,10 @@ defineProps({
       <img :src="arrow" :class="{ imgActive: isActive }" />
     </div>
     <div :class="['faq', 'answer', { aActive: isActive }]">
-      <div class="a-section">A.</div>
-      <div class="a-content-section" v-html="article.content"></div>
+      <div class="a-content-section">
+        <div class="a-section">A.</div>
+        <div v-html="article.content"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,8 +50,11 @@ defineProps({
   font-size: 2.1rem;
   background-color: rgb(255, 255, 255);
   border-bottom: 1px solid #cdcdcd;
+  color: #7bbcb0;
+  font-weight: 500;
   cursor: pointer;
 }
+
 .answer {
   width: 100%;
   max-height: 0;
@@ -67,7 +72,8 @@ defineProps({
 
 .qActive {
   font-weight: bold;
-  background-color: #bdbdbd;
+  background-color: #c2e0db;
+  color: #222222;
 }
 
 .imgActive {
@@ -80,5 +86,13 @@ defineProps({
   max-height: 400px;
   opacity: 1;
   padding: 10px 30px;
+}
+
+.a-content-section {
+  display: flex;
+  gap: 10px;
+  padding: 30px 0px;
+  font-size: 1.8rem;
+  word-break: keep-all;
 }
 </style>

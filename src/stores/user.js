@@ -20,22 +20,24 @@ export const useUserStore = defineStore("user", () => {
     await userLogin(
       user,
       async (response) => {
-        console.log("로그인 성공;", response);
         if (response.status === 201) {
           let { data } = response;
           let accessToken = data["accessToken"];
           let refreshToken = data["refreshToken"];
           isLogin.value = true;
           isValidToken.value = true;
-          console.log("ivt:", isValidToken.value);
           sessionStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", refreshToken);
 
           router.push({ name: "main" });
         }
       },
-      () => {
-        console.log("로그인 실패");
+      (err) => {
+        if (err.response.status === 401) {
+          alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+        } else {
+          alert("로그인에 실패했습니다. 잠시 후 다시 시도해주세요.");
+        }
         isLogin.value = false;
         isValidToken.value = false;
       }
@@ -44,16 +46,13 @@ export const useUserStore = defineStore("user", () => {
 
   const getUserInfo = async (token) => {
     let decodeToken = jwtDecode(token);
-    console.log(decodeToken);
 
     await userFindUser(
       decodeToken.userId,
       (response) => {
-        console.log("finduser", response);
         if (response.status === 200) {
           isValidToken.value = true;
           userInfo.value = response.data;
-          console.log("finduser isvalidtoken get:", isValidToken.value);
         }
       },
       async () => {
@@ -64,11 +63,9 @@ export const useUserStore = defineStore("user", () => {
   };
 
   const tokenRegenerate = async () => {
-    console.log("token re:", userInfo.value);
     await userRefreshToken(
       JSON.stringify(userInfo.value),
       (response) => {
-        console.log("token re:", response);
         if (response.status === 201) {
           let accessToken = response.data["accessToken"];
           sessionStorage.setItem("accessToken", accessToken);
@@ -76,7 +73,6 @@ export const useUserStore = defineStore("user", () => {
         }
       },
       (error) => {
-        console.log("token re:", error);
         if (error.response.status === 401) {
           userLogout(
             () => {

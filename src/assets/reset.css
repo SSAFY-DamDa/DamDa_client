@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "NotoSansKR-Light";
+  src: url("@/assets/fonts/NotoSansKR-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+@font-face {
+  font-family: "NotoSansKR-Regular";
+  src: url("@/assets/fonts/NotoSansKR-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+@font-face {
+  font-family: "NotoSansKR-Bold";
+  src: url("@/assets/fonts/NotoSansKR-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
 html,
 body,
 #app {
@@ -5,6 +21,15 @@ body,
   height: 100%;
   margin: 0;
   font-size: 62.5%;
+  font-family: "NotoSansKR-Regular";
+}
+
+@media (max-width: 1024px) {
+  html,
+  body,
+  #app {
+    font-size: 50%;
+  }
 }
 
 body::-webkit-scrollbar {
@@ -18,4 +43,69 @@ body::-webkit-scrollbar-thumb {
 
 body::-webkit-scrollbar-track {
   background-color: rgba(0, 0, 0, 0);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #000;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:autofill,
+input:autofill:hover,
+input:autofill:focus,
+input:autofill:active {
+  -webkit-text-fill-color: #000;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("@/assets/fonts/NotoSansKR-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-Bold";
+  src: url("@/assets/fonts/NotoSansKR-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-Light";
+  src: url("@/assets/fonts/NotoSansKR-Light.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-Medium";
+  src: url("@/assets/fonts/NotoSansKR-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-Thin";
+  src: url("@/assets/fonts/NotoSansKR-Thin.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-Black";
+  src: url("@/assets/fonts/NotoSansKR-Black.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-ExtraBold";
+  src: url("@/assets/fonts/NotoSansKR-ExtraBold.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-ExtraLight";
+  src: url("@/assets/fonts/NotoSansKR-ExtraLight.ttf");
+}
+
+@font-face {
+  font-family: "Noto Sans KR-SemiBold";
+  src: url("@/assets/fonts/NotoSansKR-SemiBold.ttf");
 }

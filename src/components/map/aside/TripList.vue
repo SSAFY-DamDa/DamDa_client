@@ -6,15 +6,20 @@ const tripStore = useTripStore();
 </script>
 
 <template>
-  <ul id="trip-list-ul" v-if="tripStore.getIsLoaded">
-    <TripListItem v-for="trip in tripStore.getTripList" :key="trip.content_id" :trip-item="trip" />
+  <ul id="trip-list-ul">
+    <TripListItem
+      v-for="trip in tripStore.getTripList"
+      :key="trip.content_id"
+      :trip-item="trip"
+    />
   </ul>
 </template>
 
 <style scoped>
 #trip-list-ul {
-  width: 90%;
+  width: 100%;
   max-height: 80%;
+  padding-left: 10px;
   display: flex;
   flex-direction: column;
   overflow: auto;

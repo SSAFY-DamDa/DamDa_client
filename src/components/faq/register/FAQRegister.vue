@@ -1,37 +1,36 @@
 <script setup>
-import faqRegister from "@/assets/imgs/faqRegister.png";
 import { ref } from "vue";
-import { FAQAxios } from "@/utils/http-faq";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+import { postRegisterFAQ } from "@/api/faq";
 
-const axios = FAQAxios();
 const router = useRouter();
-const userInfoStore = useUserStore();
+const userStore = useUserStore();
 
 const content = ref("");
 const updateContent = () => {
-  content.value = document.querySelector(".content-editor").innerHTML;
+  content.value = document.querySelector(".editor-content-input").innerHTML;
 };
 
 const subject = ref("");
 
 const handleRegister = async () => {
   const article = {
-    userId: userInfoStore.userId,
+    userId: userStore.userInfo.userId,
     subject: subject.value,
     content: content.value,
   };
   console.log(article);
-  try {
-    const response = await axios.post("/register", article);
-    if (response.status == 201) {
+  await postRegisterFAQ(
+    article,
+    () => {
       alert("등록에 성공했어요!");
       router.push({ name: "list" });
+    },
+    (error) => {
+      console.log("FAQ 등록 중 오류!" + error);
     }
-  } catch (error) {
-    console.log(error);
-  }
+  );
 };
 
 const handleClickCancel = () => {
@@ -41,17 +40,34 @@ const handleClickCancel = () => {
 
 <template>
   <div id="faq-register">
-    <img id="top-background" :src="faqRegister" />
+    <div id="faq-title">
+      <span>FAQ 등록</span>
+    </div>
     <div class="editor-container">
-      <input class="subject-editor" placeholder="게시글의 제목을 입력하세요." v-model="subject" />
-      <div class="content-editor" contenteditable="true" ref="editor" placeholder="본문을 작성하세요..." @input="updateContent">
+      <div class="editor-title">
+        <span class="editor-title-text">제목</span>
+        <input
+          class="editor-title-input"
+          placeholder="게시글의 제목을 입력하세요."
+          v-model="subject"
+        />
       </div>
+      <div class="editor-content">
+        <span class="editor-content-text">본문</span>
+        <div
+          class="editor-content-input"
+          contenteditable="true"
+          ref="editor"
+          @input="updateContent"
+        ></div>
+      </div>
+
       <div class="button-section">
-        <button type="button" id="faq-register-button" @click="handleRegister">
-          등록하기
-        </button>
         <button type="button" id="faq-cancel-button" @click="handleClickCancel">
           취소하기
+        </button>
+        <button type="button" id="faq-register-button" @click="handleRegister">
+          등록하기
         </button>
       </div>
     </div>
@@ -65,6 +81,20 @@ const handleClickCancel = () => {
   align-items: center;
 }
 
+#faq-title {
+  width: 100%;
+  height: 400px;
+  background-color: white;
+  text-align: center;
+  line-height: 400px;
+
+  > span {
+    color: black;
+    font-size: 8rem;
+    font-weight: 900;
+  }
+}
+
 #top-background {
   width: 100%;
 }
@@ -73,55 +103,87 @@ const handleClickCancel = () => {
   width: 50%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  border: 2px solid #d0d0d0;
 }
 
-.subject-editor {
+.editor-title {
   width: 100%;
+  display: flex;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.editor-title-text {
+  width: 10%;
+  font-size: 1.8rem;
+}
+
+.editor-title-input {
+  width: 90%;
   padding: 10px;
-  margin-bottom: 10px;
   border: 0px;
   border-bottom: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 1.8rem;
+
   outline: none;
 }
 
-.content-editor {
+.editor-content {
   width: 100%;
-  min-height: 100px;
+  display: flex;
+  margin-bottom: 20px;
+  align-items: start;
+}
+
+.editor-content-text {
+  width: 10%;
+  font-size: 1.8rem;
+}
+
+.editor-content-input {
+  width: 100%;
+  min-height: 300px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
   font-size: 16px;
   outline: none;
+  color: blac;
 }
 
 .button-section {
   width: 100%;
-  padding: 20px;
+  padding: 30px;
+
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: center;
   gap: 10px;
 }
 
 .button-section button {
-  width: 250px;
+  width: 10%;
+  max-width: 250px;
   height: 50px;
   border: 0;
   border-radius: 3px;
-  background-color: #7bbcb0;
+  background-color: #c2e0db;
   color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 #faq-cancel-button {
-  background-color: #4f5a66;
+  background-color: #c9c9c9;
 }
 
 #faq-register-button:hover {
-  background-color: #5bb8a7;
+  background-color: #78c2b6;
 }
 
 #faq-cancel-button:hover {
-  background-color: #2d333a;
+  background-color: #a9a9a9;
 }
 </style>

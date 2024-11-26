@@ -1,5 +1,4 @@
 <script setup>
-import FAQTop from "@/assets/imgs/FAQTop.png";
 import FAQList from "@/components/faq/FAQList.vue";
 import SideBar from "@/components/faq/sidebar/SideBar.vue";
 import { useUserStore } from "@/stores/user";
@@ -8,8 +7,10 @@ const userStore = useUserStore();
 
 <template>
   <div id="faq-view">
-    <img :src="FAQTop" />
-    <div>
+    <div id="faq-title">
+      <span>FAQs</span>
+    </div>
+    <div id="faq-section">
       <SideBar v-if="userStore.userInfo.userId === 'admin'" />
       <FAQList />
     </div>
@@ -19,9 +20,33 @@ const userStore = useUserStore();
 <style scoped>
 #faq-view {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-img {
+#faq-title {
   width: 100%;
+  height: 400px;
+  background-color: white;
+  text-align: center;
+  line-height: 400px;
+
+  > span {
+    color: black;
+    font-size: 8rem;
+    font-weight: 900;
+  }
+}
+
+#faq-section {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  position: relative;
 }
 </style>

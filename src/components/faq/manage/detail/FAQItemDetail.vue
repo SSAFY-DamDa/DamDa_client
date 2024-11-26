@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import { useFAQStore } from "@/stores/faq";
-import { FAQAxios } from "@/utils/http-faq";
 import { useRouter } from "vue-router";
+import { deleteFAQ, putFAQ } from "@/api/faq";
 
-const axios = FAQAxios();
 const faqStore = useFAQStore();
 const router = useRouter();
 
@@ -27,36 +26,37 @@ const handleCancel = () => {
 };
 
 const handleComplete = async () => {
-  try {
-    console.log(article.value);
-    await axios.put(`/modify/${article.value.articleNo}`, article.value, {
-      params: {
-        articleNo: parseInt(article.value.articleNo),
-      },
-    });
-    isModify.value = false;
-  } catch (error) {
-    console.log(error);
-  }
+  await putFAQ(
+    article.value.articleNo,
+    article.value,
+    () => {
+      isModify.value = false;
+    },
+    (error) => {
+      console.log("FAQ 수정 중 오류!" + error);
+    }
+  );
 };
 
 const handleDelete = async () => {
   const isCheck = confirm("정말 삭제하시겠습니까?");
 
   if (isCheck) {
-    try {
-      await axios.delete(`/${article.value.articleNo}`);
-      faqStore.setFAQList(
-        // store 삭제 반영
-        faqStore.getFAQList.filter(
-          (f) => f.articleNo !== article.value.articleNo
-        )
-      );
-      alert("삭제가 완료되었습니다!");
-      router.push({ name: "manage" });
-    } catch (error) {
-      console.log(error);
-    }
+    await deleteFAQ(
+      article.value.articleNo,
+      () => {
+        faqStore.setFAQList(
+          faqStore.getFAQList.filter(
+            (f) => f.articleNo !== article.value.articleNo
+          )
+        );
+        alert("삭제가 완료되었습니다!");
+        router.push({ name: "manage" });
+      },
+      (error) => {
+        console.log("FAQ 삭제 중 오류!" + error);
+      }
+    );
   }
 };
 </script>
@@ -80,7 +80,7 @@ const handleDelete = async () => {
       :readonly="!isModify"
     ></textarea>
     <div id="faq-detail-bottom">
-      <div style="padding: 20px 0px 10px 0px">
+      <div style="padding: 15px 0px 15px 0px">
         <button id="faq-list-button" @click="handleManageList">목록</button>
       </div>
       <div id="faq-detail-data">
@@ -113,7 +113,8 @@ textarea {
 
 #faq-detail {
   width: 100%;
-
+  height: 100%;
+  padding: 30px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -122,22 +123,27 @@ textarea {
 
 #faq-detail-top {
   width: 50%;
-  padding: 60px 10px 10px 10px;
+  padding: 30px 10px 30px 10px;
   border-bottom: 1px solid #cdcdcd;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 
 #faq-detail-middle {
   width: 50%;
   min-height: 200px;
   border-bottom: 1px solid #cdcdcd;
+  margin-top: 20px;
   padding: 10px;
   display: flex;
+  font-size: 1.6rem;
+  word-break: keep-all;
 }
 
 #faq-detail-bottom {
   width: 50%;
+  padding: 30px;
   display: flex;
   justify-content: space-between;
 }
@@ -158,6 +164,16 @@ textarea {
   border: 0;
   border-radius: 3px;
   color: #ffffff;
+}
+
+button {
+  min-width: 80px;
+  min-height: 40px;
+  padding: 10px;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 #faq-list-button {

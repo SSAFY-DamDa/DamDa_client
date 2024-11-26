@@ -11,6 +11,14 @@ import FAQView from "@/views/FAQView.vue";
 import FAQRegister from "@/components/faq/register/FAQRegister.vue";
 import FAQManage from "@/components/faq/manage/FAQManage.vue";
 import FAQItemDetail from "@/components/faq/manage/detail/FAQItemDetail.vue";
+import MakeSelfView from "@/views/MakeSelfView.vue";
+import CreateRoute from "@/components/makeai/CreateRoute.vue";
+import MyJourneyView from "@/views/MyJourneyView.vue";
+import MakeAIView from "@/views/MakeAIView.vue";
+import ResultRecommend from "@/components/makeai/result/ResultRecommend.vue";
+import MyCalendarView from "@/views/MyCalendarView.vue";
+import MyPagePreJourney from "@/components/mypage/main/MyPagePreJourney.vue";
+import MyPageProfile from "@/components/mypage/main/MyPageProfile.vue";
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
@@ -18,17 +26,13 @@ const onlyAuthUser = async (to, from, next) => {
   const { getUserInfo } = userStore;
 
   let token = sessionStorage.getItem("accessToken");
-  console.log("token check! before", token);
   if (token) {
-    console.log("token check! after", token);
     await getUserInfo(token);
   }
 
   if (!isValidToken.value || userInfo.value === null) {
-    console.log("onlyAuthUser:", isValidToken.value, userInfo.value);
     next({ name: "login" });
   } else {
-    console.log("next!");
     next();
   }
 };
@@ -55,7 +59,26 @@ const router = createRouter({
       path: "/mypage",
       name: "mypage",
       beforeEnter: onlyAuthUser,
+      redirect: { name: "profile" },
       component: MyPageView,
+      children: [
+        {
+          path: "profile",
+          name: "profile",
+          component: MyPageProfile,
+        },
+        {
+          path: "prejourney",
+          name: "prejourney",
+          component: MyPagePreJourney,
+        },
+      ],
+    },
+    {
+      path: "/mycalendar",
+      name: "mycalendar",
+      beforeEnter: onlyAuthUser,
+      component: MyCalendarView,
     },
     {
       path: "/main",
@@ -104,6 +127,44 @@ const router = createRouter({
           component: FAQItemDetail,
         },
       ],
+    },
+    {
+      path: "/makeself",
+      name: "makeself",
+      beforeEnter: onlyAuthUser,
+      component: MakeSelfView,
+    },
+    {
+      path: "/make",
+      name: "make",
+      beforeEnter: onlyAuthUser,
+      redirect: { name: "question" },
+      children: [
+        {
+          path: "question",
+          name: "question",
+          beforeEnter: onlyAuthUser,
+          component: MakeAIView,
+        },
+        {
+          path: "create",
+          name: "create",
+          beforeEnter: onlyAuthUser,
+          component: CreateRoute,
+        },
+        {
+          path: "result",
+          name: "result",
+          beforeEnter: onlyAuthUser,
+          component: ResultRecommend,
+        },
+      ],
+    },
+    {
+      path: "/myjourney/:id",
+      name: "myjourney",
+      beforeEnter: onlyAuthUser,
+      component: MyJourneyView,
     },
   ],
 });
