@@ -10,7 +10,7 @@ const tripStore = useTripStore();
   <div id="result-view-container">
     <JourneyInfo />
     <div class="right-side-container">
-      <KakaoMap height="70%" :positions="tripStore.getPositions" />
+      <KakaoMap height="70%" />
       <YoutubeRecommend />
     </div>
   </div>

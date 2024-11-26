@@ -8,8 +8,6 @@ import SelectPeriod from "@/components/makeai/answersection/SelectPeriod.vue";
 import SelectPeople from "@/components/makeai/answersection/SelectPeople.vue";
 import SelectPeopleDetail from "@/components/makeai/answersection/SelectPeopleDetail.vue";
 import SelectTheme from "@/components/makeai/answersection/SelectTheme.vue";
-import SelectCompanion from "@/components/makeai/answersection/SelectCompanion.vue";
-import SelectCompanionDetail from "@/components/makeai/answersection/SelectCompanionDetail.vue";
 import IconDoubleArrowNav from "@/components/icons/IconDoubleArrowNav.vue";
 import { useAiJourneyStore } from "@/stores/aijourney";
 
@@ -22,8 +20,6 @@ const title = [
   "누구와 함께 떠나고 싶은가요?",
   "몇 명이서 떠날 계획인가요?",
   "어떤 활동을 가장 하고 싶으신가요?",
-  "동반하는 분이 계신가요?",
-  "어디가 불편하신가요?",
 ];
 
 const msg = [
@@ -33,8 +29,6 @@ const msg = [
   "여행 인원을 선택해 주세요.",
   "자세한 여행 인원을 선택해 주세요.",
   "여행 테마를 하나만 선택해 주세요.",
-  "해당 사항이 있다면 선택해 주세요. 없다면 다음을 눌러주세요.",
-  "세부 사항이 있다면 선택해 주세요.",
 ];
 
 const componentsMap = [
@@ -44,8 +38,6 @@ const componentsMap = [
   SelectPeople,
   SelectPeopleDetail,
   SelectTheme,
-  SelectCompanion,
-  SelectCompanionDetail,
 ];
 
 const level = ref(0);
@@ -86,11 +78,6 @@ const handleOptionClicked = (index) => {
   //혼자 여행
   else if (level.value === 3 && index === 0) {
     level.value += 2;
-  }
-
-  //노약자 및 영유아, 없어요
-  else if (level.value == 6 && (index == 1 || index == 2 || index == 3)) {
-    router.push({ name: "create" });
   } else {
     nextLevel();
   }
