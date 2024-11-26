@@ -214,20 +214,22 @@ const handleInput = (e) => {
         </div>
       </form>
 
-      <form class="tag-list">
+      <div class="tag-list">
         <button
           v-for="content in contents"
           :key="content.id"
           class="tag-item"
           :style="{
             backgroundColor:
-              content.id == tripStore.getSelectTag ? content.color : '#b5b5b5',
+              content.id == tripStore.getParamObj.contentTypeId
+                ? content.color
+                : '#b5b5b5',
           }"
           @click="handleSearchTag(content.id)"
         >
           {{ content.contentType }}
         </button>
-      </form>
+      </div>
     </div>
 
     <div id="list-container">

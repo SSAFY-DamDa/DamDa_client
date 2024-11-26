@@ -8,10 +8,6 @@ import { useTripStore } from "@/stores/trip";
 import noimage from "@/assets/imgs/noimage.jpg";
 
 const props = defineProps({
-  positions: {
-    type: Array,
-    default: () => [],
-  },
   height: {
     // height prop 추가
     type: String,

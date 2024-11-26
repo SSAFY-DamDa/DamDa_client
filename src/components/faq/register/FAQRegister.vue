@@ -9,7 +9,7 @@ const userStore = useUserStore();
 
 const content = ref("");
 const updateContent = () => {
-  content.value = document.querySelector(".content-editor").innerHTML;
+  content.value = document.querySelector(".editor-content-input").innerHTML;
 };
 
 const subject = ref("");

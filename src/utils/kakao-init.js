@@ -1,19 +1,16 @@
-import { ref } from "vue";
 import noimage from "@/assets/imgs/noImage.jpg";
 import { getSearchTrip, getTripList } from "@/api/trip";
 
-const isTag = ref(0);
-const isTitle = ref("");
-
-export const fetchPage = async (page, kakao, tripStore) => {
+export const fetchPage = async (kakao, tripStore) => {
+  console.log("featchPage:", tripStore.getParamObj);
   // 검색한 상태에서 페이지 이동
-  if (isTitle.value) {
-    await fetchTitleSearchPage(page, kakao, isTitle.value, tripStore);
-  } else if (isTag.value > 0) {
-    await fetchTagSearchPage(page, kakao, isTag.value, tripStore);
+  const { areaCode, gugunCode, contentTypeId, title, pgno } =
+    tripStore.getParamObj;
+  if (areaCode > 0 || gugunCode > 0 || contentTypeId > 0 || title) {
+    await fetchSearchPage(kakao, tripStore);
   } else {
     await getTripList(
-      page,
+      pgno,
       (response) => {
         makeTripList(response.data.tripList, kakao, tripStore);
         tripStore.setSiList(response.data.siList);
@@ -26,16 +23,16 @@ export const fetchPage = async (page, kakao, tripStore) => {
   }
 };
 
-export const fetchTagSearchPage = async (page, kakao, tagId, tripStore) => {
+export const fetchSearchPage = async (kakao, tripStore) => {
   await getSearchTrip(
     {
-      areaCode: 0,
-      contentTypeId: tagId,
-      title: isTitle.value,
-      pgno: page,
+      areaCode: tripStore.getParamObj.areaCode,
+      gugunCode: tripStore.getParamObj.gugunCode,
+      contentTypeId: tripStore.getParamObj.contentTypeId,
+      title: tripStore.getParamObj.title,
+      pgno: tripStore.getParamObj.pgno,
     },
     (response) => {
-      isTag.value = tagId;
       makeTripList(response.data.tripList, kakao, tripStore);
       tripStore.setTotalPage(response.data.totalPage);
     },
@@ -45,26 +42,18 @@ export const fetchTagSearchPage = async (page, kakao, tagId, tripStore) => {
   );
 };
 
-export const fetchTitleSearchPage = async (
-  page,
-  kakao,
-  title,
-  filter,
-  location,
-  tripStore
-) => {
+export const fetchTitleSearchPage = async (kakao, filter, tripStore) => {
   //전체 검색
   if (filter == "total") {
     await getSearchTrip(
       {
-        areaCode: 0,
-        gugunCode: 0,
-        contentTypeId: isTag.value,
-        title: title,
-        pgno: page,
+        areaCode: tripStore.getParamObj.areaCode,
+        gugunCode: tripStore.getParamObj.gugunCode,
+        contentTypeId: tripStore.getParamObj.contentTypeId,
+        title: tripStore.getParamObj.title,
+        pgno: tripStore.getParamObj.pgno,
       },
       (response) => {
-        isTitle.value = title;
         makeTripList(response.data.tripList, kakao, tripStore);
         tripStore.setTotalPage(response.data.totalPage);
       },
@@ -77,14 +66,13 @@ export const fetchTitleSearchPage = async (
   else {
     await getSearchTrip(
       {
-        areaCode: location.sidoCode,
-        gugunCode: location.gugunCode,
-        contentTypeId: 0,
-        title: "",
-        pgno: page,
+        areaCode: tripStore.getParamObj.areaCode,
+        gugunCode: tripStore.getParamObj.gugunCode,
+        contentTypeId: tripStore.getParamObj.contentTypeId,
+        title: tripStore.getParamObj.title,
+        pgno: tripStore.getParamObj.pgno,
       },
       (response) => {
-        isTitle.value = title;
         makeTripList(response.data.tripList, kakao, tripStore);
         tripStore.setTotalPage(response.data.totalPage);
       },

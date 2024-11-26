@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useTripStore } from "@/stores/trip";
 import { loadKakaoMap } from "@/utils/loadKakaoMap";
 import { fetchPage } from "@/utils/kakao-init";
@@ -11,13 +11,12 @@ import { useJourneyStore } from "@/stores/journey";
 
 const tripStore = useTripStore();
 const journeyStore = useJourneyStore();
-const currentPage = ref(1);
 
 onMounted(async () => {
-  tripStore.setSelectTag(0);
+  tripStore.resetParamObj();
   const kakao = await loadKakaoMap();
   tripStore.setIsLoaded(false);
-  await fetchPage(currentPage.value, kakao, tripStore);
+  await fetchPage(kakao, tripStore);
   tripStore.setIsLoaded(true);
 
   journeyStore.resetJourneyStore(); // 페이지가 로드될 때 스토어 초기화
