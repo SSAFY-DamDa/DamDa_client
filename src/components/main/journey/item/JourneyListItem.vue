@@ -13,6 +13,8 @@ const endDate = props.journey.endDate.slice(0, 10);
 const handleClickJourney = (id) => {
   router.push(`/myjourney/${id}`);
 };
+
+console.log("journey list item", props.journey);
 </script>
 
 <template>

@@ -12,6 +12,7 @@ const route = useRoute();
 const { params } = route;
 const journeyStore = useJourneyStore();
 const tripStore = useTripStore();
+
 const info = journeyStore.userJourneyList.find(
   (journey) => journey.id === Number(params.id)
 );
@@ -40,6 +41,9 @@ onMounted(async () => {
       console.log("여행 디테일 정보 가져오는 도중 오류!", error);
     }
   );
+
+  console.log("journeyInfo", journeyInfo.value);
+  console.log("info", info);
 });
 </script>
 

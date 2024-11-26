@@ -27,9 +27,28 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-for="(day, index) in aiJourneyStore.recommendedRoute" :key="index">
-    <MyJourneyList :day="day" :index="index" />
+  <div class="journey-list-container">
+    <div v-for="(day, index) in aiJourneyStore.recommendedRoute" :key="index">
+      <MyJourneyList :day="day" :index="index" />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.journey-list-container {
+  overflow-y: scroll;
+}
+
+.journey-list-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.journey-list-container::-webkit-scrollbar-thumb {
+  background-color: rgb(170, 170, 170);
+  border-radius: 20px;
+}
+
+.journey-list-container::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+</style>
