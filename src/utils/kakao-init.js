@@ -2,7 +2,6 @@ import noimage from "@/assets/imgs/noImage.jpg";
 import { getSearchTrip, getTripList } from "@/api/trip";
 
 export const fetchPage = async (kakao, tripStore) => {
-  console.log("featchPage:", tripStore.getParamObj);
   // 검색한 상태에서 페이지 이동
   const { areaCode, gugunCode, contentTypeId, title, pgno } =
     tripStore.getParamObj;

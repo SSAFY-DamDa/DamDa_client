@@ -80,7 +80,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   logoStore.changeLogo("basic");
-  console.log("main unmounted");
   window.removeEventListener("scroll", handleScroll);
   const textNameElements = document.querySelectorAll(".text-name");
   const contentBtnElements = document.querySelectorAll(".content-btn");
