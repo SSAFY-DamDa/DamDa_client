@@ -31,7 +31,12 @@ const onlyAuthUser = async (to, from, next) => {
   }
 
   if (!isValidToken.value || userInfo.value === null) {
-    next({ name: "login" });
+    if (to.path === "/") next();
+    else next({ name: "login" });
+  }
+  // 로그인 상태에서 / 경로로 접근 시, "main"으로
+  else if (isValidToken.value && userInfo.value !== null && to.path === "/") {
+    next({ name: "main" });
   } else {
     next();
   }
@@ -43,6 +48,7 @@ const router = createRouter({
     {
       path: "/",
       name: "login",
+      beforeEnter: onlyAuthUser,
       component: LoginView,
     },
     {
