@@ -232,7 +232,7 @@ const handleInput = (e) => {
       </div>
     </div>
 
-    <div id="list-container">
+    <div id="list-container" v-if="tripStore.getIsLoaded">
       <TripList />
       <ThePageNavigation
         @page-change="handlePageChange"

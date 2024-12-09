@@ -9,7 +9,6 @@ onMounted(async () => {
   await getReviewList(
     (response) => {
       reviews.value = response.data.reviews;
-      console.log(response.data.reviews);
       if (reviews.value.length > 0) {
         startAutoSlide();
       }
