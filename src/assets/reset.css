@@ -1,111 +1,129 @@
-@font-face {
-  font-family: "NotoSansKR-Light";
-  src: url("@/assets/fonts/NotoSansKR-Light.ttf") format("truetype");
-  font-weight: 300;
-}
-@font-face {
-  font-family: "NotoSansKR-Regular";
-  src: url("@/assets/fonts/NotoSansKR-Regular.ttf") format("truetype");
-  font-weight: 400;
-}
-@font-face {
-  font-family: "NotoSansKR-Bold";
-  src: url("@/assets/fonts/NotoSansKR-Bold.ttf") format("truetype");
-  font-weight: 700;
-}
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 
 html,
 body,
-#app {
-  width: 100%;
-  height: 100%;
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
-  font-size: 62.5%;
-  font-family: "NotoSansKR-Regular";
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
-
-@media (max-width: 1024px) {
-  html,
-  body,
-  #app {
-    font-size: 50%;
-  }
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
-
-body::-webkit-scrollbar {
-  width: 4px;
+body {
+  line-height: 1;
 }
-
-body::-webkit-scrollbar-thumb {
-  background-color: rgb(170, 170, 170);
-  border-radius: 20px;
+ol,
+ul {
+  list-style: none;
 }
-
-body::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0);
+blockquote,
+q {
+  quotes: none;
 }
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-text-fill-color: #000;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-  box-shadow: 0 0 0px 1000px #fff inset;
-  transition: background-color 5000s ease-in-out 0s;
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
 }
-
-input:autofill,
-input:autofill:hover,
-input:autofill:focus,
-input:autofill:active {
-  -webkit-text-fill-color: #000;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-  box-shadow: 0 0 0px 1000px #fff inset;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-@font-face {
-  font-family: "Noto Sans KR";
-  src: url("@/assets/fonts/NotoSansKR-Regular.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-Bold";
-  src: url("@/assets/fonts/NotoSansKR-Bold.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-Light";
-  src: url("@/assets/fonts/NotoSansKR-Light.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-Medium";
-  src: url("@/assets/fonts/NotoSansKR-Medium.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-Thin";
-  src: url("@/assets/fonts/NotoSansKR-Thin.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-Black";
-  src: url("@/assets/fonts/NotoSansKR-Black.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-ExtraBold";
-  src: url("@/assets/fonts/NotoSansKR-ExtraBold.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-ExtraLight";
-  src: url("@/assets/fonts/NotoSansKR-ExtraLight.ttf");
-}
-
-@font-face {
-  font-family: "Noto Sans KR-SemiBold";
-  src: url("@/assets/fonts/NotoSansKR-SemiBold.ttf");
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
