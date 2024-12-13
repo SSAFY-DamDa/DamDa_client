@@ -6,8 +6,8 @@ import "aos/dist/aos.css";
 import App from "./App.vue";
 import router from "./router";
 
-import "@/assets/reset.css";
-import "@/assets/globals.css";
+import "@/assets/styles/reset.css";
+import "@/assets/styles/globals.css";
 
 const app = createApp(App);
 

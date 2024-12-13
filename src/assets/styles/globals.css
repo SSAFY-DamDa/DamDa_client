@@ -1,3 +1,5 @@
+@import url(./variable.css);
+
 @font-face {
   font-family: "NotoSansKR-Light";
   src: url("@/assets/fonts/NotoSansKR-Light.ttf") format("truetype");
@@ -81,7 +83,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: rgb(170, 170, 170);
+  background-color: var(--color-gray-basic);
   border-radius: 20px;
 }
 
@@ -93,9 +95,9 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-text-fill-color: #000;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-  box-shadow: 0 0 0px 1000px #fff inset;
+  -webkit-text-fill-color: var(--color-black);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-white) inset;
+  box-shadow: 0 0 0px 1000px var(--color-white) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -103,8 +105,8 @@ input:autofill,
 input:autofill:hover,
 input:autofill:focus,
 input:autofill:active {
-  -webkit-text-fill-color: #000;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-  box-shadow: 0 0 0px 1000px #fff inset;
+  -webkit-text-fill-color: var(--color-black);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-white) inset;
+  box-shadow: 0 0 0px 1000px var(--color-white) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
