@@ -1,3 +1,31 @@
+<script>
+import MyHeader from "../Header/Header.vue";
+
+export default {
+  name: "my-page",
+
+  components: { MyHeader },
+
+  data() {
+    return {
+      user: null,
+    };
+  },
+
+  methods: {
+    onLogin() {
+      this.user = { name: "Jane Doe" };
+    },
+    onLogout() {
+      this.user = null;
+    },
+    onCreateAccount() {
+      this.user = { name: "Jane Doe" };
+    },
+  },
+};
+</script>
+
 <template>
   <article>
     <my-header
@@ -75,31 +103,74 @@
   </article>
 </template>
 
-<script>
-import "./page.css";
-import MyHeader from "../Header/Header.vue";
+<style scoped>
+.storybook-page {
+  margin: 0 auto;
+  padding: 48px 20px;
+  max-width: 600px;
+  color: #333;
+  font-size: 14px;
+  line-height: 24px;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
-export default {
-  name: "my-page",
+.storybook-page h2 {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 0 4px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+}
 
-  components: { MyHeader },
+.storybook-page p {
+  margin: 1em 0;
+}
 
-  data() {
-    return {
-      user: null,
-    };
-  },
+.storybook-page a {
+  color: #1ea7fd;
+  text-decoration: none;
+}
 
-  methods: {
-    onLogin() {
-      this.user = { name: "Jane Doe" };
-    },
-    onLogout() {
-      this.user = null;
-    },
-    onCreateAccount() {
-      this.user = { name: "Jane Doe" };
-    },
-  },
-};
-</script>
+.storybook-page ul {
+  margin: 1em 0;
+  padding-left: 30px;
+}
+
+.storybook-page li {
+  margin-bottom: 8px;
+}
+
+.storybook-page .tip {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+  border-radius: 1em;
+  background: #e7fdd8;
+  padding: 4px 12px;
+  color: #66bf3c;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 12px;
+}
+
+.storybook-page .tip-wrapper {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.storybook-page .tip-wrapper svg {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 3px;
+  margin-right: 4px;
+  width: 12px;
+  height: 12px;
+}
+
+.storybook-page .tip-wrapper svg path {
+  fill: #1ea7fd;
+}
+</style>

@@ -1,3 +1,21 @@
+<script>
+import MyButton from "../Button/Button.vue";
+
+export default {
+  name: "my-header",
+
+  components: { MyButton },
+
+  props: {
+    user: {
+      type: Object,
+    },
+  },
+
+  emits: ["login", "logout", "createAccount"],
+};
+</script>
+
 <template>
   <header>
     <div class="storybook-header">
@@ -54,21 +72,37 @@
   </header>
 </template>
 
-<script>
-import "./header.css";
-import MyButton from "../Button/Button.vue";
+<style scoped>
+.storybook-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 15px 20px;
+  font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
-export default {
-  name: "my-header",
+.storybook-header svg {
+  display: inline-block;
+  vertical-align: top;
+}
 
-  components: { MyButton },
+.storybook-header h1 {
+  display: inline-block;
+  vertical-align: top;
+  margin: 6px 0 6px 10px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+}
 
-  props: {
-    user: {
-      type: Object,
-    },
-  },
+.storybook-header button + button {
+  margin-left: 10px;
+}
 
-  emits: ["login", "logout", "createAccount"],
-};
-</script>
+.storybook-header .welcome {
+  margin-right: 10px;
+  color: #333;
+  font-size: 14px;
+}
+</style>

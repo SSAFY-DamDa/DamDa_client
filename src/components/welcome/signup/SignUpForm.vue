@@ -248,7 +248,7 @@ watch(() => inputFormData.value.userId.text, checkUserId);
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--color-white);
   z-index: 1;
 }
 
@@ -261,17 +261,11 @@ watch(() => inputFormData.value.userId.text, checkUserId);
   font-size: 4rem;
   font-weight: bold;
   margin-bottom: 20px;
-  color: #7bbcb0;
+  color: var(--color-main);
 }
 
 a {
-  color: black;
-}
-
-.text-button {
-  width: 50%;
-  display: flex;
-  justify-content: space-around;
+  color: var(--color-black);
 }
 
 .input-section {
@@ -290,35 +284,28 @@ a {
 }
 
 .signup-btn {
-  max-width: 492px;
   width: calc(70% + 22px);
   font-size: 1.6rem;
   padding: 10px;
   border: 0px;
   border-radius: 5px;
-  color: #ffffff;
+  color: var(--color-white);
   font-weight: bold;
 }
 
 #create-btn {
-  background-color: #c2e0db;
+  background-color: var(--color-light-main);
 }
 
 #create-btn:hover {
-  background-color: #7bbcb0;
+  background-color: var(--color-main);
 }
 
 #cancel-btn {
-  background-color: #c9c9c9;
+  background-color: var(--color-gray-cancel);
 }
 
 #cancel-btn:hover {
-  background-color: #a9a9a9;
-}
-
-.text-button {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  background-color: var(--color-gray-cancel-hover);
 }
 </style>
