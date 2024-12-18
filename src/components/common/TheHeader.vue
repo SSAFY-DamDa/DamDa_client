@@ -2,8 +2,9 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
-import PopUpForm from "@/components/popup/PopUpForm.vue";
 import { useLogoStore } from "@/stores/logo";
+
+const PopUpForm = async () => await import("@/components/popup/PopUpForm.vue");
 
 defineEmits(["close-pop-up"]);
 

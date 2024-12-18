@@ -2,9 +2,10 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import mainBg from "@/assets/imgs/main_bg.jpg";
 import { useRouter } from "vue-router";
-import ReviewList from "../review/ReviewList.vue";
 import { useLogoStore } from "@/stores/logo";
 
+const ReviewList = async () =>
+  await import("@/components/review/ReviewList.vue");
 const router = useRouter();
 const logoStore = useLogoStore();
 
