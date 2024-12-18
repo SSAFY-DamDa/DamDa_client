@@ -223,7 +223,7 @@ const handleInput = (e) => {
             backgroundColor:
               content.id == tripStore.getParamObj.contentTypeId
                 ? content.color
-                : '#b5b5b5',
+                : '',
           }"
           @click="handleSearchTag(content.id)"
         >
@@ -280,18 +280,18 @@ const handleInput = (e) => {
   width: 10%;
   min-width: 80px;
   height: 100%;
-  border: 1px solid #b5b5b5;
+  border: 1px solid var(--color-gray-basic);
   border-radius: 5px;
   padding: 5px;
   font-size: 1rem;
   color: #333;
-  background-color: white;
+  background-color: var(--color-white);
   cursor: pointer;
   outline: none;
 }
 
 .filter-search:focus {
-  border-color: #c2e0db;
+  border-color: var(--color-light-main);
 }
 
 .filter-search option {
@@ -303,16 +303,16 @@ const handleInput = (e) => {
   padding: 10px;
   width: 85%;
 
-  border: 1px solid #b5b5b5;
+  border: 1px solid var(--color-gray-basic);
   border-radius: 5px;
   text-align: left;
-  background-color: white;
+  background-color: var(--color-white);
 }
 
 .search-btn {
   border: 0;
   text-align: center;
-  background-color: white;
+  background-color: var(--color-white);
   cursor: pointer;
 }
 
@@ -338,14 +338,15 @@ const handleInput = (e) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #b5b5b5;
-  color: #ffffff;
+  background-color: var(--color-gray-basic);
+  color: var(--color-white);
   border: 0px;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .tag-item:hover {
-  background-color: #858585;
+  background-color: var(--color-gray-text);
 }
 
 #list-container {
@@ -365,8 +366,8 @@ const handleInput = (e) => {
   width: 100%;
   max-height: 300px;
   overflow-y: auto;
-  background-color: white;
-  border: 1px solid #ddd;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-basic);
   border-radius: 0 0 8px 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 0;
@@ -377,10 +378,10 @@ const handleInput = (e) => {
 .auto-complete-item {
   padding: 12px 16px;
   cursor: pointer;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-gray-cancel);
 }
 
 .auto-complete-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--color-gray-mini);
 }
 </style>
