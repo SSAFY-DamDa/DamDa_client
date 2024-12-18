@@ -53,7 +53,6 @@ export default {
 </template>
 
 <style scoped>
-@import url(../../assets/styles/variable.css);
 * {
   width: 100%;
   height: 100%;
@@ -62,16 +61,9 @@ export default {
 
 .storybook-button--primary {
   color: #ffffff;
-  font-size: 1.6rem;
-  font-weight: bold;
   background-color: #7bbcb0;
 }
 
-.storybook-button--secondary {
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
-  background-color: transparent;
-  color: #333;
-}
 .storybook-button--small {
   width: 80px;
   font-size: 1.3rem;
@@ -98,10 +90,20 @@ export default {
   color: white;
   font-weight: 700;
 }
+
+.storybook-button--medium:hover {
+  background-color: #7bbcb0;
+}
+
 .storybook-button--large {
   width: calc(70% + 22px);
   padding: 10px;
   border: 0px;
   border-radius: 5px;
+  font-size: 1.6rem;
+}
+
+.storybook-button--large:hover {
+  background-color: #5e9288;
 }
 </style>

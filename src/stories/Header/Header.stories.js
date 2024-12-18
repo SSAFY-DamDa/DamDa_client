@@ -1,48 +1,41 @@
-import { fn } from '@storybook/test';
+import { fn } from "@storybook/test";
+import MyHeader from "./StoryHeader.vue";
 
-import MyHeader from './Header.vue';
-
+/**
+ * 로그인 후 보여지는 헤더입니다. <br />
+ * 배경은 헤더의 모습을 잘 보이기 위해 추가하였습니다.
+ */
 export default {
-  title: 'Example/Header',
-  component: MyHeader,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
-  render: (args) => ({
-    // Components used in your story `template` are defined in the `components` object
-    components: {
-      MyHeader,
+  title: "layout/Header",
+  tags: ["autodocs"],
+  argTypes: {
+    color: {
+      description: "메인 페이지에서 위치에 따라 ",
     },
-    // The story's `args` need to be mapped into the template through the `setup()` method
-    setup() {
-      // Story args can be spread into the returned object
-      return {
-        ...args,
-      };
-    },
-    // Then, the spread values can be accessed directly in the template
-    template: '<my-header :user="user" />',
+  },
+  args: { onClick: fn() },
+};
+
+/**
+ * 메인 페이지 상단 부분을 제외한 모든 부분에서 보이는 헤더입니다.
+ */
+export const Main = {
+  render: () => ({
+    components: { MyHeader },
+    template: `
+    <MyHeader color="main" name="강성엽" />
+    `,
   }),
-  parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
-  },
-  args: {
-    onLogin: fn(),
-    onLogout: fn(),
-    onCreateAccount: fn(),
-  },
 };
 
-export const LoggedIn = {
-  args: {
-    user: {
-      name: 'Jane Doe',
-    },
-  },
-};
-
-export const LoggedOut = {
-  args: {
-    user: null,
-  },
+/**
+ * 메인 페이지 상단부분에서 보여지는 헤더입니다.
+ */
+export const White = {
+  render: () => ({
+    components: { MyHeader },
+    template: `
+        <MyHeader color='white' name="강성엽" />
+    `,
+  }),
 };
