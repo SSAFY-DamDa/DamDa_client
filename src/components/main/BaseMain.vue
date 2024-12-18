@@ -113,6 +113,7 @@ onUnmounted(() => {
           src="@/assets/imgs/Mockup_phone.png"
           alt="지도로 이동"
           class="main-logo"
+          loading="lazy"
         />
         <div class="text-container">
           <p>지도 검색</p>
@@ -142,6 +143,7 @@ onUnmounted(() => {
           src="@/assets/imgs/Mockup_Macbook.png"
           alt="AI 추천 경로"
           class="main-logo"
+          loading="lazy"
         />
       </div>
       <ReviewList />
@@ -152,6 +154,7 @@ onUnmounted(() => {
           src="@/assets/imgs/Mockup_Ipad.png"
           alt="직접 경로 담기"
           class="main-logo"
+          loading="lazy"
         />
         <div class="text-container">
           <p>직접 계획</p>
