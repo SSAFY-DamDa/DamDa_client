@@ -2,14 +2,16 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import mainBg from "@/assets/imgs/main_bg.jpg";
 import { useRouter } from "vue-router";
-import ReviewList from "../review/ReviewList.vue";
 import { useLogoStore } from "@/stores/logo";
 
+const ReviewList = async () =>
+  await import("@/components/review/ReviewList.vue");
 const router = useRouter();
 const logoStore = useLogoStore();
 
 const subContent = ref(null);
 const mainContent = ref(null);
+const reviewComponent = ref(null);
 
 const handleScroll = () => {
   const scrollPosition = window.scrollY;
@@ -62,7 +64,9 @@ const checkScroll = () => {
   mainContent.value.style.transform = `translate(-50%, -50%) scale(${mainScale})`;
 };
 
-onMounted(() => {
+onMounted(async () => {
+  reviewComponent.value = (await ReviewList()).default;
+
   logoStore.changeLogo("white");
   const textNameElements = document.querySelectorAll(".text-name");
   const contentBtnElements = document.querySelectorAll(".content-btn");
@@ -146,7 +150,10 @@ onUnmounted(() => {
           loading="lazy"
         />
       </div>
-      <ReviewList />
+      <Suspense>
+        <component :is="reviewComponent" />
+        <template #fallback> Loading ... </template>
+      </Suspense>
     </div>
     <div id="self-box" data-aos="fade-down" data-aos-duration="1000">
       <div class="content-wrapper">

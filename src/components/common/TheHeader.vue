@@ -2,8 +2,9 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { useUserStore } from "@/stores/user";
 import { useRouter } from "vue-router";
-import PopUpForm from "@/components/popup/PopUpForm.vue";
 import { useLogoStore } from "@/stores/logo";
+
+const PopUpForm = async () => await import("@/components/popup/PopUpForm.vue");
 
 defineEmits(["close-pop-up"]);
 
@@ -12,6 +13,8 @@ const logoStore = useLogoStore();
 const router = useRouter();
 
 const isShow = ref(false);
+
+const popUpFormComponent = ref(null);
 
 const handleDocumentClick = () => {
   if (isShow.value) {
@@ -31,7 +34,8 @@ const handleScroll = () => {
   });
 };
 
-onMounted(() => {
+onMounted(async () => {
+  popUpFormComponent.value = (await PopUpForm()).default; // PopUpForm을 가져와서 저장
   document.addEventListener("click", handleDocumentClick);
 });
 
@@ -111,7 +115,16 @@ const handleClosePopUp = () => {
           @click.stop="handleOpenPopUp"
           :value="userStore.userInfo.userName"
         />
-        <PopUpForm :isShow="isShow" @close-pop-up="handleClosePopUp" />
+        <Suspense>
+          <template v-if="isShow">
+            <component
+              :is="popUpFormComponent"
+              :isShow="isShow"
+              @close-pop-up="handleClosePopUp"
+            />
+          </template>
+          <template #fallback> Loading ... </template>
+        </Suspense>
       </div>
     </div>
   </header>

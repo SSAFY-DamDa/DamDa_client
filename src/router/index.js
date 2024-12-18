@@ -1,24 +1,32 @@
 import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "@/stores/user";
-import FindPwdView from "@/views/FindPwdView.vue";
-import LoginView from "@/views/LoginView.vue";
-import MainView from "@/views/MainView.vue";
-import MapView from "@/views/MapView.vue";
-import MyPageView from "@/views/MyPageView.vue";
-import SignUpView from "@/views/SignUpView.vue";
-import FAQView from "@/views/FAQView.vue";
-import FAQRegister from "@/components/faq/register/FAQRegister.vue";
-import FAQManage from "@/components/faq/manage/FAQManage.vue";
-import FAQItemDetail from "@/components/faq/manage/detail/FAQItemDetail.vue";
-import MakeSelfView from "@/views/MakeSelfView.vue";
-import CreateRoute from "@/components/makeai/CreateRoute.vue";
-import MyJourneyView from "@/views/MyJourneyView.vue";
-import MakeAIView from "@/views/MakeAIView.vue";
-import ResultRecommend from "@/components/makeai/result/ResultRecommend.vue";
-import MyCalendarView from "@/views/MyCalendarView.vue";
-import MyPagePreJourney from "@/components/mypage/main/MyPagePreJourney.vue";
-import MyPageProfile from "@/components/mypage/main/MyPageProfile.vue";
+
+const FindPwdView = async () => await import("@/views/FindPwdView.vue");
+const LoginView = async () => await import("@/views/LoginView.vue");
+const MainView = async () => await import("@/views/MainView.vue");
+const MapView = async () => await import("@/views/MapView.vue");
+const MyPageView = async () => await import("@/views/MyPageView.vue");
+const SignUpView = async () => await import("@/views/SignUpView.vue");
+const FAQView = async () => await import("@/views/FAQView.vue");
+const FAQRegister = async () =>
+  await import("@/components/faq/register/FAQRegister.vue");
+const FAQManage = async () =>
+  await import("@/components/faq/manage/FAQManage.vue");
+const FAQItemDetail = async () =>
+  await import("@/components/faq/manage/detail/FAQItemDetail.vue");
+const MakeSelfView = async () => await import("@/views/MakeSelfView.vue");
+const CreateRoute = async () =>
+  await import("@/components/makeai/CreateRoute.vue");
+const MyJourneyView = async () => await import("@/views/MyJourneyView.vue");
+const MakeAIView = async () => await import("@/views/MakeAIView.vue");
+const ResultRecommend = async () =>
+  await import("@/components/makeai/result/ResultRecommend.vue");
+const MyCalendarView = async () => await import("@/views/MyCalendarView.vue");
+const MyPagePreJourney = async () =>
+  await import("@/components/mypage/main/MyPagePreJourney.vue");
+const MyPageProfile = async () =>
+  await import("@/components/mypage/main/MyPageProfile.vue");
 
 const onlyAuthUser = async (to, from, next) => {
   const userStore = useUserStore();
