@@ -14,6 +14,8 @@ const router = useRouter();
 
 const isShow = ref(false);
 
+const popUpFormComponent = ref(null);
+
 const handleDocumentClick = () => {
   if (isShow.value) {
     handleClosePopUp();
@@ -32,7 +34,8 @@ const handleScroll = () => {
   });
 };
 
-onMounted(() => {
+onMounted(async () => {
+  popUpFormComponent.value = (await PopUpForm()).default; // PopUpForm을 가져와서 저장
   document.addEventListener("click", handleDocumentClick);
 });
 
@@ -112,7 +115,16 @@ const handleClosePopUp = () => {
           @click.stop="handleOpenPopUp"
           :value="userStore.userInfo.userName"
         />
-        <PopUpForm :isShow="isShow" @close-pop-up="handleClosePopUp" />
+        <Suspense>
+          <template v-if="isShow">
+            <component
+              :is="popUpFormComponent"
+              :isShow="isShow"
+              @close-pop-up="handleClosePopUp"
+            />
+          </template>
+          <template #fallback> Loading ... </template>
+        </Suspense>
       </div>
     </div>
   </header>

@@ -11,6 +11,7 @@ const logoStore = useLogoStore();
 
 const subContent = ref(null);
 const mainContent = ref(null);
+const reviewComponent = ref(null);
 
 const handleScroll = () => {
   const scrollPosition = window.scrollY;
@@ -63,7 +64,9 @@ const checkScroll = () => {
   mainContent.value.style.transform = `translate(-50%, -50%) scale(${mainScale})`;
 };
 
-onMounted(() => {
+onMounted(async () => {
+  reviewComponent.value = (await ReviewList()).default;
+
   logoStore.changeLogo("white");
   const textNameElements = document.querySelectorAll(".text-name");
   const contentBtnElements = document.querySelectorAll(".content-btn");
@@ -147,7 +150,10 @@ onUnmounted(() => {
           loading="lazy"
         />
       </div>
-      <ReviewList />
+      <Suspense>
+        <component :is="reviewComponent" />
+        <template #fallback> Loading ... </template>
+      </Suspense>
     </div>
     <div id="self-box" data-aos="fade-down" data-aos-duration="1000">
       <div class="content-wrapper">
