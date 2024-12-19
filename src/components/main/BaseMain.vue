@@ -280,6 +280,7 @@ onUnmounted(() => {
   }
 
   > span {
+    margin: 50px 0;
     height: 50%;
     font-size: 4rem;
     font-weight: bold;
@@ -289,7 +290,8 @@ onUnmounted(() => {
 
   > span > p {
     width: 100%;
-    margin: 0;
+    margin: 10px 0;
+    padding: 5px 0;
   }
 
   .btnText {
