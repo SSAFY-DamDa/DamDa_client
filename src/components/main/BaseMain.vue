@@ -12,6 +12,10 @@ const logoStore = useLogoStore();
 const subContent = ref(null);
 const mainContent = ref(null);
 const reviewComponent = ref(null);
+const imgPhoneRef = ref(null);
+const imgMacRef = ref(null);
+const imgIpadRef = ref(null);
+const observer = ref(null);
 
 const handleScroll = () => {
   const scrollPosition = window.scrollY;
@@ -79,6 +83,23 @@ onMounted(async () => {
   window.addEventListener("scroll", checkScroll);
   window.addEventListener("scroll", handleScroll);
 
+  // IntersectionObserver 적용
+  const options = {};
+  const callback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        console.log("is intersecting", entry.target.dataset.src);
+        entry.target.src = entry.target.dataset.src;
+        observer.unobserve(entry.target);
+      }
+    });
+  };
+
+  observer.value = new IntersectionObserver(callback, options);
+  observer.value.observe(imgPhoneRef.value);
+  observer.value.observe(imgMacRef.value);
+  observer.value.observe(imgIpadRef.value);
+
   checkScroll();
 });
 
@@ -99,6 +120,8 @@ onUnmounted(() => {
   setTimeout(() => {
     changeElemetns();
   });
+
+  observer.value.disconnect();
 });
 </script>
 
@@ -114,10 +137,10 @@ onUnmounted(() => {
     <div id="map-box" data-aos="fade-down" data-aos-duration="1000">
       <div class="content-wrapper">
         <img
-          src="@/assets/imgs/Mockup_phone.png"
+          data-src="/src/assets/imgs/Mockup_phone.png"
           alt="지도로 이동"
           class="main-logo"
-          loading="lazy"
+          ref="imgPhoneRef"
         />
         <div class="text-container">
           <p>지도 검색</p>
@@ -144,10 +167,10 @@ onUnmounted(() => {
           </div>
         </div>
         <img
-          src="@/assets/imgs/Mockup_Macbook.png"
+          data-src="/src/assets/imgs/Mockup_Macbook.png"
           alt="AI 추천 경로"
           class="main-logo"
-          loading="lazy"
+          ref="imgMacRef"
         />
       </div>
       <Suspense>
@@ -158,10 +181,10 @@ onUnmounted(() => {
     <div id="self-box" data-aos="fade-down" data-aos-duration="1000">
       <div class="content-wrapper">
         <img
-          src="@/assets/imgs/Mockup_Ipad.png"
+          data-src="/src/assets/imgs/Mockup_Ipad.png"
           alt="직접 경로 담기"
           class="main-logo"
-          loading="lazy"
+          ref="imgIpadRef"
         />
         <div class="text-container">
           <p>직접 계획</p>
