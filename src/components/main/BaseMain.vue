@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
-import mainBg from "@/assets/imgs/main_bg.jpg";
+import mainBg from "@/assets/imgs/main_bg.webp";
 import { useRouter } from "vue-router";
 import { useLogoStore } from "@/stores/logo";
 
@@ -108,6 +108,7 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
   const textNameElements = document.querySelectorAll(".text-name");
   const contentBtnElements = document.querySelectorAll(".content-btn");
+
   const changeElemetns = () => {
     textNameElements.forEach((element) => {
       element.style.color = "black";
