@@ -89,6 +89,7 @@ const handleCreate = async () => {
   left: 470px;
   width: 405px;
   height: 90%;
+  padding: 10px 0;
   border-radius: 5px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   background-color: white;

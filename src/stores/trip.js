@@ -8,7 +8,7 @@ export const useTripStore = defineStore("trip", () => {
   const siList = ref([]);
   const gugunList = ref([]);
   const positions = ref([]);
-  const totalPage = ref(1);
+  const totalPage = ref(10);
   const selectTag = ref("");
   const paramObj = ref({
     areaCode: 0,

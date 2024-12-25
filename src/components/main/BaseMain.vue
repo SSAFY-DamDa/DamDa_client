@@ -2,14 +2,16 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import mainBg from "@/assets/imgs/main_bg.jpg";
 import { useRouter } from "vue-router";
-import ReviewList from "../review/ReviewList.vue";
 import { useLogoStore } from "@/stores/logo";
 
+const ReviewList = async () =>
+  await import("@/components/review/ReviewList.vue");
 const router = useRouter();
 const logoStore = useLogoStore();
 
 const subContent = ref(null);
 const mainContent = ref(null);
+const reviewComponent = ref(null);
 
 const handleScroll = () => {
   const scrollPosition = window.scrollY;
@@ -62,7 +64,9 @@ const checkScroll = () => {
   mainContent.value.style.transform = `translate(-50%, -50%) scale(${mainScale})`;
 };
 
-onMounted(() => {
+onMounted(async () => {
+  reviewComponent.value = (await ReviewList()).default;
+
   logoStore.changeLogo("white");
   const textNameElements = document.querySelectorAll(".text-name");
   const contentBtnElements = document.querySelectorAll(".content-btn");
@@ -80,7 +84,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   logoStore.changeLogo("basic");
-  console.log("main unmounted");
   window.removeEventListener("scroll", handleScroll);
   const textNameElements = document.querySelectorAll(".text-name");
   const contentBtnElements = document.querySelectorAll(".content-btn");
@@ -114,6 +117,7 @@ onUnmounted(() => {
           src="@/assets/imgs/Mockup_phone.png"
           alt="지도로 이동"
           class="main-logo"
+          loading="lazy"
         />
         <div class="text-container">
           <p>지도 검색</p>
@@ -143,9 +147,13 @@ onUnmounted(() => {
           src="@/assets/imgs/Mockup_Macbook.png"
           alt="AI 추천 경로"
           class="main-logo"
+          loading="lazy"
         />
       </div>
-      <ReviewList />
+      <Suspense>
+        <component :is="reviewComponent" />
+        <template #fallback> Loading ... </template>
+      </Suspense>
     </div>
     <div id="self-box" data-aos="fade-down" data-aos-duration="1000">
       <div class="content-wrapper">
@@ -153,6 +161,7 @@ onUnmounted(() => {
           src="@/assets/imgs/Mockup_Ipad.png"
           alt="직접 경로 담기"
           class="main-logo"
+          loading="lazy"
         />
         <div class="text-container">
           <p>직접 계획</p>
@@ -271,6 +280,7 @@ onUnmounted(() => {
   }
 
   > span {
+    margin: 50px 0;
     height: 50%;
     font-size: 4rem;
     font-weight: bold;
@@ -280,7 +290,8 @@ onUnmounted(() => {
 
   > span > p {
     width: 100%;
-    margin: 0;
+    margin: 10px 0;
+    padding: 5px 0;
   }
 
   .btnText {

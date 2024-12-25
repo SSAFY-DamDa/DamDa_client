@@ -41,21 +41,28 @@ const handlePageChange = async (pg) => {
 <template>
   <div class="search-place-container">
     <SearchBar @search-title="handleSearchTitle" />
-    <SearchResultList />
-    <ThePageNavigation
-      @page-change="handlePageChange"
-      :currentPage="currentPage"
-    />
+    <div class="result-container" v-if="tripStore.getIsLoaded">
+      <SearchResultList />
+      <ThePageNavigation
+        @page-change="handlePageChange"
+        :currentPage="currentPage"
+      />
+    </div>
   </div>
 </template>
 
 <style scoped>
 .search-place-container {
   width: 100%;
-  height: calc(100% - 300px);
+  height: calc(100% - 325px);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+}
+
+.result-container {
+  width: 100%;
+  height: calc(100% - 60px);
 }
 </style>

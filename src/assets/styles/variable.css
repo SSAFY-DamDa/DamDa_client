@@ -1,0 +1,20 @@
+:root {
+  /* basic */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-light-main: #c2e0db;
+  --color-main: #7bbcb0;
+  --color-bold-main: #5e9288;
+
+  /* gray */
+  --color-gray-mini: #f0f0f0;
+  --color-gray-cancel: #c9c9c9;
+  --color-gray-basic: #aaaaaa;
+  --color-gray-cancel-hover: #a9a9a9;
+  --color-gray-text: #797979;
+  --color-gray-non-select: #787878;
+
+  /* error */
+  --color-red-error: #ff4545;
+  --color-red-error-focus: #f53b3b;
+}

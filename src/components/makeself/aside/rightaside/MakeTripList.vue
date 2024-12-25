@@ -19,11 +19,12 @@ const journeyStore = useJourneyStore();
 
 <style scoped>
 .make-trip-list-container {
-  width: 90%;
+  width: 100%;
   height: 90%;
   list-style: none;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 }
 </style>
