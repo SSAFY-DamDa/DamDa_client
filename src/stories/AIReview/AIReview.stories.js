@@ -1,5 +1,8 @@
 import AIReview from "./AIReview.vue";
 
+/**
+ * AI 계획으로 만든 여행 계획에서 리뷰를 작성할 수 있습니다.
+ */
 export default {
   title: "modal/Review",
   component: AIReview,
